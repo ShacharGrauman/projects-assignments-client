@@ -28,7 +28,9 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "prop-types": "15.7.2",
-    "react-router-dom": "^5.0.1"
+    "react-router-dom": "^5.0.1",
+    "highcharts": "^7.2.0",
+    "highcharts-react-official": "^2.2.2"
   },
-  "assetsPath": "assets"
+  "assetsPath": "assets/"
 }
