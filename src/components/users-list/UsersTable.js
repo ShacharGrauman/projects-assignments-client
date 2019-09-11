@@ -30,112 +30,23 @@ export default class UsersTable extends React.Component{
     }
 
     componentDidMount(){
-        
         const errors = [];
-        this.setState({
-            users : USERS
-        });
-        // this.state.users.map(user => {
-        //     this.setState({
-        //         id: users[user].id,
-        //         employeeNumber: users[user].employeeNumber,
-        //         firstName: users[user].firstName,
-        //         lastName: users[user].lastName,
-        //         roles: users[user].roles,
-        //         department: users[user].department,
-        //         workSite: users[user].workSite,
-        //         status: users[user].status
-        //     })
-        //     if(id.validations.required){
-        //         if(!id.validations.pattern.test(id.value)){
-        //             errors.push('There is an ERROR in the data you are requesting to display');
-        //             this.setState({
-        //                         ...this.state,
-        //                         errors
-        //             })
-        //         }
-        //     }
-        //     if(firstName.validations.required){
-        //         if(firstName.validations.pattern.test(firstName.value)){
-        //             errors.push('There is an ERROR in the data you are requesting to display');
-        //             this.setState({
-        //                 ...this.state,
-        //                 errors
-        //             })
-        //         }
-        //         if(firstName.validations.minLength > (firstName.value.length-1)){
-        //             errors.push('There is an ERROR in the data you are requesting to display');
-        //             this.setState({
-        //                 ...this.state,
-        //                 errors
-        //             })
-        //         }
-        //     }
-        //     if(lastName.validations.required){
-        //         if(lastName.validations.pattern.test(lastName.value)){
-        //             errors.push('There is an ERROR in the data you are requesting to display');
-        //             this.setState({
-        //                 ...this.state,
-        //                 errors
-        //             })
-        //         }
-        //         if(lastName.validations.minLength > (lastName.value.length-1)){
-        //             this.state.errors.push('There is an ERROR in the data you are requesting to display');
-        //             this.setState({
-        //                 ...this.state,
-        //                 errors
-        //             })
-        //         }
-        //     }
-        //     if(roles.validations.required){
-        //         if(roles.validations.minLength > (roles.value.length -1)){
-        //             state.errors.push('There is an ERROR in the data you are requesting to display');
-        //             this.setState({
-        //                 ...this.state,
-        //                 errors
-        //             })
-        //         }
-        //     }
-        //     if(department.validations.required){
-        //         if(department.validations.minLength > (department.value.length -1)){
-        //             errors.push('There is an ERROR in the data you are requesting to display');
-        //             this.setState({
-        //                 ...this.state,
-        //                 errors
-        //             })
-        //         }
-        //     }
-        //     if(employeeNumber.validations.required){
-        //         if(!employeeNumber.validations.pattern.test(employeeNumber.value)){
-        //             errors.push('There is an ERROR in the data you are requesting to display');
-        //             this.setState({
-        //                 ...this.state,
-        //                 errors
-        //             })
-        //         }
-        //         if(employeeNumber.validations.minLength > (employeeNumber.value.length -1)){
-        //             errors.push('There is an ERROR in the data you are requesting to display');
-        //             this.setState({
-        //                 ...this.state,
-        //                 errors
-        //             })
-        //         }
-        //     }
-        //     if(workSite.validations.required){
-        //         if(workSite.validations.pattern.test(id.value)){
-        //             errors.push('There is an ERROR in the data you are requesting to display');
-        //             this.setState({
-        //                 ...this.state,
-        //                 errors
-        //             })
-        //         }
-        //     }
-        // });
+       
+
+        fetch('http://localhost:8080/api/users', {
+            method: 'GET',
+            headers:{
+             'Authorization': 'ZmFkaUBnbWFpbC5jb206MTIzNDU2',
+             'Content-Type':'application/x-www-form-urlencoded'
+            },
+             // mode: 'no-cors'
+        })
+       .then(response => response.json())
+       .then(users =>  this.setState({users}));
+       
+        
     }
 
-    searchValidation(){
-        
-    }
     
 
     showOptions(){
@@ -156,7 +67,7 @@ export default class UsersTable extends React.Component{
                 <div className="col-8 m-auto justify-content-md-center">
                     <form>
                         <div className="form-row input-group lg-10 m-auto">
-                            <input type="text" className="form-control" placeholder="Search by name" onBlur={this.searchValidation} aria-label="Search by name" aria-describedby="button-addon2" />
+                            <input type="text" className="form-control" placeholder="Search by name" aria-label="Search by name" aria-describedby="button-addon2" />
                             <div className="input-group-append">
                                 <button className="btn btn-outline-success" type="button" id="button-addon2">Search</button>
                             </div>
