@@ -31,9 +31,9 @@ export default class MyTeamTable extends React.Component {
 
           <div className="col md-6">
             <div className="card">
-              <div className="card-header">Vodafone</div>
+              <div className="card-header">Project : Vodafone</div>
               <div className="card-body">
-                <h5 className="card-title">Ranem Daheer</h5>
+                <h5 className="card-title">Raneem Daher</h5>
                 <p className="card-text">Project : VodaPhone</p>
                 <p className="card-text">ID : "12332"</p>
 

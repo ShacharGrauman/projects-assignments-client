@@ -60,7 +60,7 @@ export const api = {
         },
         {
             "id":"562398423",
-            "img":"p3.jpg",
+            "img":"p4.jpg",
             "name":"Raya Khateeb",
             "technicalSkills":[
                 {name: "C#", level:4},
@@ -75,7 +75,7 @@ export const api = {
         },
         {
             "id":"5621894236",
-            "img":"p4.jpg",
+            "img":"p5.jpg",
             "name":"Alex Karev",
             "technicalSkills":[
                 {name: "PHP", level:4},
@@ -86,6 +86,38 @@ export const api = {
                 {name:"Acting",level:4},
                 {name:"Diving",level:3},
                 {name:"Singing",level:3}
+            ]
+        },
+        {
+            "id":"126985432",
+            "img":"p6.jpg",
+            "name":"walaa Hamze",
+            "technicalSkills":[
+                {name: "JavaScript", level:5},
+                {name: "C++", level:2},
+                {name:  "Java", level:4},
+                {name:  "HTML", level:3}
+            ],
+            "productSkills":[
+                {name:"Dancing",level:5},
+                {name:"Swimming",level:3},
+                {name:"Singing",level:2}
+            ]
+        },
+        {
+            "id":"230659842",
+            "img":"p7.jpg",
+            "name":"Shahar Grauman",
+            "technicalSkills":[
+                {name: "JavaScript", level:5},
+                {name: "CSS", level:4},
+                {name:  "Java", level:5},
+                {name:  "HTML", level:3}
+            ],
+            "productSkills":[
+                {name:"Acting",level:5},
+                {name:"Racing",level:4},
+                {name:"Swimming",level:3}
             ]
         }
     ];
