@@ -6,7 +6,7 @@ import Footer from '../components/common/Footer'
 import Home from '../components/common/Home'
 import UserProfile from '../components/user-profile/UserProfile'
 import UsersListPage from '../components/users-list/usersListPage'
-
+import MyTeamTable from '../components/Assigments/MyTeamTable'
 export default ()=>(
 <BrowserRouter>
     <div>
@@ -15,6 +15,8 @@ export default ()=>(
             <Route path="/" component={Home} exact={true}/>
             <Route path="/users-list/" component={UsersListPage}/>
             <Route path="/user-profile/:id" component={UserProfile}/>
+            <Route path="/My-Team/" component={MyTeamTable}/>
+            
         </Switch>
         <Footer />
     </div>
