@@ -20,23 +20,23 @@ export default class Navbar extends React.Component {
 
                 <div className="collapse navbar-collapse" id="navbarTogglerDemo03">
                     <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li className="nav-item active">
-                        <Link className="nav-link" to="/">Home <span className="sr-only">(current)</span></Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/users-list">Users</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/My-Team">My Team</Link>
-                    </li>
-
-                    
+                        <li className="nav-item active">
+                            <Link className="nav-link" to="/">Home <span className="sr-only">(current)</span></Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/users-list">Users</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/audit">Audit</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/my-team">My Team</Link>
+                        </li>
                     </ul>
-
 
                     <form className="form-inline my-2 my-lg-0">
                         <input className="form- control mr-sm-2" type="search" placeholder="Search" aria-label="Search"></input>
-                    <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                     </form>
                 </div>
             </nav>);
