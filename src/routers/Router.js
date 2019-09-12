@@ -20,7 +20,7 @@ export default ()=>(
             <Route path="/users-list/" component={UsersListPage}/>
             <Route path="/user-profile/:id" component={UserProfile}/>
             <Route path="/audit" component={Audit}/>
-            <Route path="/My-Team/" component={MyTeamTable}/>
+            <Route path="/my-team/" component={MyTeamTable}/>
             <Route component={PageNotFound}/>
         </Switch>
         <Footer />
