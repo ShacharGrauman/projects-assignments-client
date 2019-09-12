@@ -1,5 +1,5 @@
 import React from 'react';
-import ListRoles from '../shared-components/list-roles'
+import ListComponent from '../shared-components/List'
 
 
 export default class UserProfileDetails extends React.Component{
@@ -17,7 +17,6 @@ export default class UserProfileDetails extends React.Component{
 
     addRoles(e){
         document.getElementById('userRoles');
-        console.log('hello');
 
     }
 
@@ -28,7 +27,7 @@ export default class UserProfileDetails extends React.Component{
             <h5 className="text-center mt-3 mb-1">Roles</h5>
             <div className="d-flex justify-content-around">
                 <div className="w-75 m-2">
-                    <ListRoles disabled={this.props.editMode} options={this.state.userRoles} id="userRoles"/>
+                    <ListComponent disabled={this.props.editMode} options={this.state.userRoles} id="userRoles"/>
                 </div>
                 {!this.props.editMode &&
                 <>
@@ -37,7 +36,7 @@ export default class UserProfileDetails extends React.Component{
                         <button className="btn btn-sm btn-outline-danger m-1"><i className="fas fa-arrow-left"></i> Remove</button>
                     </div>  
                     <div className="w-75 m-2">
-                        <ListRoles disabled={this.props.editMode} options={this.state.non_userRoles}/>
+                        <ListComponent disabled={this.props.editMode} options={this.state.non_userRoles}/>
                     </div>
                 </>}
                 

@@ -16,6 +16,11 @@ const styleProfileImg = {
 export default class extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state={
+      id:this.props.id
+    }
+
     this.toggleEditMode = this.toggleEditMode.bind(this);
     this.browseImage = this.browseImage.bind(this);
   }
@@ -31,7 +36,7 @@ export default class extends React.Component {
     return (
       <>
         <h5 style={{ marginBottom: "-25px" }}>
-          {this.props.employeeName}'s User Profile
+          {this.state.id}'s User Profile
         </h5>
         <div className=" d-flex justify-content-between align-items-baseline">
           <img
@@ -48,10 +53,6 @@ export default class extends React.Component {
               onClick={this.toggleEditMode}
             ></FontAwesomeIcon>
           )}
-          {/* // <i  */}
-          {/* // className="fas fa-edit mb-1"
-            // style={{fontSize:'1.5rem', opacity:'0.8', cursor:'pointer'}}
-            // onClick={this.toggleEditMode}></i>} */}
         </div>
       </>
     );
