@@ -48,7 +48,7 @@ export default class UsersTable extends React.Component{
 
     
 
-    showOptions(){
+    showAdvancedSearch(){ 
         const advancedSearchOptions = document.querySelector('#advancedSearchOptions');
 
         if(advancedSearchOptions.style.display == "flex"){
@@ -73,7 +73,7 @@ export default class UsersTable extends React.Component{
                         </div>
                         <div className="form-row m-auto d-flex align-items-center">
                             <div >
-                                <a style={AdvancedSearchStyle} className="mr-2" onClick={this.showOptions}>Advanced Search</a>
+                                <a style={AdvancedSearchStyle} className="justify-content-md-center mr-2" onClick={this.showAdvancedSearch}>Advanced Search</a>
                             </div>
                             <div  id="advancedSearchOptions" style={AdvancedSearchOptionsStyle}>
                                 <div className="dropdown mr-1 mt-2">
