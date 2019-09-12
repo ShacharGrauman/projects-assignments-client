@@ -1,5 +1,5 @@
 
-export const USERS=[
+export const USERS=[ // Users on the users-list page (ADMIN)
     {
         details:{
             id:1,
@@ -85,11 +85,10 @@ export const USERS=[
         },
         img:'image unavailable'
     }
-    
     ]
     
 
-export const USER={
+export const USER={ // User profile page (ADMIN)
     details:{
         id:'',
         employeeNumber:'',
@@ -120,3 +119,46 @@ export const USER={
         imgURL:'image unavailable',
     }
 }
+
+
+export const UserRoles=[ //User roles - used in user-profile page (ADMIN)
+    {
+        id:1,
+        name:'Employee',
+    },
+    {
+        id:2,
+        name:'Manager',
+    },
+    {
+        id:4,
+        name:'HR Manager',
+    },
+]
+
+export const AllRoles=[ // All roles
+    {
+        id:1,
+        name:'Employee',
+    },
+    {
+        id:2,
+        name:'Manager',
+    },
+    {
+        id:3,
+        name:'Admin',
+    },
+    {
+        id:4,
+        name:'HR Manager',
+    },
+    {
+        id:5,
+        name:'Intern',
+    },
+    {
+        id:6,
+        name:'CEO',
+    },
+]

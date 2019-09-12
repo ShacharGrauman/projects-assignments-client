@@ -18,41 +18,40 @@ export default class extends React.Component {
     super(props);
 
     this.state={
+      edit:undefined,
       id:this.props.id
     }
 
-    this.toggleEditMode = this.toggleEditMode.bind(this);
-    this.browseImage = this.browseImage.bind(this);
-  }
-  toggleEditMode() {
-    this.props.toggleEditMode();
   }
 
-  browseImage() {
-    this.props.browseImage();
+  
+
+  componentDidMount(){
+    this.setState({
+      edit:this.props.edit
+    })
   }
 
   render() {
     return (
       <>
-        <h5 style={{ marginBottom: "-25px" }}>
-          {this.state.id}'s User Profile
-        </h5>
+        {this.state.id &&<h5 style={{ marginBottom: "-25px" }}>
+                          {this.state.id}'s User Profile
+                        </h5>}
         <div className=" d-flex justify-content-between align-items-baseline">
           <img
-            onClick={this.browseImage}
             className="position-relative shadow"
             src={ImgProfile}
             style={styleProfileImg}
           ></img>
 
-          {!this.props.isLocked.locked && (
+          {(!this.props.isLocked && this.state.id)&& 
             <FontAwesomeIcon
               style={{fontSize:'1.5rem', opacity:'0.8', cursor:'pointer'}}
               icon={faEdit}
-              onClick={this.toggleEditMode}
+              onClick={()=>this.props.toggleEditMode()}
             ></FontAwesomeIcon>
-          )}
+          }
         </div>
       </>
     );

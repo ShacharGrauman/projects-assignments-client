@@ -11,89 +11,73 @@ export default class UserProfile extends React.Component{
         super(props);
         const {id}=this.props.match.params;
         this.state={
-            mode:{edit:false, add:false},
-            status:{deactivated:false, locked:false},
+            profileMode:{edit:false, view:true},
+            status:{deactivated:undefined, locked:undefined},
             userData:{
                 details:{
                     id:+id?id:undefined,
-                    firstName:'',
-                    lastName:'',
-                    employeeNumber:'',
+                    firstName:undefined,
+                    lastName:undefined,
+                    employeeNumber:undefined,
                     workSite:{
-                        name:'',
-                        id:-1,
+                        name:'gr',
+                        id:undefined,
                         country:{
-                            name:'',
-                            id:''
+                            name:undefined,
+                            id:undefined
                         }
                     },
-                    manager:{name:'',id:-1},
-                    phone:'',
-                    email:'',
-                    department:{name:'',id:-1},
-                    lastLogin:'',
+                    manager:{name:undefined,id:undefined},
+                    phone:undefined,
+                    email:undefined,
+                    department:{name:undefined,id:undefined},
+                    lastLogin:undefined,
                 },
                 roles:{
                     roles:[{
-                        id:'',
-                        name:'',
-                        description:''
+                        id:undefined,
+                        name:undefined,
+                        description:undefined
                     }]
                 },
-                img:''
+                img:undefined
             }
         }
         
         this.toggleEditMode=this.toggleEditMode.bind(this)
         this.toggleLockUser=this.toggleLockUser.bind(this)
-        this.browseImage=this.browseImage.bind(this)
-        this.fetchUserData=this.fetchUserData.bind(this)
+
+        
     }
 
     componentDidMount(){
         if (this.state.userData.details.id){
-            this.fetchUserData()
+            this.setState({
+                profileMode:{edit:false, view:true},
+                status:{deactivated:false,add:false}, // fix status values according to the backend
+                userData:USERS.find(e=>e.details.id===+this.state.userData.details.id)
+            })
         }else{
             this.setState({
-                mode:{edit:true,add:true}
+                profileMode:{edit:true,view:false}
             })
         }
     }
 
-    fetchUserData(){
-        this.setState({
-            userData:USERS.find(e=>e.details.id===+this.state.userData.details.id)
-        })
+    toggleEditMode(){
+       this.setState({
+        profileMode:{edit:!this.state.profileMode.edit, view:true }
+       })
+        
     }
 
-    toggleEditMode(action){
-        if(!action){
-            this.setState({
-                mode:{
-                    ...this.state.mode,
-                    edit:!this.state.mode.edit,
-                }
-            })
-        }else{
-            this.setState({
-                mode:{
-                    ...this.state.mode,
-                    edit:action
-                }
-            })
-        }
-    }
-
-    browseImage(){
-       alert('This function is currently unavailable')
-    }
+    
 
     toggleLockUser(){
         this.setState({
-            ...this.state,
             status:{deactivated:false, locked:!this.state.status.locked},
+            profileMode:{edit:false,view:true},
         })
-        this.toggleEditMode(this.state.status.locked)
     }
 
     render(){
@@ -102,23 +86,24 @@ export default class UserProfile extends React.Component{
         <div className="container">
             <div className="row p-0 m-0">
                 <div className="col-12 mb-2 mr-3 ml-3 p-0 mt-5">
-                    <UserProfileHeader toggleEditMode={this.toggleEditMode}
-                                        browseImage={this.browseImage}
-                                        imgURL={this.state.userData.img}
+                    <UserProfileHeader imgURL={this.state.userData.img}
                                         employeeName={this.state.userData.details.firstName+" " + this.state.userData.details.lastName}
-                                        isLocked={this.state.status}
+                                        isLocked={this.state.status.locked}
                                         id={this.state.userData.details.id}
+                                        edit={this.state.profileMode.edit}
+                                        toggleEditMode={this.toggleEditMode}
                                         />
 
-                    <UserProfileDetails editMode={!this.state.mode.edit} 
+                    <UserProfileDetails editMode={!this.state.profileMode.edit} 
                                         details={this.state.userData.details}/>
 
-                    <UserProfileRoles editMode={!this.state.mode.edit}
+                    <UserProfileRoles editMode={!this.state.profileMode.edit}
                                         userRoles={this.state.userData.roles}/>
 
-                    <UserProfileFooter editMode={!this.state.mode.edit}
+                    <UserProfileFooter editMode={!this.state.profileMode.edit}
                                         isLocked={this.state.status.locked}
-                                        toggleLockUser={this.toggleLockUser}/>
+                                        toggleLockUser={this.toggleLockUser}
+                                        view={this.state.profileMode.view}/>
                 </div>
             </div>
         </div>  
