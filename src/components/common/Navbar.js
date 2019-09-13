@@ -30,6 +30,9 @@ export default class Navbar extends React.Component {
                             <Link className="nav-link" to="/audit">Audit</Link>
                         </li>
                         <li className="nav-item">
+                            <Link className="nav-link" to="/roles">Roles</Link>
+                        </li>
+                        <li className="nav-item">
                             <Link className="nav-link" to="/my-team">My Team</Link>
                         </li>
                     </ul>
