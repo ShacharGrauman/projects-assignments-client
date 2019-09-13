@@ -162,3 +162,35 @@ export const AllRoles=[ // All roles
         name:'CEO',
     },
 ]
+
+export const AuditTableData=[ //Audit Rows
+    {
+        userId:1,
+        fullname:'fadi muhammad',
+        date:Date(),
+        time: Date(),
+        activity:'Login'
+    },
+    {
+        userId:2,
+        fullname:'fadi muhammad',
+        date:Date(),
+        time: Date(),
+        activity:'Login'
+    },
+    {
+        userId:3,
+        fullname:'fadi muhammad',
+        date:Date(),
+        time: Date(),
+        activity:'Login'
+    },
+    {
+        userId:4,
+        fullname:'fadi muhammad',
+        date:Date(),
+        time: Date(),
+        activity:'Login'
+    },
+
+]
