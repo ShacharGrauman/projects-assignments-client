@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class ListRoles extends React.Component{
+export default class ListComponent extends React.Component{
     constructor(props){
         super(props)
 

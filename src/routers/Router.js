@@ -19,6 +19,7 @@ export default ()=>(
             <Route path="/" component={Home} exact={true}/>
             <Route path="/users-list/" component={UsersListPage}/>
             <Route path="/user-profile/:id" component={UserProfile}/>
+            <Route path="/user-profile/addUser" component={UserProfile}/>
             <Route path="/audit" component={Audit}/>
             <Route path="/my-team/" component={MyTeamTable}/>
             <Route component={PageNotFound}/>

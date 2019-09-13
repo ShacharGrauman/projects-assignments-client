@@ -1,54 +1,98 @@
 
-export const USERS=[
+export const USERS=[ // Users on the users-list page (ADMIN)
     {
-        id : 1,
-        number: 1144,
-        name:"Emad Silawi",
-        roles: ["Employee","Manager","Amin"],
-        department:"R&D",
-        worksite:"Nazareth",
+        details:{
+            id:1,
+            employeeNumber:'',
+            firstName:'user1',
+            lastName:'Silawi',
+            workSite:{
+                name:'Nazareth',
+                id:1,
+                country:{
+                    name:'Israel',
+                    id:1
+                }
+            },
+            manager:{name:'Shahar',id:2},
+            phone:'058-9999999',
+            email:'emad@amdocs.com',
+            department:{name:'R&D',id:1},
+            lastLogin:'29/08/2019',
+        },
+        roles:{
+            roles:[{
+                id:1,
+                name:'Manager',
+                description:'Description unavailable'
+            }]
+        },
+        img:'image unavailable'
     },{
-        id : 2,
-        number: 233,
-        name:"Fadi Muhammad",
-        roles:"Team Leader",
-        department:"R&D",
-        worksite:"Nazareth",
+        details:{
+            id:2,
+            employeeNumber:'',
+            firstName:'user24',
+            lastName:'Silawi',
+            workSite:{
+                name:'Nazareth',
+                id:1,
+                country:{
+                    name:'Israel',
+                    id:1
+                }
+            },
+            manager:{name:'Shahar',id:2},
+            phone:'058-9999999',
+            email:'emad@amdocs.com',
+            department:{name:'R&D',id:1},
+            lastLogin:'29/08/2019',
+        },
+        roles:{
+            roles:[{
+                id:1,
+                name:'Manager',
+                description:'Description unavailable'
+            }]
+        },
+        img:'image unavailable'
     },{
-        id : 3,
-        number: 362,
-        name:"Chis Issa",
-        roles:"Employee",
-        department:"QA Automation",
-        worksite:"Ra'anana",
-    },{
-        id : 4,
-        number: 445,
-        name:"Samer Saida",
-        roles:"Employee",
-        department:"DB Analysis",
-        worksite:"Nazareth",
-    },{
-        id : 5,
-        number: 345,
-        name:"Shahar Grauman",
-        roles:"Manager",
-        department:"R&D",
-        worksite:"Nazareth",
-    },{
-        id : 6,
-        number: 12,
-        name:"Ezer Biron",
-        roles:"CEO",
-        department:"Finance",
-        worksite:"Ra'anana",
-    },
+        details:{
+            id:3,
+            employeeNumber:'',
+            firstName:'user3',
+            lastName:'Silawi',
+            workSite:{
+                name:'Nazareth',
+                id:1,
+                country:{
+                    name:'Israel',
+                    id:1
+                }
+            },
+            manager:{name:'Shahar',id:2},
+            phone:'058-9999999',
+            email:'emad@amdocs.com',
+            department:{name:'R&D',id:1},
+            lastLogin:'29/08/2019',
+        },
+        roles:{
+            roles:[{
+                id:1,
+                name:'Manager',
+                description:'Description unavailable'
+            }]
+        },
+        img:'image unavailable'
+    }
     ]
     
 
-export const USER={
+export const USER={ // User profile page (ADMIN)
     details:{
-        firstName:'Emad',
+        id:'',
+        employeeNumber:'',
+        firstName:'',
         lastName:'Silawi',
         workSite:{
             name:'Nazareth',
@@ -75,3 +119,46 @@ export const USER={
         imgURL:'image unavailable',
     }
 }
+
+
+export const UserRoles=[ //User roles - used in user-profile page (ADMIN)
+    {
+        id:1,
+        name:'Employee',
+    },
+    {
+        id:2,
+        name:'Manager',
+    },
+    {
+        id:4,
+        name:'HR Manager',
+    },
+]
+
+export const AllRoles=[ // All roles
+    {
+        id:1,
+        name:'Employee',
+    },
+    {
+        id:2,
+        name:'Manager',
+    },
+    {
+        id:3,
+        name:'Admin',
+    },
+    {
+        id:4,
+        name:'HR Manager',
+    },
+    {
+        id:5,
+        name:'Intern',
+    },
+    {
+        id:6,
+        name:'CEO',
+    },
+]

@@ -27,13 +27,37 @@ export default class UserProfileDetails extends React.Component{
                             </div>
                             <div className="col-lg-3 col-sm-6 mb-2">
                                  <small className="mb-1">Work Site</small>
-                                <input type="text" className="form-control input_workSite" placeholder="Work Site" aria-label="WorkSite"
-                                    disabled={this.props.editMode} defaultValue={`${this.props.details.workSite.name.concat(' ', this.props.details.workSite.country.name)}`}></input>
+                                 
+                                 <input 
+                                    id="link__WorkSite"
+                                    className="form-control worksite" 
+                                    disabled={this.props.editMode}
+                                    defaultValue={this.props.details.workSite.name}
+                                    list="workSite"></input>
+                                <datalist id="workSite">
+                                    <option value="Nazareth"/>
+                                    <option value="Los Angeles"/>
+                                    <option value="London"/>
+                                    <option value="Shanghai"/>
+                                    <option value="Tokyo"/>
+                                </datalist>
+
                             </div>
                             <div className="col-lg-3 col-sm-6 mb-2">
                                 <small className="mb-1">Manager</small>
-                                <input type="button" id="link__Manager" className="form-control input_manager"
-                                disabled={this.props.editMode} defaultValue={this.props.details.manager.name}></input>
+                                <input 
+                                    id="link__Manager"
+                                    className="form-control input_manager" 
+                                    disabled={this.props.editMode}
+                                    defaultValue={this.props.details.manager.name}
+                                    list="managers"></input>
+                                <datalist id="managers">
+                                    <option value="Shahar Grauman, 33"/>
+                                    <option value="Ezer Biron, 42"/>
+                                    <option value="Walaa"/>
+                                    <option value="Amani"/>
+                                    <option value="Yasmin"/>
+                                </datalist>
                             </div>
                             <div className="col-lg-3 col-sm-6 mb-2">
                                 <small className="mb-1">Phone</small>
@@ -47,8 +71,17 @@ export default class UserProfileDetails extends React.Component{
                             </div>
                             <div className="col-lg-3 col-sm-6 mb-2">
                                 <small className="mb-1">Department</small>
-                                <input type="text" className="form-control input_department" placeholder="Department" aria-label="Department"
-                                    disabled={this.props.editMode} defaultValue={this.props.details.department.name}></input>
+                                <input 
+                                    id="link__department"
+                                    className="form-control department" 
+                                    disabled={this.props.editMode}
+                                    defaultValue={this.props.details.department.name}
+                                    list="department"></input>
+                                <datalist id="department">
+                                    <option value="Research And Development"/>
+                                    <option value="NOC"/>
+                                    <option value="QA"/>
+                                </datalist>
                             </div>
                             <div className="col-lg-3 col-sm-6 mb-2">
                                 <small className="mb-1">Last Login</small>
@@ -57,8 +90,7 @@ export default class UserProfileDetails extends React.Component{
                             </div>
                         </div>
                     
-                           
-
+                          
 
 
                         </div>

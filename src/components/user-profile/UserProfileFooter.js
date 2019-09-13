@@ -10,12 +10,19 @@ export default class UserProfileFooter extends React.Component{
                     <button className="btn btn-info ml-auto mr-2" onClick={this.props.toggleLockUser}>Activate</button>
                     :
                     <>
-                
-                        <button className="btn btn-warning ml-2">Options</button>
+                        <div className=" ">
+                            {this.props.view && <button className="ml-2 btn btn-warning">Options</button>}
+                        </div>
 
                         <button className='ml-auto btn btn-danger mr-2'>Cancel</button>
-                        <button className="btn btn-secondary mr-2" onClick={this.props.toggleLockUser}>Lock User</button>
-                        <button className="btn btn-success mr-2">Apply</button>
+                        {this.props.view && <button className="btn btn-secondary mr-2" onClick={this.props.toggleLockUser}>Lock User</button>}
+                        <div className="mr-2">
+                            {this.props.view?
+                            <button className="btn btn-success">Apply</button>
+                            :
+                            <button className="btn btn-success">Finish</button>
+                            }
+                        </div>
                     </>
                     }
 
