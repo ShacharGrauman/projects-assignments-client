@@ -9,6 +9,7 @@ import PageNotFound from '../components/common/PageNotFound';
 import UserProfile from '../components/user-profile/UserProfile'
 import UsersListPage from '../components/users-list/usersListPage'
 import Audit from '../components/audit/audit'
+import MyTeamTable from '../components/Assigments/MyTeamTable'
 
 export default ()=>(
 <BrowserRouter>
@@ -20,6 +21,7 @@ export default ()=>(
             <Route path="/user-profile/:id" component={UserProfile}/>
             <Route path="/user-profile/addUser" component={UserProfile}/>
             <Route path="/audit" component={Audit}/>
+            <Route path="/my-team/" component={MyTeamTable}/>
             <Route component={PageNotFound}/>
         </Switch>
         <Footer />

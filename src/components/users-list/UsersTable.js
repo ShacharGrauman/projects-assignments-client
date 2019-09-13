@@ -1,6 +1,5 @@
 import React from 'react';
 import UsersTableRow from './UsersTableRow'
-import {USERS} from '../../mock-data/mock-data'
 
 const AdvancedSearchStyle = {
     cursor : "pointer",
@@ -64,7 +63,7 @@ export default class UsersTable extends React.Component{
     render(){
         return(
             <div>
-                <div className="col-8 m-auto justify-content-md-center">
+                <div className="col-8 m-auto">
                     <form>
                         <div className="form-row input-group lg-10 m-auto">
                             <input type="text" className="form-control" placeholder="Search by name" aria-label="Search by name" aria-describedby="button-addon2" />
@@ -123,7 +122,7 @@ export default class UsersTable extends React.Component{
                 </div>
                 
                 <div className="row">
-                    <table className="table mt-2" id="usersTable">
+                    <table className="table table-sm table-hover mt-2" style={{cursor : "pointer"}} id="usersTable">
                         <thead className="thead-dark">
                             <tr>
                                 <th>ID</th>
