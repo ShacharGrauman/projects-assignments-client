@@ -8,7 +8,7 @@ import PageNotFound from '../components/common/PageNotFound';
 
 import UserProfile from '../components/user-profile/UserProfile'
 import UsersListPage from '../components/users-list/usersListPage'
-import Audit from '../components/audit/audit'
+import Audit from '../components/audit/auditPage'
 import MyTeamTable from '../components/Assigments/MyTeamTable'
 
 export default ()=>(
