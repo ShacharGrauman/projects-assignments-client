@@ -10,6 +10,7 @@ import UserProfile from '../components/user-profile/UserProfile'
 import UsersListPage from '../components/users-list/usersListPage'
 import Audit from '../components/audit/auditPage'
 import MyTeamTable from '../components/Assigments/MyTeamTable'
+import AddProject from '../components/Assigments/AddProject'
 
 export default ()=>(
 <BrowserRouter>
@@ -22,6 +23,9 @@ export default ()=>(
             <Route path="/user-profile/addUser" component={UserProfile}/>
             <Route path="/audit" component={Audit}/>
             <Route path="/my-team/" component={MyTeamTable}/>
+            <Route path="/create-project/" component={AddProject}/>
+
+    
             <Route component={PageNotFound}/>
         </Switch>
         <Footer />
