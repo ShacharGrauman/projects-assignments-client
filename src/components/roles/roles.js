@@ -18,9 +18,11 @@ export default class Roles extends React.Component{
                                     <a className="nav-link active" id="v-pills-admin-tab" data-toggle="pill" href="#v-pills-admin" role="tab" aria-controls="v-pills-admin" aria-selected="true">Admin</a>
                                     <a className="nav-link" id="v-pills-employee-tab" data-toggle="pill" href="#v-pills-employee" role="tab" aria-controls="v-pills-employee" aria-selected="false">Employee</a>
                                     <a className="nav-link" id="v-pills-manager-tab" data-toggle="pill" href="#v-pills-manager" role="tab" aria-controls="v-pills-manager" aria-selected="false">Manager</a>
+                                    <a className="nav-link" id="v-pills-hrManager-tab" data-toggle="pill" href="#v-pills-hrManager" role="tab" aria-controls="v-pills-manager" aria-selected="false">HR Manager</a>
+                                    <a className="nav-link" id="v-pills-intern-tab" data-toggle="pill" href="#v-pills-intern" role="tab" aria-controls="v-pills-manager" aria-selected="false">Intern</a>
                                 </div>
                             </div>
-                            <div className="col-lg-6 col-sm-10">
+                            <div className="col-lg-6 col-sm-10 px-4">
                                 <div className="tab-content" id="v-pills-tabContent">
                                     <div className="mt-3 tab-pane fade show active" 
                                             id="v-pills-admin" 
@@ -41,6 +43,20 @@ export default class Roles extends React.Component{
                                             role="tabpanel" 
                                             aria-labelledby="v-pills-manager-tab">
                                         "Managers are the people in charge of employees and the facilities they work for. As a manager, your job is to plan and promote the daily schedule of employees and the business, interview, hire, and coordinate employees, create and maintain budgets, and coordinate with and report to senior management in the company."
+                                    </div>
+                                    <div 
+                                            className="mt-3 tab-pane fade" 
+                                            id="v-pills-hrManager" 
+                                            role="tabpanel" 
+                                            aria-labelledby="v-pills-hrManager-tab">
+                                        "Human resource managers are the overseers of the human resources department and insurers of the functions and tasks being carried out by the HR team. They are often seen as the link between an organization’s management and its employees, as their work runs the gamut from providing consultation on strategic planning with top executives to recruiting, interviewing, and hiring new staff."
+                                    </div>
+                                    <div 
+                                            className="mt-3 tab-pane fade" 
+                                            id="v-pills-intern" 
+                                            role="tabpanel" 
+                                            aria-labelledby="v-pills-intern-tab">
+                                        "an advanced student or graduate usually in a professional field (such as medicine or teaching) gaining supervised practical experience (as in a hospital or classroom)"
                                     </div>
                                 </div>
                             </div>
