@@ -8,9 +8,6 @@ export default class UsersTableRow extends React.Component{
 
     
     render(){
-        if (this.props.errors.isEmpty){
-            return <InputErrors/>;
-        }
         
         return (
             <tr>
