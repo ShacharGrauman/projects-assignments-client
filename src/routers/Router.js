@@ -11,6 +11,7 @@ import UsersListPage from '../components/users-list/usersListPage'
 import Audit from '../components/audit/auditPage'
 import Roles from '../components/roles/roles'
 import MyTeamTable from '../components/Assigments/MyTeamTable'
+import Login from '../components/login/login'
 import Settings from '../components/settings/settings'
 
 export default ()=>(
@@ -25,6 +26,7 @@ export default ()=>(
             <Route path="/audit" component={Audit}/>
             <Route path="/roles" component={Roles}/>
             <Route path="/settings" component={Settings}/>
+            <Route path="/login" component={Login}/>
             <Route path="/my-team/" component={MyTeamTable}/>
             <Route component={PageNotFound}/>
         </Switch>

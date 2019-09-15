@@ -32,10 +32,10 @@ export default class UsersTable extends React.Component{
         const errors = [];
        
 
-        fetch('http://localhost:8080/api/users', {
+        fetch('http://localhost:8080/api/employee', {
             method: 'GET',
             headers:{
-             'Authorization': 'ZmFkaUBnbWFpbC5jb206MTIzNDU2',
+             'auth': 'Z3JhdW1hbm96QGdtYWlsLmNvbToxMjM0NTY',
              'Content-Type':'application/x-www-form-urlencoded'
             },
              // mode: 'no-cors'
