@@ -169,7 +169,7 @@ export const api = {
     // }
     ,
     getUsersList : () => {
-        return fetch('http://localhost:8080/api/users')
+        return fetch('http://localhost:8080/api/employee')
             .then(response => response.json());
     },
 
