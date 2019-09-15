@@ -11,6 +11,7 @@ import UsersListPage from '../components/users-list/usersListPage'
 import Audit from '../components/audit/auditPage'
 import Roles from '../components/roles/roles'
 import MyTeamTable from '../components/Assigments/MyTeamTable'
+import Settings from '../components/settings/settings'
 
 export default ()=>(
 <BrowserRouter>
@@ -23,6 +24,7 @@ export default ()=>(
             <Route path="/user-profile/addUser" component={UserProfile}/>
             <Route path="/audit" component={Audit}/>
             <Route path="/roles" component={Roles}/>
+            <Route path="/settings" component={Settings}/>
             <Route path="/my-team/" component={MyTeamTable}/>
             <Route component={PageNotFound}/>
         </Switch>
