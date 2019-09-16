@@ -14,6 +14,8 @@ import MyTeamTable from "../components/Assigments/MyTeamTable";
 import Login from "../components/login/login";
 import Settings from "../components/settings/settings";
 import Projects from "../components/Assigments/Projects";
+import AssignHisToryTable from "../components/Assigments/AssignmentHistoryForEmp";
+import AssignmentRequets from "../components/Assigments/PendingAssignmentRequest";
 import MyOwnSkills from "../components/skills/MyOwnSkills";
 
 export default () => (
@@ -31,9 +33,15 @@ export default () => (
         <Route path="/login" component={Login} />
         <Route path="/my-team/" component={MyTeamTable} />
         <Route path="/my-skills/:id" component={MyOwnSkills} />
-
         <Route path="/projects/" component={Projects} />
-        <Route path="/assign-history/" component={Projects} />
+        <Route
+          path="/pending-assignment-request/"
+          component={AssignmentRequets}
+        />
+        <Route
+          path="/assign-history/:id/:name"
+          component={AssignHisToryTable}
+        />
 
         <Route component={PageNotFound} />
       </Switch>
