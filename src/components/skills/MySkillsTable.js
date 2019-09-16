@@ -29,7 +29,7 @@ const MySkillsTable = ({
                 <td>{skill.level}</td>
                 <td>{skill.status}</td>
                 <td>{skill.comment}</td>
-                {skill.status !== "APPROVED" ? (
+                {skill.status !== "APPROVED" || skill.status !== "REJECTED" ? (
                   <td>
                     <button
                       className="btn btn-danger btn-sm"
