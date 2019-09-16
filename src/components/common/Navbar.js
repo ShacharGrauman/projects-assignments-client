@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import UserProfile from '../user-profile/UserProfile';
 
 export default class Navbar extends React.Component {
 
@@ -30,6 +29,15 @@ export default class Navbar extends React.Component {
                             <Link className="nav-link" to="/audit">Audit</Link>
                         </li>
                         <li className="nav-item">
+                            <Link className="nav-link" to="/roles">Roles</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/settings">Settings</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/login">Login</Link>
+                        </li>
+                        <li className="nav-item">
                             <Link className="nav-link" to="/my-team">My Team</Link>
                         </li>
                         <li className="nav-item">
@@ -37,6 +45,7 @@ export default class Navbar extends React.Component {
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link" to="/done-assigments">Done Assigments</Link>
+                            <Link className="nav-link" to="/projects">My Projects</Link>
                         </li>
                     </ul>
 

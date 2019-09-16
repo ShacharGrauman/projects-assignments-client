@@ -121,7 +121,7 @@ export const api = {
             ]
         }
     ];
-}
+    }
     // getAllUsers : async () =>{
     //     //return await getData('users');
 
@@ -167,4 +167,14 @@ export const api = {
     //         getData('countries')
     //     ])
     // }
+    ,
+    getUsersList : () => {
+        return fetch('http://localhost:8080/api/employee')
+            .then(response => response.json());
+    },
+
+    getCount: () => {
+        return fetch('http://localhost:8080/api/users')
+            .then(res => res.json());
+    }
 }
