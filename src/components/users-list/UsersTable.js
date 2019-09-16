@@ -65,7 +65,7 @@ export default class UsersTable extends React.Component{
                             </div>
                         </div>
                         <div className="form-row m-auto d-flex">
-                            <div >
+                            <div className="mt-2">
                                 <a style={AdvancedSearchStyle} className="justify-content-md-center mr-2" onClick={this.showAdvancedSearch}>Advanced Search</a>
                             </div>
                             <div  id="advancedSearchOptions" style={AdvancedSearchOptionsStyle}>

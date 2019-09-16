@@ -173,8 +173,8 @@ export const api = {
             .then(response => response.json());
     },
 
-    getCount: () => {
-        return fetch('http://localhost:8080/api/users')
+    getCount: (prop) => {
+        return fetch(`http://localhost:8080/api/employee/${prop}`)
             .then(res => res.json());
     }
 }
