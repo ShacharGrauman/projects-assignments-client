@@ -13,6 +13,7 @@ import Roles from '../components/roles/roles'
 import MyTeamTable from '../components/Assigments/MyTeamTable'
 import Login from '../components/login/login'
 import Settings from '../components/settings/settings'
+import Projects from '../components/Assigments/Projects'
 
 export default ()=>(
 <BrowserRouter>
@@ -28,6 +29,9 @@ export default ()=>(
             <Route path="/settings" component={Settings}/>
             <Route path="/login" component={Login}/>
             <Route path="/my-team/" component={MyTeamTable}/>
+            <Route path="/projects/" component={Projects}/>
+            <Route path="/assign-history/" component={Projects}/>
+            
             <Route component={PageNotFound}/>
         </Switch>
         <Footer />
