@@ -10,7 +10,7 @@ export default class AssignHistory extends React.Component {
     this.state = {
       // isLoading: true,
       projectsData: [],
-      projectByID: []
+      EmployeesByProjectByID: []
     };
     this.setProjectInSession = this.setProjectInSession.bind(this);
     this.getEmpForProject = this.getEmpForProject.bind(this);
@@ -41,7 +41,7 @@ export default class AssignHistory extends React.Component {
       .then(response => response.json())
       .then(Employees => {
         this.setState({
-          projectByID: Employees
+         EmployeesByProjectByID: Employees
         });
       });
   }
@@ -73,14 +73,14 @@ export default class AssignHistory extends React.Component {
             {this.state.projectsData.map(project => {
               return (
                 <div className="card">
-                  <div className="card-header" id="headingOne0">
+                  <div className="card-header" id="headingOne">
                     <div className="row">
                       <div className="col">
                         <button
                           className="btn btn-outline-info"
                           type="button"
                           data-toggle="collapse"
-                          data-target={`#${project.id}`}
+                          data-target={`#project${project.id}`}
                           aria-expanded="true"
                           aria-controls="collapseOne"
                           onClick={e => this.getEmpForProject(project.id)}
@@ -110,7 +110,7 @@ export default class AssignHistory extends React.Component {
                     {/* ends card-header div */}
                   </div>
                   <div
-                    id={project.id}
+                    id={`project${project.id}`}
                     className="collapse "
                     aria-labelledby="headingOne"
                     data-parent="#accordionExample"
@@ -175,11 +175,11 @@ export default class AssignHistory extends React.Component {
                       <div className="row">
                         <div className="col-12">
                           <h6 style={{ fontWeight: "bold" }}> Employess </h6>
-                          {this.state.projectByID.map(Emp => {
+                          {this.state.EmployeesByProjectByID.map(Emp => {
                             return (
                               <>
                                 <Link
-                                  to={`Assign-History/${Emp.id}`}
+                                  to={`assign-history/${Emp.id}`}
                                   className="btn btn-outline-secondary"
                                   style={{ marginLeft: "5px" }}
                                 >

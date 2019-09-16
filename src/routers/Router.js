@@ -28,6 +28,8 @@ export default ()=>(
             <Route path="/settings" component={Settings}/>
             <Route path="/my-team/" component={MyTeamTable}/>
             <Route path="/projects/" component={Projects}/>
+            <Route path="/assign-history/" component={Projects}/>
+            
             <Route component={PageNotFound}/>
         </Switch>
         <Footer />
