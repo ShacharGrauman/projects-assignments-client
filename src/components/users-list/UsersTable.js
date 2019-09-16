@@ -2,6 +2,8 @@ import React from 'react';
 import UsersTableRow from './UsersTableRow';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
+import {api} from '../../mock-data/api';
+
 const AdvancedSearchStyle = {
     cursor : "pointer",
     color : "blue",
@@ -25,19 +27,23 @@ export default class UsersTable extends React.Component{
         //     department : {value : '', validations : {required : true, minLength : 2}},
         //     workSite : {value : '', validations : {required : true, minLength : 2, pattern : /\d/gi}},
         //     status : {value : '', validations : {required : true, minLength : 2}},
-        //     errors: []
+        //     errors: []      
+    }
 
-        fetch('http://localhost:8080/api/employee', {
-            method: 'GET',
-            headers:{
-             'auth': 'Z3JhdW1hbm96QGdtYWlsLmNvbToxMjM0NTY',
-             'Content-Type':'application/x-www-form-urlencoded'
-            },
-             // mode: 'no-cors'
-        })
-       .then(response => response.json())
-       .then(users =>  this.setState({users}));
-      
+    async componentDidMount(){
+        const users = await api.getUsersList();
+        this.setState({users});
+
+    //     fetch('http://localhost:8080/api/employee', {
+    //         method: 'GET',
+    //         headers:{
+    //          'auth': 'Z3JhdW1hbm96QGdtYWlsLmNvbToxMjM0NTY',
+    //          'Content-Type':'application/x-www-form-urlencoded'
+    //         },
+    //          // mode: 'no-cors'
+    //     })
+    //    .then(response => response.json())
+    //    .then(users =>  this.setState({users}));
     }
 
     showAdvancedSearch(){ 
