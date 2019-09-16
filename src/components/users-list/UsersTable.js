@@ -1,5 +1,6 @@
 import React from 'react';
-import UsersTableRow from './UsersTableRow'
+import UsersTableRow from './UsersTableRow';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const AdvancedSearchStyle = {
     cursor : "pointer",
@@ -14,39 +15,30 @@ const AdvancedSearchOptionsStyle = {
 export default class UsersTable extends React.Component{
     constructor(){
         super();
-        this.state ={
-            users : [],
-            id : {value : 0, validations : {required : true, pattern : /^\d+$/}},
-            employeeNumber : {value : '', validations : {required : true, minLength : 1, pattern : /^\d+$/}},
-            firstName : {value : '', validations : {required : true, minLength : 2, pattern : /\d/gi}},
-            lastName : {value : '', validations : {required : true, minLength : 2, pattern : /\d/gi}},
-            roles : {value : '', validations : {required : true, minLength : 2}},
-            department : {value : '', validations : {required : true, minLength : 2}},
-            workSite : {value : '', validations : {required : true, minLength : 2, pattern : /\d/gi}},
-            status : {value : '', validations : {required : true, minLength : 2}},
-            errors: []
-        }
-    }
+        // this.state ={
+        //     users : [],
+        //     id : {value : 0, validations : {required : true, pattern : /^\d+$/}},
+        //     employeeNumber : {value : '', validations : {required : true, minLength : 1, pattern : /^\d+$/}},
+        //     firstName : {value : '', validations : {required : true, minLength : 2, pattern : /\d/gi}},
+        //     lastName : {value : '', validations : {required : true, minLength : 2, pattern : /\d/gi}},
+        //     roles : {value : '', validations : {required : true, minLength : 2}},
+        //     department : {value : '', validations : {required : true, minLength : 2}},
+        //     workSite : {value : '', validations : {required : true, minLength : 2, pattern : /\d/gi}},
+        //     status : {value : '', validations : {required : true, minLength : 2}},
+        //     errors: []
 
-    componentDidMount(){
-        const errors = [];
-       
-
-        fetch('http://localhost:8080/api/users', {
+        fetch('http://localhost:8080/api/employee', {
             method: 'GET',
             headers:{
-             'Authorization': 'ZmFkaUBnbWFpbC5jb206MTIzNDU2',
+             'auth': 'Z3JhdW1hbm96QGdtYWlsLmNvbToxMjM0NTY',
              'Content-Type':'application/x-www-form-urlencoded'
             },
              // mode: 'no-cors'
         })
        .then(response => response.json())
        .then(users =>  this.setState({users}));
-       
-        
+      
     }
-
-    
 
     showAdvancedSearch(){ 
         const advancedSearchOptions = document.querySelector('#advancedSearchOptions');
@@ -63,15 +55,16 @@ export default class UsersTable extends React.Component{
     render(){
         return(
             <div>
-                <div className="col-8 m-auto">
+                <div className="col-9 m-auto">
                     <form>
                         <div className="form-row input-group lg-10 m-auto">
-                            <input type="text" className="form-control" placeholder="Search by name" aria-label="Search by name" aria-describedby="button-addon2" />
+                            <input type="number" className="form-control" placeholder="Search by ID" aria-label="Search by ID" aria-describedby="button-addon2" />
+                            <input type="text" className="form-control" placeholder="Search by Name" aria-label="Search by Name" aria-describedby="button-addon2" />
                             <div className="input-group-append">
                                 <button className="btn btn-outline-success" type="button" id="button-addon2">Search</button>
                             </div>
                         </div>
-                        <div className="form-row m-auto d-flex align-items-center">
+                        <div className="form-row m-auto d-flex">
                             <div >
                                 <a style={AdvancedSearchStyle} className="justify-content-md-center mr-2" onClick={this.showAdvancedSearch}>Advanced Search</a>
                             </div>
@@ -122,6 +115,7 @@ export default class UsersTable extends React.Component{
                 </div>
                 
                 <div className="row">
+                    <Link to="user-profile/addUser" className="btn btn-success">Add User</Link>
                     <table className="table table-sm table-hover mt-2" style={{cursor : "pointer"}} id="usersTable">
                         <thead className="thead-dark">
                             <tr>
@@ -135,10 +129,10 @@ export default class UsersTable extends React.Component{
                         <tbody>
                             {/* A Component for dynamically filling the table*/}
                             {
-                                this.state.users.map(user => <UsersTableRow 
+                                this.props.users.map(user => <UsersTableRow 
                                                     key={user.id}
                                                     user={user}
-                                                    errors= {this.state.errors}
+            
                                                     />)
                             }  
                         </tbody>

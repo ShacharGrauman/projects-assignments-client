@@ -35,7 +35,13 @@ export default class Navbar extends React.Component {
                             <Link className="nav-link" to="/settings">Settings</Link>
                         </li>
                         <li className="nav-item">
+                            <Link className="nav-link" to="/login">Login</Link>
+                        </li>
+                        <li className="nav-item">
                             <Link className="nav-link" to="/my-team">My Team</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/projects">My Projects</Link>
                         </li>
                     </ul>
 
