@@ -13,6 +13,8 @@ import Roles from '../components/roles/roles'
 import MyTeamTable from '../components/Assigments/MyTeamTable'
 import Settings from '../components/settings/settings'
 
+import PendingSkills from '../components/pendingSkills/PendingSkills'
+
 export default ()=>(
 <BrowserRouter>
     <div>
@@ -25,6 +27,7 @@ export default ()=>(
             <Route path="/audit" component={Audit}/>
             <Route path="/roles" component={Roles}/>
             <Route path="/settings" component={Settings}/>
+            <Route path="/pendingSkills/:managerId" component={PendingSkills}/>
             <Route path="/my-team/" component={MyTeamTable}/>
             <Route component={PageNotFound}/>
         </Switch>
