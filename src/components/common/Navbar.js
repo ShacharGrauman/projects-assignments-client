@@ -37,6 +37,9 @@ export default class Navbar extends React.Component {
                         <li className="nav-item">
                             <Link className="nav-link" to="/my-team">My Team</Link>
                         </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/projects">My Projects</Link>
+                        </li>
                     </ul>
 
                     <form className="form-inline my-2 my-lg-0">

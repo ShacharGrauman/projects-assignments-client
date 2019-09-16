@@ -12,6 +12,7 @@ import Audit from '../components/audit/auditPage'
 import Roles from '../components/roles/roles'
 import MyTeamTable from '../components/Assigments/MyTeamTable'
 import Settings from '../components/settings/settings'
+import Projects from '../components/Assigments/Projects'
 
 export default ()=>(
 <BrowserRouter>
@@ -26,6 +27,7 @@ export default ()=>(
             <Route path="/roles" component={Roles}/>
             <Route path="/settings" component={Settings}/>
             <Route path="/my-team/" component={MyTeamTable}/>
+            <Route path="/projects/" component={Projects}/>
             <Route component={PageNotFound}/>
         </Switch>
         <Footer />
