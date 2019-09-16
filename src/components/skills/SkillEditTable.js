@@ -57,8 +57,8 @@ class SkillEditTable extends Component {
   render() {
     const { type, cancelUpdate, submitUpdate, skill } = this.props;
     return (
-      <div>
-        <table className="table table-hover table-sm">
+      <div className="table-responsive-sm">
+        <table className="table table-sm col-lg-8 table-hover text-center">
           <thead className="thead-dark">
             <tr>
               <th>Skill</th>

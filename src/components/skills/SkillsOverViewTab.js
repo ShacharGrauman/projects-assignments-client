@@ -34,9 +34,6 @@ class SkillsOverViewTab extends Component {
     ];
     const body = [];
     const prevGrade = new Array(header.length - 1).fill(0);
-    /*years.sort((el1, el2) => el1 > el2)
-        prevGrade.fill(0)
-        body.push([years[0], ...prevGrade]);*/
 
     years.forEach(year => {
       skills
@@ -61,49 +58,67 @@ class SkillsOverViewTab extends Component {
   }
 
   render() {
-    const { type, skills, deleteClick, submitNewSkill } = this.props;
+    const {
+      type,
+      skills,
+      deleteClick,
+      submitNewSkill,
+      toggleAddSkill
+    } = this.props;
     return (
-      <div>
-        <div className="row google-chart">
-          <Chart
-            width="inherit"
-            height="300px"
-            chartType="AreaChart"
-            loader={<div>Loading Chart</div>}
-            data={this.proccessData()}
-            options={{
-              title: `Skills Progress`,
-              hAxis: { title: "Year", titleTextStyle: { color: "#333" } },
-              vAxis: { minValue: 0 },
-              // For the legend to fit, we make the chart area smaller
-              chartArea: { width: "50%", height: "70%" }
-              // lineWidth: 25
-            }}
-          />
-        </div>
+      <div
+        className=" tab-pane show active"
+        id={`v-pills-${type}`}
+        role="tabpanel"
+        aria-labelledby={`v-pills-${type}-tab`}
+      >
+        <div className="row">
+          <div className="col-md-6 col-lg-6">
+            <div className="google-chart">
+              <Chart
+                width="inherit"
+                height="300px"
+                chartType="AreaChart"
+                loader={<div>Loading Chart</div>}
+                data={this.proccessData()}
+                options={{
+                  title: `Skills Progress`,
+                  hAxis: { title: "Year", titleTextStyle: { color: "#333" } },
+                  vAxis: { minValue: 0 },
+                  // For the legend to fit, we make the chart area smaller
+                  chartArea: { width: "50%", height: "70%" }
+                  // lineWidth: 25
+                }}
+              />
+            </div>
+          </div>
 
-        {!this.state.editInput ? (
-          <MySkillsTable
-            type={type}
-            skills={skills}
-            deleteClick={deleteClick}
-            updateClick={this.updateSkill}
-            submitNewSkill={submitNewSkill}
-          />
-        ) : (
-          ""
-        )}
-        {this.state.editInput ? (
-          <SkillEditTable
-            type={type}
-            skill={this.state.editInput}
-            submitUpdate={this.submit}
-            cancelUpdate={this.cancelUpdate}
-            inputChanged={this.inputChanged}
-          />
-        ) : (
-          ""
-        )}
+          <div className="col-md-6 col-lg-6">
+            {!this.state.editInput ? (
+              <MySkillsTable
+                type={type}
+                skills={skills}
+                deleteClick={deleteClick}
+                updateClick={this.updateSkill}
+                submitNewSkill={submitNewSkill}
+                newSkill={toggleAddSkill}
+              />
+            ) : (
+              ""
+            )}
+            {this.state.editInput ? (
+              <SkillEditTable
+                type={type}
+                skill={this.state.editInput}
+                submitUpdate={this.submit}
+                cancelUpdate={this.cancelUpdate}
+                inputChanged={this.inputChanged}
+              />
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
       </div>
     );
   }
