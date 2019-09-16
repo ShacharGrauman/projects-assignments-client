@@ -155,6 +155,7 @@ class MyOwnSkills extends Component {
                     deleteClick={this.deleteSkill}
                     submitUpdate={this.submitUpdate}
                     submitNewSkill={this.addSkill}
+                    toggleAddSkill={this.toggleAddSkill}
                   />
                 </div>
               </div>

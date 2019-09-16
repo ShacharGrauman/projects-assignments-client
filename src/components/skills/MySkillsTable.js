@@ -9,7 +9,7 @@ const MySkillsTable = ({
 }) => {
   return (
     <>
-      <div class="table-responsive-sm">
+      <div className="table-responsive-sm">
         <table className="table table-sm col-lg-8 table-hover text-center">
           <thead className="thead-dark">
             <tr>

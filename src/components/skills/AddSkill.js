@@ -161,7 +161,7 @@ class AddSkill extends React.Component {
 
   render() {
     return (
-      <scrollbars>
+      <>
         <div className="input-group mb-3">
           <div className="input-group-prepend">
             <span className="input-group-text" id="basic-addon3">
@@ -237,7 +237,7 @@ class AddSkill extends React.Component {
         >
           Add Skill
         </button>
-      </scrollbars>
+      </>
     );
   }
 }
