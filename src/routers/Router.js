@@ -7,7 +7,7 @@ import Home from '../components/common/Home'
 import PageNotFound from '../components/common/PageNotFound';
 
 import UserProfile from '../components/user-profile/UserProfile'
-import UsersListPage from '../components/users-list/usersListPage'
+import UsersListPage from '../components/users-list/UsersListPage'
 import Audit from '../components/audit/auditPage'
 import Roles from '../components/roles/roles'
 import MyTeamTable from '../components/Assigments/MyTeamTable'
@@ -19,7 +19,7 @@ export default ()=>(
     <div>
         <Navbar />
         <Switch>
-            <Route path="/" component={Home} exact={true}/>
+            <Route path="/" component={Home} exact/>
             <Route path="/users-list/" component={UsersListPage}/>
             <Route path="/user-profile/:id" component={UserProfile}/>
             <Route path="/user-profile/addUser" component={UserProfile}/>
