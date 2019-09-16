@@ -27,7 +27,17 @@ export default class UsersTable extends React.Component{
         //     status : {value : '', validations : {required : true, minLength : 2}},
         //     errors: []
 
-        // }
+        fetch('http://localhost:8080/api/employee', {
+            method: 'GET',
+            headers:{
+             'auth': 'Z3JhdW1hbm96QGdtYWlsLmNvbToxMjM0NTY',
+             'Content-Type':'application/x-www-form-urlencoded'
+            },
+             // mode: 'no-cors'
+        })
+       .then(response => response.json())
+       .then(users =>  this.setState({users}));
+      
     }
 
     showAdvancedSearch(){ 
