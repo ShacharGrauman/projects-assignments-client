@@ -37,5 +37,6 @@
     "react-select": "^3.0.4",
     "react-select-country-list": "^2.0.1"
   },
+  "browserslist":["last 2 Chrome versions"],
   "assetsPath": "assets/"
 }
