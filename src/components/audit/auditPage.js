@@ -52,7 +52,8 @@ export default class Audit extends React.Component {
         .then(response => response.json())
         .then(audits => this.setState({users: audits.map(audit => ({
             employeeNumber: audit.employeeNumber,
-            fullname: `${audit.firstName} ${audit.lastName}`,
+            firstName: `${audit.firstName}`,
+            lastName: `${audit.lastName}`,
             date: audit.dateTime,
             time: audit.dateTime,
             activity: audit.activity
@@ -163,7 +164,7 @@ export default class Audit extends React.Component {
                                 return (
                                     <tr key={user.employeeNumber}>
                                         <td>{user.employeeNumber}</td>
-                                        <td>{user.fullname}</td>
+                                        <td>{user.firstName + ' ' + user.lastName}</td>
                                         <td>{user.date}</td>
                                         <td>{user.time}</td>
                                         <td>{user.activity}</td>
