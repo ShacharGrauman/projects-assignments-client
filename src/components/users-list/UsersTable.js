@@ -138,7 +138,6 @@ export default class UsersTable extends React.Component{
                                 this.props.users.map(user => <UsersTableRow 
                                                     key={user.id}
                                                     user={user}
-            
                                                     />)
                             }  
                         </tbody>
