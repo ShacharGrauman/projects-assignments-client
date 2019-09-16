@@ -9,6 +9,8 @@ import {
 
 import InputErrors from "./InputError";
 
+import SkillColor from './SkillColor';
+
 export default class AddProject extends React.Component {
   constructor() {
     super();
@@ -23,27 +25,17 @@ export default class AddProject extends React.Component {
       skillType: { value: "", errors: [], validations: { required: true } },
       level: { value: "", errors: [], validations: { required: true } },
       skill: { value: "", errors: [], validations: { required: true } }, //chose skill
-      skills: [],
+      skills: { type: '', skills: [] },
       requiredSkills: []
     };
 
-    this.skills = {
-      technicals: [
-        { id: 11, name: "Java" },
-        { id: 22, name: "C#" },
-        { id: 33, name: "HTML" }
-      ],
-      product: [
-        { id: 44, name: "Office" },
-        { id: 55, name: "CRM" },
-        { id: 66, name: "Singing" }
-      ]
-    };
+    this.skills = {};
 
     this.selectSkillType = this.selectSkillType.bind(this);
     this.inputChange = this.inputChange.bind(this);
     this.submit = this.submit.bind(this);
     this.addskill = this.addskill.bind(this);
+    this.removeSkill = this.removeSkill.bind(this);
   }
 
   componentDidMount() {
@@ -51,25 +43,43 @@ export default class AddProject extends React.Component {
     //*student id should be received from the routing system
     //After getting the data from the server:
     //update state!
+    fetch('http://localhost:8080/api/skills/')
+      .then(response => response.json())
+      .then(skills => this.skills = {
+        technicals: skills.technicalSkills.map(skill => ({ id: skill.skillId, name: skill.skillName })),
+        product: skills.productSkills.map(skill => ({ id: skill.skillId, name: skill.skillName })),
+      }
+      );
   }
 
   addskill(e) {
     e.preventDefault();
-   //  let obj = {id: this.state.skills.find(skill => skill.id == this.state.skill.value),level:this.state.level.value};
-    let obj = {skillr: this.state.skills.find(skill => skill.id == this.state.skill.value),level:this.state.level.value};
+    //  let obj = {id: this.state.skills.find(skill => skill.id == this.state.skill.value),level:this.state.level.value};
+    if (!this.state.skill.value) return;
+
+    let obj = {
+      skillr: this.state.skills.skills.find(skill => skill.id == this.state.skill.value),
+      level: this.state.level.value,
+      type: this.state.skills.type
+    };
 
     this.setState({
-        requiredSkills: [...this.state.requiredSkills, obj]
-      },
+      requiredSkills: [...this.state.requiredSkills, obj]
+    },
+
       () => console.log(this.state.requiredSkills)
     );
   }
 
+
+
+
   removeSkill(skillId) {
     this.setState(
+
       {
         requiredSkills: [
-          ...this.state.requiredSkills.filter(skill => skill.id === skillId)
+          ...this.state.requiredSkills.filter(skill => skill.skillr.id != skillId)
         ]
       },
       () => console.log(this.state.requiredSkills)
@@ -78,19 +88,19 @@ export default class AddProject extends React.Component {
 
   selectSkillType() {
     const skillType = this.state.skillType.value;
-    let skills = [];
+    let skills = { type: '', skills: [] };
     if (skillType == 1) {
-      skills = this.skills.technicals;
+      skills = { type: 't', skills: this.skills.technicals };
     } else if (skillType == 2) {
-      skills = this.skills.product;
+      skills = { type: 'p', skills: this.skills.product };
     }
 
-    this.setState({ skills: [...skills] });
+    this.setState({ skills });
   }
 
-  
 
-  
+
+
 
   inputChange({ target: { name, value } }) {
     const { validations } = this.state[name];
@@ -123,34 +133,19 @@ export default class AddProject extends React.Component {
 
   submit(e) {
     e.preventDefault();
-
-    //1- validate each field
-    //2- show errors if any validations failed
-    //3- if everything's OK, than send the data to...
-
-    //  for (const key in this.state) {
-    //    this.inputChange({ target: { value: this.state[key].value, name: key } });
-    // }
-
-    //How can I know if every field is valid?
-
-    //Send the data outside...
-
-    /* const finalResult = Object.keys(this.state).reduce((obj, key) => {
-            obj[key] = this.state[key].value;
-            return obj;
-        }, {});
-
-        //finalResult should be sent outside
-
-        console.log(finalResult);*/
-
+    let index = 0;
     const values = {
       projectName: this.state.projectname.value,
+      managerID: 1,
       description: this.state.description.value,
-      date: this.state.date.value,
-      skillss: this.state.requiredSkills
-    };
+      startDate: this.state.date.value,
+      skills:
+        this.state.requiredSkills.map((el) => ({
+          id: el.skillr.id, 
+          level: el.level 
+        })
+      )
+    }
 
     console.log(values);
   }
@@ -158,7 +153,7 @@ export default class AddProject extends React.Component {
   render() {
     return (
       <>
-        <div className="alert alert-info col-10 " style={{marginLeft:"100px"}} role="alert">
+        <div className="alert alert-info col-10 " style={{ marginLeft: "100px" }} role="alert">
           <h4 className="alert-heading text-center  ">
             Add Project
           </h4>
@@ -239,7 +234,7 @@ export default class AddProject extends React.Component {
                 <InputErrors errors={this.state.date.errors} />
               </div>
             </div>
-{/* 2 rowwwwwwwwwwwwwwwwwwwwwwwwww*/}
+            {/* 2 rowwwwwwwwwwwwwwwwwwwwwwwwww*/}
 
             <div className="row  ">
 
@@ -274,7 +269,7 @@ export default class AddProject extends React.Component {
                     onBlur={this.inputChange}
                   >
                     <option value="">Select</option>
-                    {this.state.skills.map(skill => (
+                    {this.state.skills.skills.map(skill => (
                       <option value={skill.id}>{skill.name}</option>
                     ))}
                   </select>
@@ -284,7 +279,7 @@ export default class AddProject extends React.Component {
 
 
 
-                   <div className="col-md-3 col-lg-3 col-sm-3 ">
+              <div className="col-md-3 col-lg-3 col-sm-3 ">
                 <div className="form-group">
                   <label htmlFor="skilltype">Level</label>
                   <select
@@ -293,7 +288,7 @@ export default class AddProject extends React.Component {
                     name="level"
                     defaultValue={this.state.level.value}
                     onBlur={this.inputChange}
-                    onClick={this.selectSkillType}
+                    onSelect={this.selectSkillType}
                   >
                     <option value="">Select</option>
                     <option value="1">1</option>
@@ -301,7 +296,7 @@ export default class AddProject extends React.Component {
                     <option value="3">3</option>
                     <option value="3">4</option>
                     <option value="3">5</option>
-                    
+
                   </select>
                 </div>
                 <InputErrors errors={this.state.level.errors} />
@@ -329,29 +324,28 @@ export default class AddProject extends React.Component {
                   </thead>
                   <tbody >
                     <div className="d-flex flex-wrap">
-                    {this.state.requiredSkills.length ? (
-                      this.state.requiredSkills.map(el => (
-                        <tr>
-                          <div
-                            className="alert alert-success alert-dismissible fade show"
-                            role="alert"
-                          >
-                            <strong>{el.skillr.name}: {el.level}</strong>
-                            <button
-                              type="button"
-                              className="close"
-                              data-dismiss="alert"
-                              aria-label="Close"
-                              onClick={e => this.removeSkill(el.id)}
-                            >
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>Not yet selected</tr>
-                    )}
+                      {this.state.requiredSkills.length ? (
+                        this.state.requiredSkills.map((el, index) => {
+
+
+                          return (<SkillColor
+
+                            key={index}
+                            id={el.skillr.id}
+                            name={el.skillr.name}
+                            level={el.level}
+                            type={el.type}
+                            removeSkill={this.removeSkill}
+                          />
+                          );
+                        }
+                        )
+                      )
+                        : <tr>Not yet selected</tr>
+
+                      }
+
+
                     </div>
                   </tbody>
                 </table>
@@ -360,7 +354,7 @@ export default class AddProject extends React.Component {
 
             <div>
               <div className="col-md-12">
-                <button type="submit" className="btn btn-info btn-block">
+                <button type="submit" className="btn btn-info btn-block" onClick={this.submit}>
                   Submit
                 </button>
               </div>
