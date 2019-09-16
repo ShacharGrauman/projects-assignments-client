@@ -9,7 +9,7 @@ export default class MyTeamTable extends React.Component {
     super();
     this.state = {
       employees: [],
-      project:[]
+      project: []
     };
 
     this.assign = this.assign.bind(this);
@@ -18,18 +18,17 @@ export default class MyTeamTable extends React.Component {
   componentDidMount() {
     //Ya'ani call to the server for data
     //should be manager ID form Login
-    fetch(
-      `http://localhost:8080/api/myteam?managerID=2&pageNumber=1&limit=5`
-    )
+    fetch(`http://localhost:8080/api/myteam?managerID=2&pageNumber=1&limit=5`)
       .then(response => response.json())
       .then(Employees => {
         this.setState({
           employees: Employees
         });
       });
-    this.setState({project:JSON.parse(sessionStorage.getItem('Project'))}, ()=> console.log(this.state.project));
-   
-    
+    this.setState(
+      { project: JSON.parse(sessionStorage.getItem("Project")) },
+      () => console.log(this.state.project)
+    );
   }
 
   assign(empId) {
@@ -46,13 +45,15 @@ export default class MyTeamTable extends React.Component {
             <div className="card">
               <div className="card-header">Employees For Team Leader </div>
               <div className="card-body">
-                <h4 className="card-title">Project : {this.state.project.name}</h4>
-               
+                <h4 className="card-title">
+                  Project : {this.state.project.name}
+                </h4>
+
                 <p className="card-text">ID : {this.state.project.id}</p>
 
-                
-                  <Link to="/Projects" className="btn btn-outline-info">Back</Link>
-                
+                <Link to="/Projects" className="btn btn-outline-info">
+                  Back
+                </Link>
               </div>
             </div>
           </div>
@@ -125,7 +126,7 @@ export default class MyTeamTable extends React.Component {
                     })}
                   </td>
                   <td>
-                  <button
+                    <button
                       type="button"
                       className="btn btn-primary"
                       data-toggle="modal"
@@ -133,8 +134,7 @@ export default class MyTeamTable extends React.Component {
                     >
                       Assign
                     </button>
-                    
-                    
+
                     <div
                       className="modal fade"
                       id="exampleModal"
