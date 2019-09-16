@@ -1,6 +1,7 @@
 import React from 'react';
 import InputErrors from '../shared-components/InputErrors'
-import {Link} from 'react-router-dom';
+import {Link, BrowserRouter} from 'react-router-dom';
+
 
 export class login extends React.Component {
   
@@ -60,11 +61,9 @@ export class login extends React.Component {
     // Test each field of the form for errors
         Object.keys(this.state).forEach(name=>{
             const {[name]:input}=this.state
-            if (this.handleRequiredValidation(name,input.value)){
+            if (this.handleRequiredValidation(name,input.value)||
+            this.handlePatternValidation(name,input.value,input.validations.pattern)){
                errors=true
-            }
-            if(this.handlePatternValidation(name,input.value,input.validations.pattern)){
-                errors=true
             }
         })
 
@@ -79,16 +78,26 @@ export class login extends React.Component {
                     password:this.state.password.value
                 })
             })
-           .then(credentials =>  console.log(credentials));
+           .then(res=>{
+               if(res.ok)
+            this.props.history.push('/')
+            else{
+                console.log('Error Logging in')
+            }
+           })
+           .catch(err=>console.error(err));
         }
-        
-
-        
     }
 
+        
+
+       
 render(){
     return(
-        <div style={{minHeight:"82vh"}} className="d-flex flex-lg-row-reverse align-items-lg-center flex-column" > 
+        <div 
+        style={{minHeight:"82vh"}} 
+        className="d-flex flex-lg-row-reverse align-items-lg-center flex-column"
+         > 
             <div className="flex-grow-1">
                 <h3 className="text-center my-3" style={{ fontFamily:"Sans-Serif", letterSpacing:"2px"}}>
                     {/* <img style={{width:'72px', position:'relative', right:'-15px', bottom:"38px"}} src="g5185.png"></img> */}
@@ -147,7 +156,7 @@ render(){
                     aria-label="password"></input>
                 </div>
                 <InputErrors errors = {this.state.password.errors}/>
-                <a className="nav-link text-left p-0 mb-3 mt-2" style={{"color":"teal"}}><small className="m-0">Forgot Your Password?</small></a>
+                <a className="nav-link text-left p-0 mb-3 mt-2" style={{"color":"teal", cursor:'pointer'}}><small className="m-0">Forgot Your Password?</small></a>
             </div>
 
 
