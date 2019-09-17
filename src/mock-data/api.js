@@ -1,4 +1,3 @@
-import { async } from "q";
 
 // const users=await fetch('./Data,js')
 //                 .then(res=>res.json());
@@ -6,7 +5,7 @@ import { async } from "q";
 
 
 export const api = {
-    getMyTeam(){
+    getMyTeam: function(){
         return[
         {
             "id":"203456789",
@@ -168,13 +167,31 @@ export const api = {
     //     ])
     // }
     ,
-    getUsersList : () => {
-        return fetch('http://localhost:8080/api/employee')
+    getUsersList: async function() {
+        const users = await fetch('http://localhost:8080/api/employee')
             .then(response => response.json());
+
+        return users;
     },
 
     getCount: (prop) => {
         return fetch(`http://localhost:8080/api/employee/${prop}`)
+
             .then(res => res.json());
+    },
+
+    validateLogin: (username, password)=>{
+        return fetch('http://localhost:8080/api/login', {
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify({
+                username,
+                password
+            }),
+            
+        })
+       
     }
 }

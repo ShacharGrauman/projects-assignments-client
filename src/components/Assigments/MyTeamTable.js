@@ -1,6 +1,6 @@
 import React from "react";
 
- import { api } from "../../mock-data/api"
+// import { getEmployeeForAssignments } from "./api";
 import { Link } from "react-router-dom";
 import SkillBadge from "./SkillBadge";
 
@@ -8,15 +8,27 @@ export default class MyTeamTable extends React.Component {
   constructor() {
     super();
     this.state = {
-      employees: []
-    }
+      employees: [],
+      project: []
+    };
+
     this.assign = this.assign.bind(this);
   }
 
   componentDidMount() {
     //Ya'ani call to the server for data
-    const employees = api.getMyTeam();
-    this.setState({ employees });
+    //should be manager ID form Login
+    fetch(`http://localhost:8080/api/myteam?managerID=2&pageNumber=1&limit=5`)
+      .then(response => response.json())
+      .then(Employees => {
+        this.setState({
+          employees: Employees
+        });
+      });
+    this.setState(
+      { project: JSON.parse(sessionStorage.getItem("Project")) },
+      () => console.log(this.state.project)
+    );
   }
 
   assign(empId) {
@@ -31,15 +43,17 @@ export default class MyTeamTable extends React.Component {
 
           <div className="col md-6">
             <div className="card">
-              <div className="card-header">Project : Vodafone</div>
+              <div className="card-header">Employees For Team Leader </div>
               <div className="card-body">
-                <h5 className="card-title">Raneem Daher</h5>
-                <p className="card-text">Project : VodaPhone</p>
-                <p className="card-text">ID : "12332"</p>
+                <h4 className="card-title">
+                  Project : {this.state.project.name}
+                </h4>
 
-                <button className="btn btn-outline-info">
-                  <Link to="/Projects">Back</Link>
-                </button>
+                <p className="card-text">ID : {this.state.project.id}</p>
+
+                <Link to="/Projects" className="btn btn-outline-info">
+                  Back
+                </Link>
               </div>
             </div>
           </div>
@@ -92,7 +106,7 @@ export default class MyTeamTable extends React.Component {
                       return (
                         <SkillBadge
                           key={index}
-                          name={skill.name}
+                          name={skill.skillName}
                           level={skill.level}
                           type={"Tech"}
                         />
@@ -104,7 +118,7 @@ export default class MyTeamTable extends React.Component {
                       return (
                         <SkillBadge
                           key={index}
-                          name={skill.name}
+                          name={skill.skillName}
                           level={skill.level}
                           type={"Prod"}
                         />
