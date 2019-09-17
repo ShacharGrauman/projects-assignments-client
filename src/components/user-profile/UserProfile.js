@@ -6,6 +6,8 @@ import UserProfileFooter from './UserProfileFooter';
 import {USERS} from '../../mock-data/mock-data'
 
 import {DataProvider} from '../common/Provider/DataProvider'
+import {DataContext} from '../common/Provider/DataProvider'
+
 
 
 export default class UserProfile extends React.Component{
@@ -101,7 +103,7 @@ export default class UserProfile extends React.Component{
                     <UserProfileDetails editMode={!this.state.profileMode.edit} 
                                         details={this.state.userData.details}/>
 
-                    <UserProfileRoles editMode={!this.state.profileMode.edit}
+                    <UserProfileRoles   editMode={!this.state.profileMode.edit}
                                         userRoles={this.state.userData.roles}/>
 </DataProvider>
                     <UserProfileFooter editMode={!this.state.profileMode.edit}

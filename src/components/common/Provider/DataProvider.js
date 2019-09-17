@@ -12,13 +12,15 @@ export class DataProvider extends Component {
             countries:[]
         }
     }
-    componentDidMount(){
-        api.getAllData().then(res=>this.setState({
-            departments:res.departments,
-            worksites:res.worksites,
-            roles:res.roles,
-            countries:res.countries
-        }))
+
+    async componentDidMount(){
+        const result = await api.getAllData()
+        await this.setState({
+            departments:result.departments,
+            worksites:result.worksites,
+            roles:result.roles,
+            countries:result.countries
+        })
     }
     
     render() {
