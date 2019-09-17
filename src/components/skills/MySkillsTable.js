@@ -1,12 +1,6 @@
 import React, { Component } from "react";
 
-const MySkillsTable = ({
-  type,
-  updateClick,
-  deleteClick,
-  skills,
-  newSkill
-}) => {
+const MySkillsTable = ({ type, updateClick, deleteClick, skills }) => {
   return (
     <>
       <div className="table-responsive-sm">
@@ -29,7 +23,7 @@ const MySkillsTable = ({
                 <td>{skill.level}</td>
                 <td>{skill.status}</td>
                 <td>{skill.comment}</td>
-                {skill.status !== "APPROVED" || skill.status !== "REJECTED" ? (
+                {skill.status === "PENDING" ? (
                   <td>
                     <button
                       className="btn btn-danger btn-sm"
@@ -63,9 +57,6 @@ const MySkillsTable = ({
           </tbody>
         </table>
       </div>
-      <button className="btn btn-primary btn-sm" onClick={newSkill}>
-        New Skill
-      </button>
     </>
   );
 };

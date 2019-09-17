@@ -5,6 +5,10 @@ const USERNAME = "someUser";
 const API_URL = `http://localhost:8080/api/`;
 
 class SkillsDataService {
+  getAllSkills() {
+    return axios.get(`${API_URL}/skills`);
+  }
+
   retrieveProductSkillsById(id) {
     return axios.get(`${API_URL}/skills/employeeskills/${id}/PRODUCT`);
     /*if (response.status === 200) {
@@ -29,11 +33,11 @@ class SkillsDataService {
   }
 
   retrieveProductSkillsHistoryById(id) {
-    //return axios.get(`${API_URL}/Skills`);
+    return axios.get(`${API_URL}/skills/approvedskillshistory/${id}/PRODUCT`);
   }
 
   retrieveTechnicalSkillsHistoryById(id) {
-    //return axios.get(`${API_URL}/Skills`);
+    return axios.get(`${API_URL}/skills/approvedskillshistory/${id}/TECHNICAL`);
   }
 
   retrieveRequestedTechnicalSkillsConfirmation(managerId) {
@@ -67,7 +71,7 @@ class SkillsDataService {
     //return axios.get(`${USERNAME_API_URL}/Skills`);
   }
 
-  addNewSkill(employeeId, skillName, level, date, skillType) {
+  addNewSkill(employeeId, skillId, skillName, level, date, skillType) {
     /*const response = await axios.post(`${API_URL}/skills/`, {
       employeeId,
       skillName,
@@ -80,11 +84,12 @@ class SkillsDataService {
     }*/
 
     return axios.post(`${API_URL}/skills/`, {
+      skillId,
       employeeId,
       skillName,
-      level,
-      date,
-      skillType
+      level
+      // date,
+      //skillType
     });
   }
 

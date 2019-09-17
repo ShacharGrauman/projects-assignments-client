@@ -6,6 +6,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import AddSkill from "./AddSkill";
 import { SnackBar, showSnackBar } from "../shared-components/SnackBar";
 
+const skills = "skills";
 const productSkills = "productSkills";
 const technicalSkills = "technicalSkills";
 
@@ -13,10 +14,13 @@ class MyOwnSkills extends Component {
   constructor() {
     super();
     this.state = {
+      id: null,
       currentTab: technicalSkills,
       [productSkills]: [],
+      [skills]: [],
       [technicalSkills]: []
     };
+    this.refetch = this.refetch.bind(this);
     this.submitUpdate = this.submitUpdate.bind(this);
     this.deleteSkill = this.deleteSkill.bind(this);
     this.addSkill = this.addSkill.bind(this);
@@ -25,14 +29,19 @@ class MyOwnSkills extends Component {
   }
 
   componentDidMount() {
+    const { id } = this.props.match.params;
+
     Promise.all([
-      DataService.retrieveTechnicalSkillsById(3),
-      DataService.retrieveProductSkillsById(3)
+      DataService.retrieveTechnicalSkillsById(id),
+      DataService.retrieveProductSkillsById(id),
+      DataService.getAllSkills()
     ])
-      .then(([technicalData, productData]) => {
+      .then(([technicalData, productData, skillsData]) => {
         this.setState({
+          id,
           technicalSkills: technicalData.data,
-          productSkills: productData.data
+          productSkills: productData.data,
+          skills: skillsData.data
         });
       })
       .catch(error => {
@@ -48,22 +57,19 @@ class MyOwnSkills extends Component {
       .catch(error => {
         showSnackBar(error.message);
       })
-      .finally(() => {
-        if (type === productSkills) {
-          DataService.retrieveProductSkillsById(3).then(resp => {
-            this.setState({ [type]: resp.data });
-          });
-        } else if (type === technicalSkills) {
-          DataService.retrieveTechnicalSkillsById(3).then(resp => {
-            this.setState({ [type]: resp.data });
-          });
-        }
-      });
+      .finally(() => this.refetch());
   }
 
-  addSkill(skillName, date, level, type) {
-    console.log(skillName, date, level, type);
-    DataService.addNewSkill(3, skillName, date, level, type)
+  addSkill(skillId, skillName, level, date, type) {
+    console.log(this.state.id, skillId, skillName, level);
+    DataService.addNewSkill(
+      this.state.id,
+      skillId,
+      skillName,
+      level,
+      date,
+      type
+    )
       .then(resp => {
         if (resp.data) {
           showSnackBar("Skill addition was successful");
@@ -71,14 +77,20 @@ class MyOwnSkills extends Component {
       })
       .catch(error => {
         showSnackBar(error.message);
-      });
+      })
+      .finally(() => this.refetch());
   }
 
   toggleAddSkill() {
     confirmAlert({
       title: "Add Skill",
       customUI: ({ onClose }) => (
-        <AddSkill submitNewSkill={this.addSkill} close={onClose} />
+        <AddSkill
+          submitNewSkill={this.addSkill}
+          close={onClose}
+          product={this.state.skills.productSkills}
+          technical={this.state.skills.technicalSkills}
+        />
       ),
       closeOnEscape: true,
       closeOnClickOutside: true
@@ -93,22 +105,28 @@ class MyOwnSkills extends Component {
     DataService.updateSkillByIdSkill(id, grade)
       .then(resp => {
         if (resp.status === 200) {
-          showSnackBar(`Skill with name ${resp.data.skillName}`, 3000);
+          showSnackBar(`Skill Updated`, 3000);
         }
       })
       .catch(error => {
         showSnackBar(error.message, 3000);
       })
-      .finally(() => {
-        if (type === productSkills) {
-          DataService.retrieveProductSkillsById("3").then(resp => {
-            this.setState({ [type]: resp.data });
-          });
-        } else if (type === technicalSkills) {
-          DataService.retrieveTechnicalSkillsById("3").then(resp => {
-            this.setState({ [type]: resp.data });
-          });
-        }
+      .finally(() => this.refetch());
+  }
+
+  refetch() {
+    Promise.all([
+      DataService.retrieveTechnicalSkillsById(this.state.id),
+      DataService.retrieveProductSkillsById(this.state.id)
+    ])
+      .then(([technicalData, productData]) => {
+        this.setState({
+          technicalSkills: technicalData.data,
+          productSkills: productData.data
+        });
+      })
+      .catch(error => {
+        showSnackBar(error.message);
       });
   }
 
@@ -146,6 +164,8 @@ class MyOwnSkills extends Component {
                       Product Skills confirmations
                     </a>
                   </li>
+
+                  <li className="nav-item"></li>
                 </ul>
 
                 <div className="tab-content ml-1" id="myTabContent">
@@ -155,8 +175,15 @@ class MyOwnSkills extends Component {
                     deleteClick={this.deleteSkill}
                     submitUpdate={this.submitUpdate}
                     submitNewSkill={this.addSkill}
-                    toggleAddSkill={this.toggleAddSkill}
                   />
+                </div>
+                <div className="float-right float-top">
+                  <button
+                    className="btn btn-primary btn-sm"
+                    onClick={this.toggleAddSkill}
+                  >
+                    Add New Skill
+                  </button>
                 </div>
               </div>
             </div>

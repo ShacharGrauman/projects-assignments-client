@@ -58,13 +58,7 @@ class SkillsOverViewTab extends Component {
   }
 
   render() {
-    const {
-      type,
-      skills,
-      deleteClick,
-      submitNewSkill,
-      toggleAddSkill
-    } = this.props;
+    const { type, skills, deleteClick, submitNewSkill } = this.props;
     return (
       <div
         className=" tab-pane show active"
@@ -73,7 +67,7 @@ class SkillsOverViewTab extends Component {
         aria-labelledby={`v-pills-${type}-tab`}
       >
         <div className="row">
-          <div className="col-md-6 col-lg-6">
+          <div className=" col-lg-6">
             <div className="google-chart">
               <Chart
                 width="inherit"
@@ -93,7 +87,7 @@ class SkillsOverViewTab extends Component {
             </div>
           </div>
 
-          <div className="col-md-6 col-lg-6">
+          <div className=" col-lg-6">
             {!this.state.editInput ? (
               <MySkillsTable
                 type={type}
@@ -101,7 +95,6 @@ class SkillsOverViewTab extends Component {
                 deleteClick={deleteClick}
                 updateClick={this.updateSkill}
                 submitNewSkill={submitNewSkill}
-                newSkill={toggleAddSkill}
               />
             ) : (
               ""
