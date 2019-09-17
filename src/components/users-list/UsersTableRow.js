@@ -13,9 +13,9 @@ export default class UsersTableRow extends React.Component{
             <tr>
                 <td><Link to={`/user-profile/${this.props.user.id}`}>{this.props.user.number}</Link></td>
                 <td>{this.props.user.firstName.concat(' ', this.props.user.lastName)}</td>
-                <td>{this.props.user.roles}</td>
+                <td>{toString(this.props.roles)}</td>
                 <td>{this.props.user.department}</td>
-                <td>{this.props.user.workSite}</td>
+                <td>{this.props.user.worksite.name}</td>
             </tr>
         );
     }
