@@ -7,7 +7,8 @@ class SkillsOverViewTab extends Component {
   constructor() {
     super();
     this.state = {
-      editInput: null
+      editInput: null,
+      data: []
     };
     this.updateSkill = this.updateSkill.bind(this);
     this.cancelUpdate = this.cancelUpdate.bind(this);
@@ -26,7 +27,23 @@ class SkillsOverViewTab extends Component {
   }
 
   proccessData() {
-    const { skills } = this.props;
+    const { skillsHistory } = this.props;
+    const skills = [];
+
+    skillsHistory.forEach(skill => {
+      skills.push(
+        ...skill.updates.map(update => {
+          return {
+            skillName: skill.name,
+            date: update.date,
+            level: update.level
+          };
+        })
+      );
+    });
+    if (skills.length === 0) {
+      return ["Year", "Skill", [new Date().getFullYear()]];
+    }
     const skillNames = [...new Set(skills.map(skill => skill.skillName))];
     const header = ["Year", ...skillNames];
     const years = [
@@ -74,7 +91,7 @@ class SkillsOverViewTab extends Component {
                 height="300px"
                 chartType="AreaChart"
                 loader={<div>Loading Chart</div>}
-                data={this.proccessData()}
+                data={this.props.data}
                 options={{
                   title: `Skills Progress`,
                   hAxis: { title: "Year", titleTextStyle: { color: "#333" } },
