@@ -3,6 +3,8 @@ import React from "react";
 // import { EmpListProject1, EmpListProject2 } from "../data/Emp";
 import { Button, Badge } from "react-bootstrap";
 import { Route, Link, BrowserRouter as Router } from "react-router-dom";
+import SkillBadge from "./SkillBadge";
+import InputErrors from "./InputError";
 
 export default class AssignHistory extends React.Component {
   constructor() {
@@ -10,15 +12,21 @@ export default class AssignHistory extends React.Component {
     this.state = {
       // isLoading: true,
       projectsData: [],
-      EmployeesByProjectByID: []
+      EmployeesByProjectByID: [],
+      searchBar: {
+        value: "",
+        errors: [],
+        validations: { required: true, minLength: 1 }
+      }
     };
     this.setProjectInSession = this.setProjectInSession.bind(this);
     this.getEmpForProject = this.getEmpForProject.bind(this);
+    this.getSearchData = this.getSearchData.bind(this);
+    this.inputChange = this.inputChange.bind(this);
+
     // this.setEmployeeInSession = this.setEmployeeInSession.bind(this);
   }
   componentDidMount() {
-  
-
     fetch("http://localhost:8080/api/projects/1")
       .then(response => response.json())
       .then(Projects => {
@@ -27,6 +35,30 @@ export default class AssignHistory extends React.Component {
         });
       });
   }
+
+  getSearchData() {
+    console.log(this.state.searchBar.errors);
+    if (this.state.searchBar.errors != null) {
+      fetch(
+        `http://localhost:8080/api/projects?projectName=${this.state.searchBar.value}&pageNumber=1&limit=5`
+      )
+        .then(response => response.json())
+        .then(Projects => {
+          this.setState({
+            projectsData: Projects
+          });
+        });
+    } else if (this.state.searchBar.value == null) {
+      fetch(`http://localhost:8080/api/projects/1`)
+        .then(response => response.json())
+        .then(Projects => {
+          this.setState({
+            projectsData: Projects
+          });
+        });
+    }
+  }
+
   getEmpForProject(ProjectID) {
     fetch(
       `http://localhost:8080/api/myteam/getbyprojectid?projectid=${ProjectID}`
@@ -42,6 +74,32 @@ export default class AssignHistory extends React.Component {
     sessionStorage.clear();
     sessionStorage.setItem("Project", JSON.stringify(project));
   }
+  inputChange(e) {
+    const { validations } = this.state[e.target.name];
+    const errors = [];
+
+    if (validations.required) {
+      if (!e.target.value) {
+        errors.push(`${e.target.name} is required`);
+      }
+    }
+
+    if (validations.minLength) {
+      if (e.target.value.length < validations.minLength) {
+        errors.push(
+          `${e.target.name} should be at least ${validations.minLength} characters`
+        );
+      }
+    }
+
+    this.setState({
+      [e.target.name]: {
+        ...this.state[e.target.name],
+        value: e.target.value,
+        errors
+      }
+    });
+  }
 
   render() {
     return (
@@ -51,21 +109,30 @@ export default class AssignHistory extends React.Component {
           <div className="d-flex justify-content-center align-items-center mb-2">
             <input
               className="form-control mr-sm-2 w-25 "
-              type="search"
+              type="Text"
+              name="searchBar"
               placeholder="Search"
               aria-label="Search"
+              defaultValue={this.state.searchBar.value}
+              onBlur={this.inputChange}
             ></input>
+
             <button
               className="btn btn-outline-success my-2 my-sm-0"
-              type="submit"
+              type="button"
+              onClick={this.getSearchData}
             >
               Search
             </button>
           </div>
+          <div className="d-flex justify-content-center align-items-center mb-2">
+            {" "}
+            <InputErrors errors={this.state.searchBar.errors} />
+          </div>
           <div className="accordion" id="accordionExample">
             {this.state.projectsData.map(project => {
               return (
-                <div className="card">
+                <div className="card" style={{overflow:"visible"}}>
                   <div className="card-header" id="headingOne">
                     <div className="row">
                       <div className="col">
@@ -108,28 +175,20 @@ export default class AssignHistory extends React.Component {
                     aria-labelledby="headingOne"
                     data-parent="#accordionExample"
                   >
-                    <div className="card-body">
-                      <div className="row">
+                    <div className="card-body" >
+                      <div className="row" >
                         <div className="col">
                           <h6 style={{ fontWeight: "bold" }}>
                             Required Technical Skills{" "}
                           </h6>
                           {project.technicalSkill.map((skill, index) => {
                             return (
-                              <span
-                                className="badge badge-info mr-1"
+                              <SkillBadge
                                 key={index}
-                              >
-                                {skill.name}{" "}
-                                <span
-                                  className="badge badge-light"
-                                  style={{
-                                    fontSize: skill.level > 3 ? "1em" : ""
-                                  }}
-                                >
-                                  {skill.level}
-                                </span>
-                              </span>
+                                name={skill.name}
+                                level={skill.level}
+                                type={"Tech"}
+                              />
                             );
                           })}
                         </div>
@@ -139,20 +198,12 @@ export default class AssignHistory extends React.Component {
                           </h6>
                           {project.productSkill.map((skill, index) => {
                             return (
-                              <span
-                                className="badge badge-secondary mr-1"
+                              <SkillBadge
                                 key={index}
-                              >
-                                {skill.name}{" "}
-                                <span
-                                  className="badge badge-light"
-                                  style={{
-                                    fontSize: skill.level > 3 ? "1em" : ""
-                                  }}
-                                >
-                                  {skill.level}
-                                </span>
-                              </span>
+                                name={skill.name}
+                                level={skill.level}
+                                type={"Prod"}
+                              />
                             );
                           })}
                         </div>
@@ -165,22 +216,37 @@ export default class AssignHistory extends React.Component {
                           {project.description}
                         </div>
                       </div>
-                      <div className="row">
-                        <div className="col-12">
+                      <div className="row" >
+                        <div className="col-12" >
                           <h6 style={{ fontWeight: "bold" }}> Employess </h6>
-                          {this.state.EmployeesByProjectByID.map(Emp => {
-                            return (
-                              <>
-                                <Link
-                                  to={`assign-history/${Emp.id}/${Emp.name}`}
-                                  className="btn btn-outline-secondary"
-                                  style={{ marginLeft: "5px" }}
-                                >
-                                  {Emp.name}
-                                </Link>
-                              </>
-                            );
-                          })}
+
+                          <div className="input-group-prepend" >
+                            <button
+                              className="btn btn-outline-secondary dropdown-toggle"
+                              type="button"
+                              data-toggle="dropdown"
+                              aria-haspopup="true"
+                              aria-expanded="false"
+                            >
+                              Employees
+                            </button>
+                            <div className="dropdown-menu w-20" style={{height:"150px",overflow:"scroll"}}>
+                              {this.state.EmployeesByProjectByID.map(Emp => {
+                                return (
+                                  <>
+                                    <Link
+                                      to={`assign-history/${Emp.id}/${Emp.name}`}
+                                      className="dropdown-item"
+                                      
+                                    >
+                                      {Emp.name}
+                                    </Link>
+                                    <div role="separator" className="dropdown-divider"></div>
+                                  </>
+                                );
+                              })}
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
