@@ -17,18 +17,19 @@ const AdvancedSearchOptionsStyle = {
 export default class UsersTable extends React.Component{
     constructor(){
         super();
-        // this.state ={
-        //     users : [],
-        //     id : {value : 0, validations : {required : true, pattern : /^\d+$/}},
-        //     employeeNumber : {value : '', validations : {required : true, minLength : 1, pattern : /^\d+$/}},
-        //     firstName : {value : '', validations : {required : true, minLength : 2, pattern : /\d/gi}},
-        //     lastName : {value : '', validations : {required : true, minLength : 2, pattern : /\d/gi}},
-        //     roles : {value : '', validations : {required : true, minLength : 2}},
-        //     department : {value : '', validations : {required : true, minLength : 2}},
-        //     workSite : {value : '', validations : {required : true, minLength : 2, pattern : /\d/gi}},
-        //     status : {value : '', validations : {required : true, minLength : 2}},
-        //     errors: []   
-        this.searchHandler = this.searchHandler.bind(this);   
+        this.state ={
+            users : [],
+            id : {value : 0, validations : {required : true, pattern : /^\d+$/}},
+            employeeNumber : {value : '', validations : {required : true, minLength : 1, pattern : /^\d+$/}},
+            firstName : {value : '', validations : {required : true, minLength : 2, pattern : /\d/gi}},
+            lastName : {value : '', validations : {required : true, minLength : 2, pattern : /\d/gi}},
+            roles : {value : '', validations : {required : true, minLength : 2}},
+            department : {value : '', validations : {required : true, minLength : 2}},
+            workSite : {value : '', validations : {required : true, minLength : 2, pattern : /\d/gi}},
+            status : {value : '', validations : {required : true, minLength : 2}},
+            errors: []
+        }
+        this.searchHandler = this.searchHandler.bind(this)   
     }
 
     async componentDidMount(){
@@ -65,8 +66,14 @@ export default class UsersTable extends React.Component{
                 <div className="col-9 m-auto">
                     <form onSubmit={this.searchHandler}>
                         <div className="form-row input-group lg-10 m-auto">
-                            <input type="number" ref="id" className="form-control" placeholder="Search by ID" aria-label="Search by ID" aria-describedby="button-addon2" />
-                            <input type="text" ref="fullName" className="form-control" placeholder="Search by Name" aria-label="Search by Name" aria-describedby="button-addon2" />
+                            <input type="text" ref="id" className="form-control" 
+                                    placeholder="Search by ID" aria-label="Search by Emp. Number" aria-describedby="button-addon2" 
+                                    id="userID"
+                                    />
+                            <input type="text" ref="fullName" className="form-control" 
+                                    placeholder="Search by Name" aria-label="Search by Name" aria-describedby="button-addon2" 
+                                    id="userName"
+                                    />
                             <div className="input-group-append">
                                 <button className="btn btn-outline-success" type="submit" id="button-addon2">Search</button>
                             </div>
@@ -137,16 +144,33 @@ export default class UsersTable extends React.Component{
                         <tbody>
                             {/* A Component for dynamically filling the table*/}
                             {
-                                this.props.users.map(user => <UsersTableRow 
-                                                    key={user["employee"].id}
-                                                    user={user["employee"]}
-                                                    roles={user["roles"]}
-                                                    />)
+                                this.props.users.map(user =>  
+                                    <UsersTableRow 
+                                        key={user["employee"].id}
+                                        user={user["employee"]}
+                                        roles={user["roles"]}
+                                    />
+                                )
                             }  
                         </tbody>
                     </table>
                 </div>
             
+                <nav aria-label="..." className="d-flex justify-content-center">
+                    <ul class="pagination">
+                        <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item active" aria-current="page">
+                        <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         );
     }

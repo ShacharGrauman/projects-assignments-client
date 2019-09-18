@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 export default class UserProfileFooter extends React.Component{
     render(){
@@ -11,13 +12,26 @@ export default class UserProfileFooter extends React.Component{
                     :
                     <>
                         <div className=" ">
-                            {this.props.view && <button className="ml-2 btn btn-warning">Options</button>}
+                            {!this.props.addUserForm && 
+                            
+
+                            <div className="btn-group dropup" style={{cursor:'pointer'}}>
+                                <button type="button" className="btn btn-secondary dropdown-toggle ml-2 btn btn-warning" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Options
+                                </button>
+                                <div className="dropdown-menu">
+                                    <h6 className="dropdown-item" to="/">Deactivate User</h6>
+                                    <h6 className="dropdown-item" to="/">Direct Message</h6>
+                                    <h6 className="dropdown-item" to="/">Reset Password</h6>
+                                </div>
+                            </div>
+                            }
                         </div>
 
-                        <button className='ml-auto btn btn-danger mr-2'>Cancel</button>
-                        {this.props.view && <button className="btn btn-secondary mr-2" onClick={this.props.toggleLockUser}>Lock User</button>}
+                        <button className='ml-auto btn btn-danger mr-2'><Link to="/users-list" style={{color:'white', textDecoration:'none'}}>Cancel</Link></button>
+                        {!this.props.addUserForm && <button className="btn btn-secondary mr-2" onClick={this.props.toggleLockUser}>Lock User</button>}
                         <div className="mr-2">
-                            {this.props.view?
+                            {this.props.addUserForm?
                             <button className="btn btn-success">Apply</button>
                             :
                             <button className="btn btn-success">Finish</button>
