@@ -24,7 +24,7 @@ export default class UsersStatus extends React.Component{
                                         </FontAwesomeIcon>
                                         <p className="card-text my-0">{data.titleName}</p>
                                         <hr className="my-1"></hr>
-                                        <span><h4>3452</h4></span>
+                                        <span><h4>{this.props.userStatuses[data.variable]}</h4></span>
                                     </div>
                                 </div>
                             </div>
