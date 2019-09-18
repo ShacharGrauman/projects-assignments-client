@@ -4,7 +4,7 @@ import SkillsOverViewTab from "./SkillsOverViewTab";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import AddSkill from "./AddSkill";
-import { SnackBar, showSnackBar } from "../shared-components/SnackBar";
+import { showSnackBar } from "../shared-components/SnackBar";
 
 const skills = "skills";
 const productSkills = "productSkills";
@@ -261,7 +261,6 @@ class MyOwnSkills extends Component {
             </div>
           </div>
         </div>
-        <SnackBar />
       </div>
     );
   }
