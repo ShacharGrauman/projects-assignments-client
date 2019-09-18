@@ -113,7 +113,7 @@ class MyOwnSkills extends Component {
         />
       ),
       closeOnEscape: true,
-      closeOnClickOutside: true
+      closeOnClickOutside: false
     });
   }
 
