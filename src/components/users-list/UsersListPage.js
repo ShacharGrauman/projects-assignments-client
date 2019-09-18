@@ -23,7 +23,7 @@ export default class UsersListPage extends React.Component{
     componentDidMount(){
         // let temp = [];
         api.getUsersList().then(users=> {
-            this.setState({users, usersCount : users.length});
+            this.setState({users});
         }).catch(err=>alert(err));
 
         // api.getCount('WorkSites').then(workSites => {
@@ -49,18 +49,18 @@ export default class UsersListPage extends React.Component{
 
 
         
-           Promise.all([
-                api.getCount('countRoles'),
-                api.getCount('countDepartments'),
-                api.getCount('countWorkSites'),
-                api.getCount('countEmployees')
-            ]).then(([rolesCount, departmentsCount, workSitesCount, usersCount]) => this.setState({
-                userStatuses: {
-                    rolesCount,
-                    departmentsCount,
-                    workSitesCount,
-                    usersCount
-                }}));
+        Promise.all([
+            api.getCount('countRoles'),
+            api.getCount('countDepartments'),
+            api.getCount('countWorkSites'),
+            api.getCount('countEmployees')
+        ]).then(([rolesCount, departmentsCount, workSitesCount, usersCount]) => this.setState({
+            userStatuses: {
+                rolesCount,
+                departmentsCount,
+                workSitesCount,
+                usersCount
+            }}));
 
         // Promise.all([api.getCount('countEmployees'), 
         //         api.getCount('countWorkSites'), 

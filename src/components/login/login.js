@@ -1,7 +1,6 @@
 import React from 'react';
 import InputErrors from '../shared-components/InputErrors'
 
-
 import {api} from '../../mock-data/api'
 
 
