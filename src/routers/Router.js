@@ -17,6 +17,38 @@ import Projects from '../components/Assigments/Projects'
 import AssignHisToryTable from '../components/Assigments/AssignmentHistoryForEmp'
 import AssignmentRequets from '../components/Assigments/PendingAssignmentRequest'
 
+<<<<<<< Updated upstream
+=======
+export default () => (
+  <BrowserRouter>
+    <div>
+      <Navbar />
+      <Switch>
+        <Route path="/" component={Home} exact />
+        <Route path="/users-list/" component={UsersListPage} />
+        <Route path="/user-profile/:id" component={UserProfile} />
+        <Route path="/user-profile/addUser" component={UserProfile} />
+        <Route path="/audit" component={Audit} />
+        <Route path="/roles" component={Roles} />
+        <Route path="/settings" component={Settings} />
+        <Route path="/login" component={Login} />
+        <Route path="/my-team/" component={MyTeamTable} />
+        <Route path="/done-assignments/" component={DoneAssignments}/>
+        <Route path="/add-new-project/" component={AddNewProject}/>
+        <Route path="/pending-assignment-request/" component={AssignmentRequets}/>
+        <Route path="/assign-history/:id/:name" component={AssignHisToryTable}/>
+        <Route path="/my-skills/:id" component={MyOwnSkills} />
+        <Route path="/projects/" component={Projects} />
+        <Route
+          path="/pending-assignment-request/"
+          component={AssignmentRequets}
+        />
+        <Route
+          path="/assign-history/:id/:name"
+          component={AssignHisToryTable}
+        />
+        <Route path="/pendingSkills/:managerId" component={PendingSkills} />
+>>>>>>> Stashed changes
 
 import PendingSkills from '../components/pendingSkills/PendingSkills'
 
