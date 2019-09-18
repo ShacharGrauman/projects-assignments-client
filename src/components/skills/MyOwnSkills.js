@@ -10,6 +10,14 @@ const skills = "skills";
 const productSkills = "productSkills";
 const technicalSkills = "technicalSkills";
 
+const fetch = (type, id) => {
+  if (type === technicalSkills) {
+    return DataService.retrieveTechnicalSkillsHistoryById(id);
+  } else if (type === productSkills) {
+    return DataService.retrieveProductSkillsHistoryById(id);
+  }
+};
+
 class MyOwnSkills extends Component {
   constructor() {
     super();
@@ -18,7 +26,8 @@ class MyOwnSkills extends Component {
       currentTab: technicalSkills,
       [productSkills]: [],
       [skills]: [],
-      [technicalSkills]: []
+      [technicalSkills]: [],
+      skillsHistory: []
     };
     this.refetch = this.refetch.bind(this);
     this.submitUpdate = this.submitUpdate.bind(this);
@@ -26,6 +35,7 @@ class MyOwnSkills extends Component {
     this.addSkill = this.addSkill.bind(this);
     this.switchTab = this.switchTab.bind(this);
     this.toggleAddSkill = this.toggleAddSkill.bind(this);
+    this.proccessData = this.proccessData.bind(this);
   }
 
   componentDidMount() {
@@ -46,6 +56,15 @@ class MyOwnSkills extends Component {
       })
       .catch(error => {
         showSnackBar(error.message);
+      });
+
+    fetch(this.state.currentTab, id)
+      .then(resp => this.setState({ skillsHistory: resp.data }))
+      .catch(error => {
+        showSnackBar(
+          `${this.state.currentTab} error fetching skills history ${error.message}`
+        );
+        // this.setState({ skillsHistory: [] });
       });
   }
 
@@ -98,6 +117,16 @@ class MyOwnSkills extends Component {
   }
 
   switchTab(type) {
+    const { id } = this.props.match.params;
+    let data = [];
+
+    fetch(type, id)
+      .then(resp => this.setState({ skillsHistory: resp.data }))
+      .catch(error => {
+        showSnackBar(`${type} error fetching skills history ${error.message}`);
+        this.setState({ skillsHistory: [] });
+      });
+
     this.setState({ currentTab: type });
   }
 
@@ -128,6 +157,50 @@ class MyOwnSkills extends Component {
       .catch(error => {
         showSnackBar(error.message);
       });
+  }
+
+  proccessData() {
+    const skills = [];
+    if (this.state.skillsHistory.length === 0) {
+      // console.log(this.state.currentTab, skills);
+      return [["Year", "Skill"], [new Date().getFullYear(), 0]];
+    }
+
+    this.state.skillsHistory.forEach(skill => {
+      skills.push(
+        ...skill.updates.map(update => {
+          return {
+            skillName: skill.name,
+            date: update.date,
+            level: update.level
+          };
+        })
+      );
+    });
+    console.log(this.state.currentTab, skills);
+
+    const skillNames = [...new Set(skills.map(skill => skill.skillName))];
+    const header = ["Year", ...skillNames];
+    const years = [
+      ...new Set(skills.map(skill => new Date(skill.date).getFullYear()))
+    ];
+    const body = [];
+    const prevGrade = new Array(header.length - 1).fill(0);
+
+    years.forEach(year => {
+      skills
+        .filter(skill => new Date(skill.date).getFullYear() === year)
+        .forEach(skill => {
+          const index = skillNames.indexOf(skill.skillName);
+          prevGrade[index] = parseInt(`${skill.level}`);
+        });
+
+      body.push([`${year}`, ...prevGrade]);
+    });
+
+    body.sort((arr1, arr2) => arr1[0] > arr2[0]);
+
+    return [header, ...body];
   }
 
   render() {
@@ -172,6 +245,7 @@ class MyOwnSkills extends Component {
                   <SkillsOverViewTab
                     type={this.state.currentTab}
                     skills={this.state[this.state.currentTab]}
+                    data={this.proccessData()}
                     deleteClick={this.deleteSkill}
                     submitUpdate={this.submitUpdate}
                     submitNewSkill={this.addSkill}
