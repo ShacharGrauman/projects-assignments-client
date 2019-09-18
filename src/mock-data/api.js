@@ -175,8 +175,9 @@ export const api = {
         return users;
     },
 
-    getCount: function() {
-        return fetch('http://localhost:8080/api/users')
+    getCount: (prop) => {
+        return fetch(`http://localhost:8080/api/employee/${prop}`)
+
             .then(res => res.json());
     },
 
@@ -190,12 +191,8 @@ export const api = {
                 username,
                 password
             }),
-            
         })
-       
     },
-
-
     getUserById: async (id)=>{
         const user = await fetch(`http://localhost:8080/api/employee/id?id=${id}`)
         return user.json();
@@ -296,8 +293,4 @@ export const api = {
         })
         return addedUser;
     }
-
-
-
-
 }

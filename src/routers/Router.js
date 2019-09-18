@@ -18,6 +18,8 @@ import AssignHisToryTable from '../components/Assigments/AssignmentHistoryForEmp
 import AssignmentRequets from '../components/Assigments/PendingAssignmentRequest'
 
 
+import PendingSkills from '../components/pendingSkills/PendingSkills'
+
 export default ()=>(
 <BrowserRouter>
     <div>
@@ -30,12 +32,12 @@ export default ()=>(
             <Route path="/audit" component={Audit}/>
             <Route path="/roles" component={Roles}/>
             <Route path="/settings" component={Settings}/>
+            <Route path="/pendingSkills/:managerId" component={PendingSkills}/>
             <Route path="/login" component={Login}/>
             <Route path="/my-team/" component={MyTeamTable}/>
             <Route path="/projects/" component={Projects}/>
             <Route path="/pending-assignment-request/" component={AssignmentRequets}/>
             <Route path="/assign-history/:id/:name" component={AssignHisToryTable}/>
-            
             <Route component={PageNotFound}/>
         </Switch>
         <Footer />
