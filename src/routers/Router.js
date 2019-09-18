@@ -17,6 +17,8 @@ import Projects from "../components/Assigments/Projects";
 import AssignHisToryTable from "../components/Assigments/AssignmentHistoryForEmp";
 import AssignmentRequets from "../components/Assigments/PendingAssignmentRequest";
 import MyOwnSkills from "../components/skills/MyOwnSkills";
+import PendingSkills from "../components/pendingSkills/PendingSkills";
+import { SnackBar } from "../components/shared-components/SnackBar";
 
 export default () => (
   <BrowserRouter>
@@ -42,9 +44,11 @@ export default () => (
           path="/assign-history/:id/:name"
           component={AssignHisToryTable}
         />
+        <Route path="/pendingSkills/1" component={PendingSkills} />
 
         <Route component={PageNotFound} />
       </Switch>
+      <SnackBar />
       <Footer />
     </div>
   </BrowserRouter>
