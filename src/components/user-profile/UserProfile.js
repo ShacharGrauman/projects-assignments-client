@@ -5,14 +5,22 @@ import UserProfileRoles from './UserProfileRoles';
 import UserProfileFooter from './UserProfileFooter';
 import {USERS} from '../../mock-data/mock-data'
 
+import {DataProvider} from '../common/Provider/DataProvider'
+import {DataContext} from '../common/Provider/DataProvider'
+import {api} from '../../mock-data/api'
+
+
+
 export default class UserProfile extends React.Component{
 
     constructor(props){
         super(props);
+        console.log(this.props)
         const {id}=this.props.match.params;
         this.state={
-            profileMode:{edit:false, view:true},
-            status:{deactivated:undefined, locked:undefined},
+            profileMode:{edit:false, addUserForm:true}, // the state of the profile form.
+                                                 // if addUserForm is set to false, its an add user form
+            status:{deactivated:false, locked:false}, //the status of the user in the database. 
             userData:{
                 details:{
                     id:+id?id:undefined,
@@ -20,7 +28,7 @@ export default class UserProfile extends React.Component{
                     lastName:undefined,
                     employeeNumber:undefined,
                     workSite:{
-                        name:'gr',
+                        name:'',
                         id:undefined,
                         country:{
                             name:undefined,
@@ -33,13 +41,11 @@ export default class UserProfile extends React.Component{
                     department:{name:undefined,id:undefined},
                     lastLogin:undefined,
                 },
-                roles:{
-                    roles:[{
-                        id:undefined,
-                        name:undefined,
-                        description:undefined
-                    }]
-                },
+                roles:[{
+                    id:undefined,
+                    name:undefined,
+                    description:undefined
+                }],
                 img:undefined
             }
         }
@@ -51,22 +57,27 @@ export default class UserProfile extends React.Component{
     }
 
     componentDidMount(){
+        api.getUserById(3).then(data=>console.log(data))
+        //then assign the values according to what you get from the database
+
+
         if (this.state.userData.details.id){
             this.setState({
-                profileMode:{edit:false, view:true},
-                status:{deactivated:false,add:false}, // fix status values according to the backend
+                profileMode:{edit:true, addUserForm:false},
+                status:{deactivated:false,locked:false}, // fix status values according to the backend
                 userData:USERS.find(e=>e.details.id===+this.state.userData.details.id)
             })
         }else{
             this.setState({
-                profileMode:{edit:true,view:false}
+                profileMode:{edit:true,addUserForm:true}
             })
         }
+
     }
 
     toggleEditMode(){
        this.setState({
-        profileMode:{edit:!this.state.profileMode.edit, view:true }
+        profileMode:{edit:!this.state.profileMode.edit, addUserForm:false }
        })
         
     }
@@ -76,7 +87,7 @@ export default class UserProfile extends React.Component{
     toggleLockUser(){
         this.setState({
             status:{deactivated:false, locked:!this.state.status.locked},
-            profileMode:{edit:false,view:true},
+            profileMode:{edit:false,addUserForm:true},
         })
     }
 
@@ -93,22 +104,25 @@ export default class UserProfile extends React.Component{
                                         edit={this.state.profileMode.edit}
                                         toggleEditMode={this.toggleEditMode}
                                         />
-
+<DataProvider>
                     <UserProfileDetails editMode={!this.state.profileMode.edit} 
                                         details={this.state.userData.details}/>
 
-                    <UserProfileRoles editMode={!this.state.profileMode.edit}
+                    <UserProfileRoles   editMode={!this.state.profileMode.edit}
                                         userRoles={this.state.userData.roles}/>
-
+</DataProvider>
                     <UserProfileFooter editMode={!this.state.profileMode.edit}
                                         isLocked={this.state.status.locked}
                                         toggleLockUser={this.toggleLockUser}
-                                        view={this.state.profileMode.view}/>
+                                        addUserForm={this.state.profileMode.addUserForm}/>
+
+
                 </div>
             </div>
         </div>  
-
-
+            
+                
+            
          
                 
         </>
