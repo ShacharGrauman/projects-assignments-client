@@ -79,15 +79,16 @@ class MyOwnSkills extends Component {
       .finally(() => this.refetch());
   }
 
-  addSkill(skillId, skillName, level, date, type) {
-    console.log(this.state.id, skillId, skillName, level);
+  addSkill(skillId, skillName, level, type, date) {
+    console.log(this.state.id, skillId, skillName, level, type);
+
     DataService.addNewSkill(
       this.state.id,
       skillId,
       skillName,
       level,
-      date,
-      type
+      type,
+      date
     )
       .then(resp => {
         if (resp.data) {
@@ -162,7 +163,6 @@ class MyOwnSkills extends Component {
   proccessData() {
     const skills = [];
     if (this.state.skillsHistory.length === 0) {
-      // console.log(this.state.currentTab, skills);
       return [["Year", "Skill"], [new Date().getFullYear(), 0]];
     }
 
@@ -177,7 +177,6 @@ class MyOwnSkills extends Component {
         })
       );
     });
-    console.log(this.state.currentTab, skills);
 
     const skillNames = [...new Set(skills.map(skill => skill.skillName))];
     const header = ["Year", ...skillNames];
@@ -186,6 +185,7 @@ class MyOwnSkills extends Component {
     ];
     const body = [];
     const prevGrade = new Array(header.length - 1).fill(0);
+    years.sort((y1, y2) => y1 > y2);
 
     years.forEach(year => {
       skills
@@ -197,8 +197,6 @@ class MyOwnSkills extends Component {
 
       body.push([`${year}`, ...prevGrade]);
     });
-
-    body.sort((arr1, arr2) => arr1[0] > arr2[0]);
 
     return [header, ...body];
   }

@@ -71,26 +71,24 @@ class SkillsDataService {
     //return axios.get(`${USERNAME_API_URL}/Skills`);
   }
 
-  addNewSkill(employeeId, skillId, skillName, level, date, skillType) {
-    /*const response = await axios.post(`${API_URL}/skills/`, {
-      employeeId,
-      skillName,
-      level,
-      date,
-      skillType
-    });
-    if (response.status === 200) {
-      return response.data;
-    }*/
-
-    return axios.post(`${API_URL}/skills/`, {
-      skillId,
-      employeeId,
-      skillName,
-      level
-      // date,
-      //skillType
-    });
+  addNewSkill(employeeId, skillId, skillName, level, skillType, date) {
+    if (skillId) {
+      return axios.post(`${API_URL}/skills/`, {
+        skillId,
+        employeeId,
+        skillName,
+        level
+        // date,
+      });
+    } else {
+      return axios.post(`${API_URL}/skills/`, {
+        employeeId,
+        skillName,
+        level,
+        // date,
+        type: skillType
+      });
+    }
   }
 
   updateSkillByIdSkill(id, level) {
