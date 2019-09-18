@@ -67,8 +67,13 @@ export default class Navbar extends React.Component {
               </Link>
             </li>
             <li className="nav-item">
+              <Link className="nav-link" to="/my-skills/3">
+                My Skills
+              </Link>
+            </li>
+            <li className="nav-item">
               <Link className="nav-link" to="/pending-assignment-request">
-                Pending Assignment Request 
+                Pending Assignment Request
               </Link>
             </li>
             <li className="nav-item">
