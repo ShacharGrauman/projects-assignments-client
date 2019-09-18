@@ -57,11 +57,6 @@ export default class Navbar extends React.Component {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/my-team">
-                My Team
-              </Link>
-            </li>
-            <li className="nav-item">
               <Link className="nav-link" to="/projects">
                 My Projects
               </Link>
@@ -77,14 +72,35 @@ export default class Navbar extends React.Component {
               </Link>
             </li>
             <li className="nav-item">
-                 <Link className="nav-link" to="/pendingSkills/1">Pending Skills</Link>
+              <Link className="nav-link" to="/add-new-project">
+                Add New Project
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/done-assignments">
+                Done Assigments
+              </Link>
+              <Link className="nav-link" to="/pendingSkills/1">
+                Pending Skills
+              </Link>
             </li>
           </ul>
           <form className="form-inline my-2 my-lg-0">
-              <input className="form- control mr-sm-2" type="search" placeholder="Search" aria-label="Search"></input>
-              <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <input
+              className="form- control mr-sm-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            ></input>
+            <button
+              className="btn btn-outline-success my-2 my-sm-0"
+              type="submit"
+            >
+              Search
+            </button>
           </form>
         </div>
-      </nav>);
-    }
+      </nav>
+    );
+  }
 }

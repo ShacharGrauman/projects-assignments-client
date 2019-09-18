@@ -7,7 +7,7 @@ export default class AssignmentRequets extends React.Component {
     this.state = {
       PendingRequests: []
     };
-    this.sendPendingAssignment=this.sendPendingAssignment.bind(this)
+    this.sendPendingAssignment = this.sendPendingAssignment.bind(this);
   }
 
   componentDidMount() {
@@ -22,10 +22,30 @@ export default class AssignmentRequets extends React.Component {
           });
         });
     }, 0);
+   
   }
-  sendPendingAssignment(Data){
-    console.log(Data)
-}
+  sendPendingAssignment(status, AssignID) {
+    
+    // console.log(AssignID);
+    console.log(status);
+    // fetch("http://localhost:8080/api/login", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   },
+    //   body: JSON.stringify({
+    //     AssignmentID: AssignID
+    //     status:status
+    //   })
+    // })
+    //   .then(res => {
+    //     if (res.ok) this.props.history.push("/");
+    //     else {
+    //       console.log("Error Logging in");
+    //     }
+    //   })
+    //   .catch(err => console.error(err));
+  }
   render() {
     return (
       <div className="col justify-content-md-center">
@@ -44,6 +64,7 @@ export default class AssignmentRequets extends React.Component {
               <th scope="col">#</th>
               <th scope="col">Assignment ID</th>
               <th scope="col">Project Name</th>
+              <th scope="col">Employee Name</th>
               <th scope="col">Start Date</th>
               <th scope="col">End Date</th>
               <th scope="col">Status</th>
@@ -54,18 +75,35 @@ export default class AssignmentRequets extends React.Component {
           <tbody>
             {this.state.PendingRequests.map((Assign, i) => {
               return (
-                <tr>
+                <tr key={i}>
                   <td>{i}</td>
                   <td>{Assign.projectID}</td>
                   <td>{Assign.projectName}</td>
+                  <td>{Assign.employeeName}</td>
                   <td>{Assign.startDate}</td>
                   <td>{Assign.endDate}</td>
                   <td>{Assign.status}</td>
                   <td>{Assign.requestFromManagerID}</td>
 
-                  <td >
-                    <button onClick={e => this.sendPendingAssignment("Accept")}  className="btn btn-success mr-2"> Accept</button>
-                    <button onClick={e => this.sendPendingAssignment("Reject")} className="btn btn-danger"> Reject </button>
+                  <td>
+                    <button
+                      onClick={e =>
+                        this.sendPendingAssignment("1", Assign.projectID)
+                      }
+                      className="btn btn-success mr-2"
+                    >
+                      {" "}
+                      Accept
+                    </button>
+                    <button
+                      onClick={e =>
+                        this.sendPendingAssignment("0", Assign.projectID)
+                      }
+                      className="btn btn-danger"
+                    >
+                      {" "}
+                      Reject{" "}
+                    </button>
                   </td>
                 </tr>
               );
