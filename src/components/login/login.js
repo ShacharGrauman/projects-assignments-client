@@ -156,9 +156,9 @@ export class login extends React.Component {
                                 <a className="btn btn nav-link text-left p-0 mb-3 mt-2" style={{ "color": "teal", cursor: 'pointer' }} data-toggle="modal" data-target="#ForgotPasswordModal">
                                     Forgot your password?
                                     </a>
+                                {/* Calling for forgot password component*/}
                                 <ForgotPasswordModal />
 
-                                {/* Calling for forgot password component*/}
                             </div>
                             <div className="d-flex justify-content-end">
                                 <button type="submit" className="mr-2 mb-3 btn btn-info">Login</button>
