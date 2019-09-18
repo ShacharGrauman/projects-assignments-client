@@ -174,8 +174,9 @@ export const api = {
         return users;
     },
 
-    getCount: function() {
-        return fetch('http://localhost:8080/api/users')
+    getCount: (prop) => {
+        return fetch(`http://localhost:8080/api/employee/${prop}`)
+
             .then(res => res.json());
     },
 
