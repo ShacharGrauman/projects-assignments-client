@@ -1,3 +1,4 @@
+import { async } from "q";
 
 // const users=await fetch('./Data,js')
 //                 .then(res=>res.json());
@@ -193,6 +194,108 @@ export const api = {
         })
        
     },
+
+
+    getUserById: async (id)=>{
+        const user = await fetch(`http://localhost:8080/api/employee/id?id=${id}`)
+        return user.json();
+    },
+
+
+    addUser: async (user)=>{
+        const addedUser = await fetch(`http://localhost:8080/api/employee/`,{
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify({
+                number:user.employeeNumber,
+                firstName:user.firstName,
+                lastName:user.lastName,
+                email:user.email,
+                managerId:user.managerId,
+                department:user.department,
+                worksite:{
+                    id:user.worksite.id,
+                    name:user.worksite.name,
+                    country:{
+                        id:user.worksite.country.id,
+                        name:user.worksite.country.id
+                    },
+                    city:user.worksite.city,
+                },
+                phone:user.country,
+                phone:user.phone,
+                loginStatus:false,
+                locked:false,
+                deactivated:false
+            }),
+            
+        })
+        return addedUser;
+    },
+
+    updateUserDetails: async(id, user)=>{
+        const addedUser = await fetch(`http://localhost:8080/api/employee/`,{
+            method: 'PUT',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify({
+                id:user.id,
+                number:user.employeeNumber,
+                firstName:user.firstName,
+                lastName:user.lastName,
+                email:user.email,
+                managerId:user.managerId,
+                department:user.department,
+                worksite:{
+                    id:user.worksite.id,
+                    name:user.worksite.name,
+                    country:{
+                        id:user.worksite.country.id,
+                        name:user.worksite.country.id
+                    },
+                    city:user.worksite.city,
+                },
+                phone:user.country,
+                phone:user.phone,
+                loginStatus:false,
+                locked:false,
+                deactivated:false
+            }),
+            
+        })
+        return addedUser;
+    },
+
+    toggleDeactivateUser: async(id)=>{
+        const user = await fetch(`http://localhost:8080/api/employee/id?id=${id}`,{
+            method: 'PUT',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify({
+               
+            }),
+            
+        })
+        return addedUser;
+    },
+
+    unlockUser: async(id)=>{
+        const user = await fetch(`http://localhost:8080/api/employee/unlock/id?id=${id}`,{
+            method: 'PUT',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify({
+               
+            }),
+            
+        })
+        return addedUser;
+    }
 
 
 
