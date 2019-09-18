@@ -35,7 +35,7 @@ export default class AssignmentRequets extends React.Component {
     //   },
     //   body: JSON.stringify({
     //     AssignmentID: AssignID
-   //      status:status
+    //     status:status
     //   })
     // })
     //   .then(res => {
@@ -64,6 +64,7 @@ export default class AssignmentRequets extends React.Component {
               <th scope="col">#</th>
               <th scope="col">Assignment ID</th>
               <th scope="col">Project Name</th>
+              <th scope="col">Employee Name</th>
               <th scope="col">Start Date</th>
               <th scope="col">End Date</th>
               <th scope="col">Status</th>
@@ -78,6 +79,7 @@ export default class AssignmentRequets extends React.Component {
                   <td>{i}</td>
                   <td>{Assign.projectID}</td>
                   <td>{Assign.projectName}</td>
+                  <td>{Assign.employeeName}</td>
                   <td>{Assign.startDate}</td>
                   <td>{Assign.endDate}</td>
                   <td>{Assign.status}</td>

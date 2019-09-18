@@ -23,6 +23,7 @@ export default class AssignHistory extends React.Component {
     this.getEmpForProject = this.getEmpForProject.bind(this);
     this.getSearchData = this.getSearchData.bind(this);
     this.inputChange = this.inputChange.bind(this);
+    this.setSearchValue = this.setSearchValue.bind(this);
 
     // this.setEmployeeInSession = this.setEmployeeInSession.bind(this);
   }
@@ -37,31 +38,48 @@ export default class AssignHistory extends React.Component {
   }
 
   getSearchData() {
-    console.log(this.state.searchBar.errors);
-    if (this.state.searchBar.errors != null) {
-      fetch(
-        `http://localhost:8080/api/projects?projectName=${this.state.searchBar.value}&pageNumber=1&limit=5`
-      )
-        .then(response => response.json())
-        .then(Projects => {
-          this.setState({
-            projectsData: Projects
+    fetch(
+          `http://localhost:8080/api/projects?projectName=${this.state.searchBar.value}&pageNumber=1&limit=5`
+        )
+          .then(response => response.json())
+          .then(Projects => {
+            this.setState({
+              projectsData: Projects
+            });
           });
-        });
-    } else if (this.state.searchBar.value == null) {
-      fetch(`http://localhost:8080/api/projects/1`)
-        .then(response => response.json())
-        .then(Projects => {
-          this.setState({
-            projectsData: Projects
-          });
-        });
-    }
+    // console.log(this.state.searchBar.errors);
+    // if (this.state.searchBar.errors != null) {
+    //   fetch(
+    //     `http://localhost:8080/api/projects?projectName=${this.state.searchBar.value}&pageNumber=1&limit=5`
+    //   )
+    //     .then(response => response.json())
+    //     .then(Projects => {
+    //       this.setState({
+    //         projectsData: Projects
+    //       });
+    //     });
+    // } else if (this.state.searchBar.value == null) {
+    //   fetch(`http://localhost:8080/api/projects/1`)
+    //     .then(response => response.json())
+    //     .then(Projects => {
+    //       this.setState({
+    //         projectsData: Projects
+    //       });
+    //     });
+    // }
   }
 
+  setSearchValue(event){
+    this.setState({
+      searchBar: {
+        ...this.state.searchBar, 
+        value: event.target.value
+      }
+    });
+  }
   getEmpForProject(ProjectID) {
     fetch(
-      `http://localhost:8080/api/myteam/getbyprojectid?projectid=${ProjectID}`
+      `http://localhost:8080/api/team//projectid?projectid=${ProjectID}`
     )
       .then(response => response.json())
       .then(Employees => {
@@ -105,21 +123,21 @@ export default class AssignHistory extends React.Component {
     return (
       <>
         <div className="col justify-content-md-center">
-          <h1 style={{ marginLeft: "600px" }}>Projects Tables</h1>
+          <h1 style={{ marginLeft: "600px" }}>Projects </h1>
           <div className="d-flex justify-content-center align-items-center mb-2">
             <input
               className="form-control mr-sm-2 w-25 "
-              type="Text"
-              name="searchBar"
+              type="search"
               placeholder="Search"
               aria-label="Search"
-              defaultValue={this.state.searchBar.value}
-              onBlur={this.inputChange}
+              // defaultValue={this.state.searchBar.value}
+              // onBlur={e=>this.inputChange}
+              onKeyUp={this.setSearchValue}
             ></input>
 
             <button
               className="btn btn-outline-success my-2 my-sm-0"
-              type="button"
+              type="submit"
               onClick={this.getSearchData}
             >
               Search

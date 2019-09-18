@@ -1,10 +1,10 @@
-import React from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import React from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import Navbar from '../components/common/Navbar'
-import Footer from '../components/common/Footer'
-import Home from '../components/common/Home'
-import PageNotFound from '../components/common/PageNotFound';
+import Navbar from "../components/common/Navbar";
+import Footer from "../components/common/Footer";
+import Home from "../components/common/Home";
+import PageNotFound from "../components/common/PageNotFound";
 
 import UserProfile from '../components/user-profile/UserProfile'
 import UsersListPage from '../components/users-list/UsersListPage'
@@ -18,6 +18,8 @@ import AssignHisToryTable from '../components/Assigments/AssignmentHistoryForEmp
 import AssignmentRequets from '../components/Assigments/PendingAssignmentRequest'
 import AddNewProject from '../components/Assigments/AddProject'
 import DoneAssignments from '../components/Assigments/DoneAssigments'
+import MyOwnSkills from "../components/skills/MyOwnSkills";
+
 
 
 export default ()=>(
@@ -39,6 +41,7 @@ export default ()=>(
             <Route path="/add-new-project/" component={AddNewProject}/>
             <Route path="/pending-assignment-request/" component={AssignmentRequets}/>
             <Route path="/assign-history/:id/:name" component={AssignHisToryTable}/>
+            <Route path="/my-skills/:id" component={MyOwnSkills} />
             
             <Route component={PageNotFound}/>
         </Switch>

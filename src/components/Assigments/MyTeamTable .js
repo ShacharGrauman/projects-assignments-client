@@ -3,12 +3,14 @@ import React from "react";
 // import { getEmployeeForAssignments } from "./api";
 import { Link } from "react-router-dom";
 import SkillBadge from "./SkillBadge";
+import MyTeamDetailsTable from "./MyTeamDetailsTable";
 
 export default class MyTeamTable extends React.Component {
   constructor() {
     super();
     this.state = {
       employees: [],
+      employeesSearch: [],
       project: [],
       search: "" ///line added
     };
@@ -20,11 +22,12 @@ export default class MyTeamTable extends React.Component {
   componentDidMount() {
     //Ya'ani call to the server for data
     //should be manager ID form Login
-    fetch(`http://localhost:8080/api/myteam?managerID=1&pageNumber=1&limit=10`)
+    fetch(`http://localhost:8080/api/team?managerID=1&pageNumber=1&limit=10`)
       .then(response => response.json())
-      .then(Employees => {
+      .then(employees => {
         this.setState({
-          employees: Employees
+          employees,
+          employeesSearch: employees
         });
       });
     this.setState({ project: JSON.parse(sessionStorage.getItem("Project")) });
@@ -34,21 +37,46 @@ export default class MyTeamTable extends React.Component {
     console.log(empId);
   }
 
-  filterList(event) {
-    var userSkills = {};
-    this.state.employees.map((employee, index) => {
-      let technicalSkills = employee.technicalSkills;
-      technicalSkills &&
-        technicalSkills.map(skill => {
-          let userrSkillName = skill.skillName;
-          if (
-            userrSkillName.toLowerCase() == event.target.value.toLowerCase()
-          ) {
-            userSkills[index] = userrSkillName;
-          }
-        });
+  filterList() {
+    //Let's say we got the searched employees
+    //Let's merge technical and product skills all together
+    //And search the skill
+
+    //for each employee, merge the 2 arrays and search this array
+    //If found - return it
+
+    //So we'll have all the employees having this searched skill
+    //debugger;
+
+    const requiredSkill = this.state.search.toLowerCase();
+    console.log(requiredSkill);
+    if (!requiredSkill) {
+      this.setState({
+        employeesSearch: this.state.employees
+      });
+      return;
+    }
+
+    const filtered = this.state.employees.filter(emp => {
+      const skills = [...emp.technicalSkills, ...emp.productSkills];
+
+      for (const skill of skills) {
+        if (skill.name.toLowerCase() == requiredSkill) {
+          return true;
+        }
+      }
+      return false;
     });
-    console.log(userSkills);
+
+    console.log(
+      filtered.map(emp => {
+        return emp.name;
+      })
+    );
+
+    this.setState({
+      employeesSearch: filtered
+    });
   }
 
   render() {
@@ -60,7 +88,7 @@ export default class MyTeamTable extends React.Component {
               className="card"
               style={{
                 width: "1060px",
-                marginLeft: "200px",
+                marginLeft: "230px",
                 marginTop: "20px",
                 border: "1px solid black"
               }}
@@ -83,39 +111,7 @@ export default class MyTeamTable extends React.Component {
                 </p>
 
                 <p> </p>
-               
-                {/* <div>
-                  <div className="col">
-                    <h6 style={{ fontWeight: "bold" }}>
-                      Required Technical Skills{" "}
-                    </h6>
-                    {this.state.project.technicalSkill.map((skill, index) => {
-                      return (
-                        <SkillBadge
-                          key={index}
-                          name={skill.name}
-                          level={skill.level}
-                          type={"Tech"}
-                        />
-                      );
-                    })}
-                  </div>
-                  <div className="col">
-                    <h6 style={{ fontWeight: "bold" }}>
-                      Required Product Skills{" "}
-                    </h6>
-                    {this.state.project.productSkill.map((skill, index) => {
-                      return (
-                        <SkillBadge
-                          key={index}
-                          name={skill.name}
-                          level={skill.level}
-                          type={"Prod"}
-                        />
-                      );
-                    })}
-                  </div>
-                </div> */}
+
                 <Link to="/Projects" className="btn btn-outline-info">
                   Back to projects
                 </Link>
@@ -127,40 +123,20 @@ export default class MyTeamTable extends React.Component {
         </div>
 
         <div className="d-flex justify-content-center align-items-center mb-2 mt-3">
-          {/* <div className="input-group-prepend">
-            <button
-              className="btn btn-outline-secondary dropdown-toggle"
-              type="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Choose skill type
-            </button>
-            <div className="dropdown-menu">
-              <a className="dropdown-item" href="#">
-                Technical Skills
-              </a>
-              <div role="separator" className="dropdown-divider"></div>
-              <a className="dropdown-item" href="#">
-                Product Skills
-              </a>
-            </div>
-          </div> */}
-
           <input
             className="form-control mr-sm-2 w-25 "
-            type="search"
-            placeholder="Search by Employee Name"
+            type="text"
+            placeholder="Search by Skill Name"
             aria-label="Search"
-            onChange={this.filterList}
+            onKeyUp={e => this.setState({ search: e.target.value })}
           />
 
           <button
             className="btn btn-outline-success my-2 my-sm-0 mr-2"
             type="submit"
+            onClick={this.filterList}
           >
-            Search 
+            Search
           </button>
 
           <button
@@ -173,124 +149,11 @@ export default class MyTeamTable extends React.Component {
             Advanced search...
           </button>
         </div>
-        <table
-          className="table"
-          style={{
-            width: "70%",
-            marginLeft: "200px",
-            marginTop: "20px",
-            border: "1px solid black",
-            textAlign: "center"
-          }}
-        >
-          <thead className="thead-dark">
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">ID</th>
-              <th scope="col">Technical Skills</th>
-              <th scope="col">Product Skills</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.employees.map(employee => {
-              return (
-                <tr key={employee.id}>
-                  <td>
-                    {/* <img src={employee.img} style={{ width: "50px" }}></img> */}
-                    <a href="#">{employee.name}</a>
-                  </td>
-                  <td>{employee.id}</td>
-                  <td>
-                    {employee.technicalSkills.map((skill, index) => {
-                      return (
-                        <SkillBadge
-                          key={index}
-                          name={skill.name}
-                          level={skill.level}
-                          type={"Tech"}
-                        />
-                      );
-                    })}
-                  </td>
-                  <td>
-                    {employee.productSkills.map((skill, index) => {
-                      return (
-                        <SkillBadge
-                          key={index}
-                          name={skill.name}
-                          level={skill.level}
-                          type={"Prod"}
-                        />
-                      );
-                    })}
-                  </td>
-                  <td>
-                    <button
-                      type="button"
-                      className="btn btn-primary"
-                      data-toggle="modal"
-                      data-target={"#assignModal" + employee.id}
-                    >
-                      Assign
-                    </button>
 
-                    <div
-                      className="modal fade"
-                      id={"assignModal" + employee.id}
-                      tabindex="-1"
-                      role="dialog"
-                      aria-labelledby={"#assignModal" + employee.id}
-                      aria-hidden="true"
-                    >
-                      <div className="modal-dialog" role="document">
-                        <div className="modal-content">
-                          <div className="modal-header">
-                            <h5
-                              className="modal-title"
-                              id={"assignModal" + employee.id + "Label"}
-                            >
-                              Successfully Assigned
-                            </h5>
-
-                            <button
-                              type="button"
-                              className="close"
-                              data-dismiss="modal"
-                              aria-label="Close"
-                            >
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-                          <div className="modal-body">
-                            Employee <b>{employee.name} </b> Added To Project{" "}
-                            <b>{this.state.project.name}</b>
-                          </div>{" "}
-                          <div class="modal-footer mb-3 justify-content-center ">
-                            <button
-                              type="button"
-                              className="btn btn-secondary"
-                              data-dismiss="modal"
-                            >
-                              Close
-                            </button>
-                            <button
-                              type="button"
-                              class="btn btn-primary ml-3"
-                              data-dismiss="modal"
-                            >
-                              Save changes
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <MyTeamDetailsTable
+          project={this.state.project}
+          employees={this.state.employeesSearch}
+        />
       </>
     );
   }
