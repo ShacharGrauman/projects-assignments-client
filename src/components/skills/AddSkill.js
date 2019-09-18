@@ -49,14 +49,14 @@ class AddSkill extends React.Component {
         errors: [],
         validations: { required: true, maxLevel: 5, minLevel: 1 },
         valid: true
-      }
+      },
 
-      /*type: {
+      type: {
         value: "TECHNICAL",
         errors: [],
         validations: { required: true },
         valid: true
-      }*/
+      }
     };
     this.trySubmit = this.trySubmit.bind(this);
     this.inputChanged = this.inputChanged.bind(this);
@@ -158,17 +158,17 @@ class AddSkill extends React.Component {
         s => s.skillName === this.state.name.value
       );
 
-      /*if (skill.length === 0) {
+      if (skill.length === 0) {
         skill = [{ skillId: null }];
-      }*/
+      }
 
       this.props.submitNewSkill.call(
         this,
         skill[0].skillId,
         this.state.name.value,
-        this.state.level.value
+        this.state.level.value,
         //   this.state.date.value,
-        //  this.state.type.value
+        this.state.type.value
       );
 
       this.props.close();
@@ -187,9 +187,7 @@ class AddSkill extends React.Component {
   }
 
   getSuggestions(e) {
-    if (e.target.value === "") {
-      this.setState({ suggestions: null });
-    } else {
+    /* else {
       const arr = this.props.product.filter(s =>
         s.skillName.startsWith(e.target.value)
       );
@@ -197,14 +195,15 @@ class AddSkill extends React.Component {
         s.skillName.startsWith(e.target.value)
       );
 
-      this.setState({ suggestions: [...arr, ...arr2] });
-
-      /*  const arr = this.props[this.state.type.value.toLowerCase()].filter(s =>
-        s.skillName.startsWith(e.target.value)
-      );
-
-      this.setState({ suggestions: arr });*/
+      this.setState({ suggestions: [...arr, ...arr2] });*/
+    if (e.target.value === "") {
+      this.setState({ suggestions: null });
     }
+
+    const arr = this.props[this.state.type.value.toLowerCase()].filter(s =>
+      s.skillName.startsWith(e.target.value)
+    );
+    this.setState({ suggestions: arr });
   }
 
   render() {
@@ -238,7 +237,7 @@ class AddSkill extends React.Component {
           )}
 
           <div className="input-group-append"></div>
-          {/*<div className="input-group-append">
+          <div className="input-group-append">
             <div className="input-group-prepend">
               <span className="input-group-text" id="basic-addon3">
                 Type
@@ -261,7 +260,7 @@ class AddSkill extends React.Component {
                 PRODUCT
               </option>
             </div>
-    </div>*/}
+          </div>
         </div>
         <Error e={this.state.name.errors} />
         {/**<div className="input-group mb-3">
