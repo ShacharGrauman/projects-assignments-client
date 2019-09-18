@@ -120,7 +120,7 @@ export const api = {
             ]
         }
     ];
-    }
+    },
     // getAllUsers : async () =>{
     //     //return await getData('users');
 
@@ -134,38 +134,38 @@ export const api = {
 
     //     return users;
     // },
-    // getDepartments : () =>{ 
-    //     const departments = await fetch('./Data.js')
-    //                             .then(res => res.json())
-    //     return departments;
-    //     }
-    // ,
-    // getRoles : () =>{ 
-    //     const roles = await fetch('./Data.js')
-    //                             .then(res => res.json())
-    //     return roles;
-    //     }
-    // ,
-    // getCountries : () =>{ 
-    //     const countries = await fetch('./Data.js')
-    //                             .then(res => res.json())
-    //     return countries;
-    //     }
-    // ,
-    // getWorkSites : () =>{ 
-    //     const workSites = await fetch('./Data.js')
-    //                             .then(res => res.json())
-    //     return workSites
-    //     }
-    // ,
-    // getAllData: () => {return await Promise.all([
-    //         
-    //         getData('roles'),
-    //         getData('departments'),
-    //         getData('workSites'),
-    //         getData('countries')
-    //     ])
-    // }
+    getDepartments : async function(){ 
+        const departments = await fetch('http://localhost:8080/api/employee/departments')
+        return departments.json();
+        }
+    ,
+    getRoles :async () =>{ 
+        const roles = await fetch('http://localhost:8080/api/employee/roles')
+        return roles.json();
+        }
+    ,
+    getCountries :async () =>{ 
+        const countries = await fetch('http://localhost:8080/api/employee/countries')
+        return countries.json();
+        }
+    ,
+    getWorkSites :async () =>{ 
+        const workSites = await fetch('http://localhost:8080/api/employee/WorkSites')
+        return workSites.json();
+        }
+    ,
+    getAllData: async function() {
+        const  [departments,
+                worksites,
+                countries,
+                roles]= await Promise.all([
+                        this.getDepartments(),
+                        this.getWorkSites(),
+                        this.getCountries(),
+                        this.getRoles()
+                ])
+        return {departments, worksites, countries, roles}
+    }
     ,
     getUsersList: async function() {
         const users = await fetch('http://localhost:8080/api/employee')
@@ -191,6 +191,4 @@ export const api = {
             }),
         })
     }
-
-
 }
