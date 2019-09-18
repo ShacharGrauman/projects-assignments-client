@@ -44,20 +44,12 @@ export default class Audit extends React.Component {
     onChange() { (date) => this.setState({ date }) }
 
     componentDidMount() {
-        this.setState({
-            users: AuditTableData
-        });
 
         fetch('http://localhost:8080/api/audit')
         .then(response => response.json())
         .then(audit => this.setState({
-            employeeNumber: audit.employeeNumber,
-            firstName: `${audit.firstName}`,
-            lastName: `${audit.lastName}`,
-            date: audit.dateTime,
-            time: audit.dateTime,
-            activity: audit.activity
-            })
+           actions:audit
+            }, ()=>console.log(this.state.actions))
         );
     }
 
@@ -164,14 +156,13 @@ export default class Audit extends React.Component {
                         </thead>
                         <tbody>
                             {this.state.actions.map(action => {
-                                console.log(action)
                                 return (
-                                    <tr key={action.employeeNumber}>
-                                        <td>{action.employeeNumber}</td>
-                                        <td>{action.firstName + ' ' + action.lastName}</td>
-                                        <td>{action.date}</td>
+                                    <tr key={action.audit.employeeNumber}>
+                                        <td>{action.audit.employeeNumber}</td>
+                                        <td>{action.firstname + ' ' + action.lastname}</td>
+                                        <td>{action.audit.dateTime}</td>
                                         <td>{action.time}</td>
-                                        <td>{action.activity}</td>
+                                        <td>{action.audit.activity}</td>
                                     </tr>
                                 )
                             })}
