@@ -7,11 +7,16 @@ import Home from '../components/common/Home'
 import PageNotFound from '../components/common/PageNotFound';
 
 import UserProfile from '../components/user-profile/UserProfile'
-import UsersListPage from '../components/users-list/usersListPage'
+import UsersListPage from '../components/users-list/UsersListPage'
 import Audit from '../components/audit/auditPage'
 import Roles from '../components/roles/roles'
 import MyTeamTable from '../components/Assigments/MyTeamTable'
+import Login from '../components/login/login'
 import Settings from '../components/settings/settings'
+import Projects from '../components/Assigments/Projects'
+import AssignHisToryTable from '../components/Assigments/AssignmentHistoryForEmp'
+import AssignmentRequets from '../components/Assigments/PendingAssignmentRequest'
+
 
 import PendingSkills from '../components/pendingSkills/PendingSkills'
 
@@ -20,7 +25,7 @@ export default ()=>(
     <div>
         <Navbar />
         <Switch>
-            <Route path="/" component={Home} exact={true}/>
+            <Route path="/" component={Home} exact/>
             <Route path="/users-list/" component={UsersListPage}/>
             <Route path="/user-profile/:id" component={UserProfile}/>
             <Route path="/user-profile/addUser" component={UserProfile}/>
@@ -28,7 +33,11 @@ export default ()=>(
             <Route path="/roles" component={Roles}/>
             <Route path="/settings" component={Settings}/>
             <Route path="/pendingSkills/:managerId" component={PendingSkills}/>
+            <Route path="/login" component={Login}/>
             <Route path="/my-team/" component={MyTeamTable}/>
+            <Route path="/projects/" component={Projects}/>
+            <Route path="/pending-assignment-request/" component={AssignmentRequets}/>
+            <Route path="/assign-history/:id/:name" component={AssignHisToryTable}/>
             <Route component={PageNotFound}/>
         </Switch>
         <Footer />

@@ -5,6 +5,11 @@ import UserProfileRoles from './UserProfileRoles';
 import UserProfileFooter from './UserProfileFooter';
 import {USERS} from '../../mock-data/mock-data'
 
+import {DataProvider} from '../common/Provider/DataProvider'
+import {DataContext} from '../common/Provider/DataProvider'
+
+
+
 export default class UserProfile extends React.Component{
 
     constructor(props){
@@ -20,7 +25,7 @@ export default class UserProfile extends React.Component{
                     lastName:undefined,
                     employeeNumber:undefined,
                     workSite:{
-                        name:'gr',
+                        name:'',
                         id:undefined,
                         country:{
                             name:undefined,
@@ -62,6 +67,7 @@ export default class UserProfile extends React.Component{
                 profileMode:{edit:true,view:false}
             })
         }
+
     }
 
     toggleEditMode(){
@@ -93,22 +99,25 @@ export default class UserProfile extends React.Component{
                                         edit={this.state.profileMode.edit}
                                         toggleEditMode={this.toggleEditMode}
                                         />
-
+<DataProvider>
                     <UserProfileDetails editMode={!this.state.profileMode.edit} 
                                         details={this.state.userData.details}/>
 
-                    <UserProfileRoles editMode={!this.state.profileMode.edit}
+                    <UserProfileRoles   editMode={!this.state.profileMode.edit}
                                         userRoles={this.state.userData.roles}/>
-
+</DataProvider>
                     <UserProfileFooter editMode={!this.state.profileMode.edit}
                                         isLocked={this.state.status.locked}
                                         toggleLockUser={this.toggleLockUser}
                                         view={this.state.profileMode.view}/>
+
+
                 </div>
             </div>
         </div>  
-
-
+            
+                
+            
          
                 
         </>

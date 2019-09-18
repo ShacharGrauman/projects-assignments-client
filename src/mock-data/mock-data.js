@@ -165,31 +165,31 @@ export const AllRoles=[ // All roles
 
 export const AuditTableData=[ //Audit Rows
     {
-        userId:1,
+        employeeNumber:1,
         fullname:'fadi muhammad',
-        date:Date(),
-        time: Date(),
+        date:new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString(),
         activity:'Login'
     },
     {
-        userId:2,
+        employeeNumber:2,
         fullname:'fadi muhammad',
-        date:Date(),
-        time: Date(),
+        date:new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString(),
         activity:'Login'
     },
     {
-        userId:3,
+        employeeNumber:3,
         fullname:'fadi muhammad',
-        date:Date(),
-        time: Date(),
+        date:new Date().toLocaleDateString(),
+        time:new Date().toLocaleTimeString(),
         activity:'Login'
     },
     {
-        userId:4,
+        employeeNumber:4,
         fullname:'fadi muhammad',
-        date:Date(),
-        time: Date(),
+        date:new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString(),
         activity:'Login'
     },
 
