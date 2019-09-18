@@ -78,7 +78,7 @@ class AddSkill extends React.Component {
       }
     }
 
-    if (validations.exists) {
+    /*if (validations.exists) {
       if (
         !this.props.technical.find(skill => skill.skillName === value) &&
         !this.props.product.find(skill => skill.skillName === value)
@@ -86,7 +86,7 @@ class AddSkill extends React.Component {
         errors.push(`${name} does no exist`);
         valid = false;
       }
-    }
+    }*/
 
     if (validations.maxLevel) {
       if (value > validations.maxLevel) {
@@ -154,9 +154,14 @@ class AddSkill extends React.Component {
     }
 
     if (isValid) {
-      const skill = [...this.props.product, ...this.props.technical].filter(
+      let skill = [...this.props.product, ...this.props.technical].filter(
         s => s.skillName === this.state.name.value
       );
+
+      /*if (skill.length === 0) {
+        skill = [{ skillId: null }];
+      }*/
+
       this.props.submitNewSkill.call(
         this,
         skill[0].skillId,
@@ -193,6 +198,12 @@ class AddSkill extends React.Component {
       );
 
       this.setState({ suggestions: [...arr, ...arr2] });
+
+      /*  const arr = this.props[this.state.type.value.toLowerCase()].filter(s =>
+        s.skillName.startsWith(e.target.value)
+      );
+
+      this.setState({ suggestions: arr });*/
     }
   }
 
