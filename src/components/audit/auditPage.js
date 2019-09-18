@@ -78,9 +78,9 @@ export default class Audit extends React.Component {
 
             {/* SEARCH/FILTER INPUTS  */}
 
-                <div className="col-8 m-auto mt-5">
+                <div className=" m-auto mt-5 col-10">
                     <form>
-                        <div className="form-row m-auto d-flex align-items-center">
+                        <div className="form-row m-auto d-flex align-items-center" >
                             <div >
                                 <a style={AdvancedSearchStyle} className="justify-content-md-center mr-2" onClick={this.showAdvancedSearch}>Search</a>
                             </div>
