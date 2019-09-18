@@ -34,6 +34,7 @@ export default class UserProfileDetails extends React.Component{
                                     id="link__Manager"
                                     className="form-control input_manager" 
                                     disabled={this.props.editMode}
+                                    placeholder="Manager"
                                     defaultValue={this.props.details.manager.name}
                                     list="managers"></input>
                                 <datalist id="managers">
@@ -78,6 +79,7 @@ export default class UserProfileDetails extends React.Component{
                                     id="link__department"
                                     className="form-control department" 
                                     disabled={this.props.editMode}
+                                    placeholder="Department"
                                     defaultValue={this.props.details.department.name}
                                     list="department"></input>
                                 <datalist id="department">
@@ -94,12 +96,16 @@ export default class UserProfileDetails extends React.Component{
                                     id="link__WorkSite"
                                     className="form-control worksite" 
                                     disabled={this.props.editMode}
+                                    placeholder="Work site"
                                     defaultValue={this.props.details.workSite.name}
                                     list="worksite"></input>
                                 <datalist id="worksite">
                                     <DataContext.Consumer>
-                                        {(context)=>context.worksites.map(worksite=>
-                                            <option key={worksite.id} value={worksite.name}/>
+                                        {(context)=>
+                                            context.worksites.map(worksite=>{
+                                                let value = `${worksite.name || worksite}, ${worksite.country}`;
+                                                return <option key={worksite.id} value={value}/>
+                                            }
                                         )}
                                     </DataContext.Consumer>
                                 </datalist>
