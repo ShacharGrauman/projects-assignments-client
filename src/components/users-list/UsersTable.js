@@ -27,23 +27,13 @@ export default class UsersTable extends React.Component{
         //     department : {value : '', validations : {required : true, minLength : 2}},
         //     workSite : {value : '', validations : {required : true, minLength : 2, pattern : /\d/gi}},
         //     status : {value : '', validations : {required : true, minLength : 2}},
-        //     errors: []      
+        //     errors: []   
+        this.searchHandler = this.searchHandler.bind(this);   
     }
 
     async componentDidMount(){
         const users = await api.getUsersList();
         this.setState({users});
-
-    //     fetch('http://localhost:8080/api/employee', {
-    //         method: 'GET',
-    //         headers:{
-    //          'auth': 'Z3JhdW1hbm96QGdtYWlsLmNvbToxMjM0NTY',
-    //          'Content-Type':'application/x-www-form-urlencoded'
-    //         },
-    //          // mode: 'no-cors'
-    //     })
-    //    .then(response => response.json())
-    //    .then(users =>  this.setState({users}));
     }
 
     showAdvancedSearch(){ 
@@ -58,20 +48,31 @@ export default class UsersTable extends React.Component{
         }   
     }
 
+    searchHandler(e){
+        e.preventDefault();
+        console.log(e);
+        // fetch('/', {
+        //     method: 'post',
+        //     body: {
+        //         "first_name": this.refs.fullName.value
+        //     }
+        // });
+    }
+
     render(){
         return(
             <div>
                 <div className="col-9 m-auto">
-                    <form>
+                    <form onSubmit={this.searchHandler}>
                         <div className="form-row input-group lg-10 m-auto">
-                            <input type="number" className="form-control" placeholder="Search by ID" aria-label="Search by ID" aria-describedby="button-addon2" />
-                            <input type="text" className="form-control" placeholder="Search by Name" aria-label="Search by Name" aria-describedby="button-addon2" />
+                            <input type="number" ref="id" className="form-control" placeholder="Search by ID" aria-label="Search by ID" aria-describedby="button-addon2" />
+                            <input type="text" ref="fullName" className="form-control" placeholder="Search by Name" aria-label="Search by Name" aria-describedby="button-addon2" />
                             <div className="input-group-append">
-                                <button className="btn btn-outline-success" type="button" id="button-addon2">Search</button>
+                                <button className="btn btn-outline-success" type="submit" id="button-addon2">Search</button>
                             </div>
                         </div>
                         <div className="form-row m-auto d-flex">
-                            <div >
+                            <div className="mt-2">
                                 <a style={AdvancedSearchStyle} className="justify-content-md-center mr-2" onClick={this.showAdvancedSearch}>Advanced Search</a>
                             </div>
                             <div  id="advancedSearchOptions" style={AdvancedSearchOptionsStyle}>
@@ -119,7 +120,8 @@ export default class UsersTable extends React.Component{
                         </div>
                     </form>
                 </div>
-                
+
+                {/* Users table */}
                 <div className="row">
                     <Link to="user-profile/addUser" className="btn btn-success">Add User</Link>
                     <table className="table table-sm table-hover mt-2" style={{cursor : "pointer"}} id="usersTable">
@@ -136,8 +138,9 @@ export default class UsersTable extends React.Component{
                             {/* A Component for dynamically filling the table*/}
                             {
                                 this.props.users.map(user => <UsersTableRow 
-                                                    key={user.id}
-                                                    user={user}
+                                                    key={user["employee"].id}
+                                                    user={user["employee"]}
+                                                    roles={user["roles"]}
                                                     />)
                             }  
                         </tbody>
