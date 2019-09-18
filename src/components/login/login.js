@@ -1,9 +1,13 @@
 import React from 'react';
 import InputErrors from '../shared-components/InputErrors'
+
+import {Link, BrowserRouter} from 'react-router-dom';
+import {api} from '../../mock-data/api'
+
+
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faBarcode, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { Link, BrowserRouter } from 'react-router-dom';
-
 
 export class login extends React.Component {
 
@@ -69,26 +73,18 @@ export class login extends React.Component {
             }
         })
 
-        if (!errors) {
-            fetch('http://localhost:8080/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    username: this.state.email.value,
-                    password: this.state.password.value
+        if(!errors){
+            api.validateLogin(this.state.email.value, this.state.password.value)
+                .then(res=>{
+                if(res.ok)
+                    this.props.history.push('/')
+                else{
+                    console.log('Error Logging in')
+                }
                 })
-            })
-                .then(res => {
-                    if (res.ok)
-                        this.props.history.push('/')
-                    else {
-                        console.log('Error Logging in')
-                    }
-                })
-                .catch(err => console.error(err));
-        }
+                .catch(err=>console.error(err));
+      }
+            
     }
 
 

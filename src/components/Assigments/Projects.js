@@ -14,23 +14,16 @@ export default class AssignHistory extends React.Component {
     };
     this.setProjectInSession = this.setProjectInSession.bind(this);
     this.getEmpForProject = this.getEmpForProject.bind(this);
+    // this.setEmployeeInSession = this.setEmployeeInSession.bind(this);
   }
   componentDidMount() {
-    //Ya'ani call to the server for data
-    // const employees = getEmployeeForAssignments();
-    // this.state.projectsData = Projects;
-    //this.state.projectByID = [EmpListProject1, EmpListProject2];
-    setTimeout(() => {
-      this.setState({
-        // isLoading: false
-      });
-    }, 100);
+  
 
-    fetch("http://localhost:8080/api/projects/2")
+    fetch("http://localhost:8080/api/projects/1")
       .then(response => response.json())
-      .then(Employess => {
+      .then(Projects => {
         this.setState({
-          projectsData: Employess
+          projectsData: Projects
         });
       });
   }
@@ -41,7 +34,7 @@ export default class AssignHistory extends React.Component {
       .then(response => response.json())
       .then(Employees => {
         this.setState({
-         EmployeesByProjectByID: Employees
+          EmployeesByProjectByID: Employees
         });
       });
   }
@@ -55,7 +48,7 @@ export default class AssignHistory extends React.Component {
       <>
         <div className="col justify-content-md-center">
           <h1 style={{ marginLeft: "600px" }}>Projects Tables</h1>
-          <div className="d-flex justify-content-end align-items-center mb-2">
+          <div className="d-flex justify-content-center align-items-center mb-2">
             <input
               className="form-control mr-sm-2 w-25 "
               type="search"
@@ -179,7 +172,7 @@ export default class AssignHistory extends React.Component {
                             return (
                               <>
                                 <Link
-                                  to={`assign-history/${Emp.id}`}
+                                  to={`assign-history/${Emp.id}/${Emp.name}`}
                                   className="btn btn-outline-secondary"
                                   style={{ marginLeft: "5px" }}
                                 >

@@ -24,7 +24,7 @@ export default class Audit extends React.Component {
         this.state = {
             startDate: new Date(),
             endDate: new Date(),
-            users: [] ////////////////// users? or actions ? 
+            actions: [] ////////////////// users? or actions ? 
 
         };
         this.handleChange = date => {
@@ -44,21 +44,17 @@ export default class Audit extends React.Component {
     onChange() { (date) => this.setState({ date }) }
 
     componentDidMount() {
-        this.setState({
-            users: AuditTableData
-        });
 
         fetch('http://localhost:8080/api/audit')
         .then(response => response.json())
-        .then(audits => this.setState({users: audits.map(audit => ({
-            employeeNumber: audit.employeeNumber,
-            fullname: `${audit.firstName} ${audit.lastName}`,
-            date: audit.dateTime,
-            time: audit.dateTime,
-            activity: audit.activity
-            }))
-        }));
+        .then(audit => this.setState({
+           actions:audit
+            }, ()=>console.log(this.state.actions))
+        );
     }
+
+ 
+
     showAdvancedSearch() {
         const advancedSearchOptions = document.querySelector('#advancedSearchOptions');
 
@@ -159,14 +155,14 @@ export default class Audit extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.users.map(user => {
+                            {this.state.actions.map(action => {
                                 return (
-                                    <tr key={user.employeeNumber}>
-                                        <td>{user.employeeNumber}</td>
-                                        <td>{user.fullname}</td>
-                                        <td>{user.date}</td>
-                                        <td>{user.time}</td>
-                                        <td>{user.activity}</td>
+                                    <tr key={action.audit.employeeNumber}>
+                                        <td>{action.audit.employeeNumber}</td>
+                                        <td>{action.firstname + ' ' + action.lastname}</td>
+                                        <td>{action.audit.dateTime}</td>
+                                        <td>{action.time}</td>
+                                        <td>{action.audit.activity}</td>
                                     </tr>
                                 )
                             })}
