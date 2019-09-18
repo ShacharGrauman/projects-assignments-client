@@ -14,7 +14,6 @@ export default class UserProfile extends React.Component{
 
     constructor(props){
         super(props);
-        console.log(this.props)
         const {id}=this.props.match.params;
         this.state={
             profileMode:{edit:false, addUserForm:true}, // the state of the profile form.
@@ -87,7 +86,7 @@ export default class UserProfile extends React.Component{
                 roles:roles,
                 img:'x'
             }
-            }, ()=>console.log(this.state.userData))
+            })
         })}else{
             this.setState({
                 profileMode:{edit:true,addUserForm:true}
