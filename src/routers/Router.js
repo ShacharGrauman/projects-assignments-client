@@ -46,6 +46,6 @@ export default () => (
         <Route component={PageNotFound} />
       </Switch>
       <Footer />
-      </div>
-      </BrowserRouter>
+    </div>
+  </BrowserRouter>
 );
