@@ -49,7 +49,7 @@ export default class Audit extends React.Component {
         .then(response => response.json())
         .then(audit => this.setState({
            actions:audit
-            }, ()=>console.log(this.state.actions))
+            })
         );
     }
 
