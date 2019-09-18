@@ -1,7 +1,6 @@
 import React from 'react';
 import InputErrors from '../shared-components/InputErrors'
 
-import {Link, BrowserRouter} from 'react-router-dom';
 import {api} from '../../mock-data/api'
 
 
