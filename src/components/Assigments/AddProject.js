@@ -39,10 +39,7 @@ export default class AddProject extends React.Component {
   }
 
   componentDidMount() {
-    //fetch student data from the server using the student id
-    //*student id should be received from the routing system
-    //After getting the data from the server:
-    //update state!
+    
     fetch('http://localhost:8080/api/skills/')
       .then(response => response.json())
       .then(skills => this.skills = {
@@ -56,12 +53,25 @@ export default class AddProject extends React.Component {
     e.preventDefault();
     //  let obj = {id: this.state.skills.find(skill => skill.id == this.state.skill.value),level:this.state.level.value};
     if (!this.state.skill.value) return;
+    if (!this.state.level.value) return;
+    
+    for(var tmp of this.state.requiredSkills )
+    {
+      if(this.state.skill.value == tmp.skillr.id){
+            
+        return;
+        } 
+    }
+
+
 
     let obj = {
       skillr: this.state.skills.skills.find(skill => skill.id == this.state.skill.value),
       level: this.state.level.value,
       type: this.state.skills.type
     };
+
+   
 
     this.setState({
       requiredSkills: [...this.state.requiredSkills, obj]
@@ -133,21 +143,39 @@ export default class AddProject extends React.Component {
 
   submit(e) {
     e.preventDefault();
+    
+    const technicalSkill = [],
+    productSkill = [];
+
     let index = 0;
+    this.state.requiredSkills.map((el, index) => {
+      let i=0;
+      if(el.type == 't') {
+        technicalSkill[i]=el;
+      }
+      else
+      {
+        productSkill[i]=el;
+      }
+      i++;
+    });
+    
+
     const values = {
-      projectName: this.state.projectname.value,
-      managerID: 1,
+      id: 1,
+      name: this.state.projectname.value,
       description: this.state.description.value,
       startDate: this.state.date.value,
-      skills:
-        this.state.requiredSkills.map((el) => ({
-          id: el.skillr.id, 
-          level: el.level 
-        })
-      )
-    }
+      technicalSkill,
+      productSkill,
+      managerID:1
 
+    }
+      
     console.log(values);
+    fetch(`http://localhost:8080/api/projects/`,{method:"POST",body:JSON.stringify(values)}).then(response => {
+      if(response) console.log("response add project");
+    })
   }
 
   render() {
@@ -312,6 +340,7 @@ export default class AddProject extends React.Component {
                   >
                     Add
                   </button>
+                  
                 </div>
               </div>
 
