@@ -1,5 +1,5 @@
 for use of toastr:
-import makeToast from '../Toast'
+import makeToast from '../shared-components/Toast'
 in the needed componnents
 
 
