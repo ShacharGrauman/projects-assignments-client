@@ -1,24 +1,8 @@
 import React from "react";
-import { GoogleCharts } from "google-charts";
-import { SSL_OP_SSLREF2_REUSE_CERT_TYPE_BUG } from "constants";
+import InputError from "../shared-components/DivInputError";
 
-const id = "id";
 const level = "level";
-const date = "date";
 const skillName = "name";
-
-const Error = ({ e }) => {
-  return e.map((eerr, index) => (
-    <div
-      className="alert alert-danger"
-      role="alert"
-      style={{ marginTop: "5px" }}
-      key={index}
-    >
-      {eerr}
-    </div>
-  ));
-};
 
 class AddSkill extends React.Component {
   constructor() {
@@ -185,7 +169,6 @@ class AddSkill extends React.Component {
             onBlur={this.inputChanged}
             onChange={this.getSuggestions}
           />
-
           {this.state.suggestions ? (
             <ul className="dropdown-menu" style={{ display: "inline-block" }}>
               {this.state.suggestions.map((e, index) => (
@@ -224,22 +207,7 @@ class AddSkill extends React.Component {
             </div>
           </div>
         </div>
-        <Error e={this.state.name.errors} />
-        {/**<div className="input-group mb-3">
-          <div className="input-group-prepend">
-            <span className="input-group-text" id="basic-addon3">
-              Date
-            </span>
-          </div>
-          <input
-            type="date"
-            className="form-control"
-            name={date}
-            aria-describedby="basic-addon3"
-            onBlur={this.inputChanged}
-          />
-        </div>
-        <Error e={this.state.date.errors} /> */}
+        <InputError e={this.state.name.errors} />
 
         <div className="input-group mb-3">
           <div className="input-group-prepend">
@@ -257,7 +225,7 @@ class AddSkill extends React.Component {
             onBlur={this.inputChanged}
           />
         </div>
-        <Error e={this.state.level.errors} />
+        <InputError e={this.state.level.errors} />
         <button
           type="button"
           className="btn btn-primary btn-lg btn-block"
