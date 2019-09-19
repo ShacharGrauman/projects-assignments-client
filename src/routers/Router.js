@@ -50,7 +50,7 @@ export default () => (
           path="/assign-history/:id/:name"
           component={AssignHisToryTable}
         />
-        <Route path="/pendingSkills/1" component={PendingSkills} />
+        <Route path="/pendingSkills/:managerId" component={PendingSkills} />
 
         <Route component={PageNotFound} />
       </Switch>
