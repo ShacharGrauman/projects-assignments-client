@@ -12,14 +12,23 @@ export default class AssignmentRequets extends React.Component {
   }
 
   async componentDidMount() {
-    const PendingRequests = await Api.getPendingAssignments();
-    this.setState({ PendingRequests });
+    try {
+      const PendingRequests = await Api.getPendingAssignments();
+      this.setState({ PendingRequests });
+    } catch (error) {
+      this.setState({ PendingRequests:[] });
+    }
   }
   async sendPendingAssignment(status, assignID) {
     try {
       const chanageStatus = await Api.sendAssignment(status, assignID);
       if (chanageStatus) {
-        console.log(sucsses);
+        try {
+          const PendingRequests = await Api.getPendingAssignments();
+          this.setState({ PendingRequests });
+        } catch (error) {
+          this.setState({ PendingRequests:[] });
+        }
       }
     } catch (error) {
       console.log(error.message);
@@ -56,7 +65,7 @@ export default class AssignmentRequets extends React.Component {
               return (
                 <tr key={i}>
                   <td>{i}</td>
-                  <td>{Assign.projectID}</td>
+                  <td>{Assign.id}</td>
                   <td>{Assign.projectName}</td>
                   <td>{Assign.employeeName}</td>
                   <td>{Assign.startDate}</td>
@@ -66,18 +75,14 @@ export default class AssignmentRequets extends React.Component {
 
                   <td>
                     <button
-                      onClick={e =>
-                        this.sendPendingAssignment("1", Assign.projectID)
-                      }
+                      onClick={e => this.sendPendingAssignment(1, Assign.id)}
                       className="btn btn-success mr-2"
                     >
                       {" "}
                       Accept
                     </button>
                     <button
-                      onClick={e =>
-                        this.sendPendingAssignment("0", Assign.projectID)
-                      }
+                      onClick={e => this.sendPendingAssignment(0, Assign.id)}
                       className="btn btn-danger"
                     >
                       {" "}
