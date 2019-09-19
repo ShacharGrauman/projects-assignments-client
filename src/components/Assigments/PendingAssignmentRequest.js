@@ -1,6 +1,7 @@
 import React from "react";
 // import { AssignHistoryForEmp } from "../data/AssignHistoryForEmp";
 import { Link } from "react-router-dom";
+import Api from "./Api";
 export default class AssignmentRequets extends React.Component {
   constructor() {
     super();
@@ -10,41 +11,28 @@ export default class AssignmentRequets extends React.Component {
     this.sendPendingAssignment = this.sendPendingAssignment.bind(this);
   }
 
-  componentDidMount() {
-    setTimeout(() => {
-      fetch(
-        `http://localhost:8080/api/assignments/assignmentsrequest?managerid=1&pageNumber=1&limit=10`
-      )
-        .then(response => response.json())
-        .then(pending => {
-          this.setState({
-            PendingRequests: pending
-          });
-        });
-    }, 0);
-   
+  async componentDidMount() {
+    try {
+      const PendingRequests = await Api.getPendingAssignments();
+      this.setState({ PendingRequests });
+    } catch (error) {
+      this.setState({ PendingRequests:[] });
+    }
   }
-  sendPendingAssignment(status, AssignID) {
-    
-    // console.log(AssignID);
-    console.log(status);
-    // fetch("http://localhost:8080/api/login", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify({
-    //     AssignmentID: AssignID
-    //     status:status
-    //   })
-    // })
-    //   .then(res => {
-    //     if (res.ok) this.props.history.push("/");
-    //     else {
-    //       console.log("Error Logging in");
-    //     }
-    //   })
-    //   .catch(err => console.error(err));
+  async sendPendingAssignment(status, assignID) {
+    try {
+      const chanageStatus = await Api.sendAssignment(status, assignID);
+      if (chanageStatus) {
+        try {
+          const PendingRequests = await Api.getPendingAssignments();
+          this.setState({ PendingRequests });
+        } catch (error) {
+          this.setState({ PendingRequests:[] });
+        }
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   }
   render() {
     return (
@@ -77,28 +65,24 @@ export default class AssignmentRequets extends React.Component {
               return (
                 <tr key={i}>
                   <td>{i}</td>
-                  <td>{Assign.projectID}</td>
+                  <td>{Assign.id}</td>
                   <td>{Assign.projectName}</td>
                   <td>{Assign.employeeName}</td>
                   <td>{Assign.startDate}</td>
                   <td>{Assign.endDate}</td>
                   <td>{Assign.status}</td>
-                  <td>{Assign.requestFromManagerID}</td>
+                  <td>{Assign.fromManagerName}</td>
 
                   <td>
                     <button
-                      onClick={e =>
-                        this.sendPendingAssignment("1", Assign.projectID)
-                      }
+                      onClick={e => this.sendPendingAssignment(1, Assign.id)}
                       className="btn btn-success mr-2"
                     >
                       {" "}
                       Accept
                     </button>
                     <button
-                      onClick={e =>
-                        this.sendPendingAssignment("0", Assign.projectID)
-                      }
+                      onClick={e => this.sendPendingAssignment(0, Assign.id)}
                       className="btn btn-danger"
                     >
                       {" "}

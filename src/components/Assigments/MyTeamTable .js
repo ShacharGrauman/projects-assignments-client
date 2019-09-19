@@ -4,6 +4,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import SkillBadge from "./SkillBadge";
 import MyTeamDetailsTable from "./MyTeamDetailsTable";
+import Api from "./Api";
 
 export default class MyTeamTable extends React.Component {
   constructor() {
@@ -19,35 +20,37 @@ export default class MyTeamTable extends React.Component {
     this.filterList = this.filterList.bind(this);
   }
 
-  componentDidMount() {
-    //Ya'ani call to the server for data
-    //should be manager ID form Login
-    fetch(`http://localhost:8080/api/team?managerID=1&pageNumber=1&limit=10`)
-      .then(response => response.json())
-      .then(employees => {
-        this.setState({
-          employees,
-          employeesSearch: employees
-        });
-      });
+  async componentDidMount() {
+    const employees = await Api.getMyTeam();
+    this.setState({ employees, employeesSearch: employees });
     this.setState({ project: JSON.parse(sessionStorage.getItem("Project")) });
   }
 
-  assign(empId) {
-    console.log(empId);
+  async assign(
+    employeeID,
+    projectID,
+    requestFromManagerID,
+    requestToManagerID
+  ) {
+    try {
+      const newAssign = await Api.addNewAssignment(
+        employeeID,
+        projectID,
+        requestFromManagerID,
+        requestToManagerID
+      );
+      if (newAssign) {
+        console.log("bla");
+      }
+    } catch (error) {}
+    // }
+    // console.log(employeeID);
+    // console.log(projectID);
+    // console.log(requestFromManagerID);
+    // console.log(requestToManagerID);
   }
 
   filterList() {
-    //Let's say we got the searched employees
-    //Let's merge technical and product skills all together
-    //And search the skill
-
-    //for each employee, merge the 2 arrays and search this array
-    //If found - return it
-
-    //So we'll have all the employees having this searched skill
-    //debugger;
-
     const requiredSkill = this.state.search.toLowerCase();
     console.log(requiredSkill);
     if (!requiredSkill) {
@@ -153,6 +156,7 @@ export default class MyTeamTable extends React.Component {
         <MyTeamDetailsTable
           project={this.state.project}
           employees={this.state.employeesSearch}
+          onAssign={this.assign}
         />
       </>
     );

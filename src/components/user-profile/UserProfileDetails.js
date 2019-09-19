@@ -46,19 +46,20 @@ export default class UserProfileDetails extends React.Component{
                                 </datalist>
                             </div>
 
-{this.props.editMode?
+{this.props.addUserForm?
 
-                            <div className="col-lg-3 col-sm-6 mb-2">
-                                <small className="mb-1">Last Login</small>
-                                <input type="text" className="form-control input_lastLogin" aria-label="LastLogin"
-                                    disabled defaultValue={this.props.details.lastLogin}></input>
-                            </div>
-                            :
                             <div className="col-lg-3 col-sm-6 mb-2">
                                 <small className="mb-1">Emp. No.</small>
                                 <input type="text" className="form-control input_employeeNumber" placeholder="Emp. No." aria-label="EmployeeNumber"
                                     disabled={this.props.editMode} defaultValue={this.props.details.id}></input>
                             </div>
+                            :
+                            <div className="col-lg-3 col-sm-6 mb-2">
+                                <small className="mb-1">Last Login</small>
+                                <input type="text" className="form-control input_lastLogin" aria-label="LastLogin"
+                                    disabled defaultValue={this.props.details.lastLogin}></input>
+                            </div>
+                         
 
 }
                             <div className="col-lg-3 col-sm-6 mb-2">
