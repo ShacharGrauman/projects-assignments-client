@@ -3,7 +3,6 @@ import UserProfileHeader from './UserProfileHeader'
 import UserProfileDetails from './UserProfileDetails'
 import UserProfileRoles from './UserProfileRoles';
 import UserProfileFooter from './UserProfileFooter';
-import {USERS} from '../../mock-data/mock-data'
 
 import {DataProvider} from '../common/Provider/DataProvider'
 import {DataContext} from '../common/Provider/DataProvider'
@@ -19,7 +18,7 @@ export default class UserProfile extends React.Component{
         const {id}=this.props.match.params;
         this.state={
             profileMode:{edit:false, addUserForm:true}, // the state of the profile form.
-                                                 // if addUserForm is set to false, its an add user form
+                                                    // if addUserForm is set to false, its an add user form
             status:{deactivated:false, locked:false}, //the status of the user in the database. 
             userData:{
                 details:{
@@ -46,7 +45,7 @@ export default class UserProfile extends React.Component{
                     name:undefined,
                     description:undefined
                 }],
-                img:undefined
+                img:'x'
             }
         }
         
@@ -56,24 +55,47 @@ export default class UserProfile extends React.Component{
         
     }
 
+
+
     componentDidMount(){
-        api.getUserById(3).then(data=>console.log(data))
         //then assign the values according to what you get from the database
-
-
-        if (this.state.userData.details.id){
+    if (this.state.userData.details.id ){
+        api.getUserById(this.state.userData.details.id).then(({employee,managerName,lastLogin,roles})=>{
             this.setState({
-                profileMode:{edit:true, addUserForm:false},
-                status:{deactivated:false,locked:false}, // fix status values according to the backend
-                userData:USERS.find(e=>e.details.id===+this.state.userData.details.id)
-            })
-        }else{
+            profileMode:{edit:false, addUserForm:false},
+            status:{deactivated:false,locked:false}, // fix status values according to the backend
+            userData:{
+                details:{
+                    id:+this.state.userData.details.id,
+                    firstName:employee.firstName,
+                    lastName:employee.lastName,
+                    employeeNumber:employee.number,
+                    workSite:{
+                        name:employee.worksite.name,
+                        id:employee.worksite.id,
+                        country:{
+                            name:employee.worksite.country.name,
+                            id:employee.worksite.country.id
+                        }
+                    },
+                    manager:{name:managerName,id:employee.managerId},
+                    phone:employee.phone,
+                    email:employee.email,
+                    department:employee.department,
+                    lastLogin:lastLogin,
+                },
+                roles:roles,
+                img:'x'
+            }
+            }, ()=>console.log(this.state.userData))
+        })}else{
             this.setState({
                 profileMode:{edit:true,addUserForm:true}
-            })
-        }
+        })
+
 
     }
+}
 
     toggleEditMode(){
        this.setState({
