@@ -39,14 +39,10 @@ export default class AddProject extends React.Component {
   }
 
   componentDidMount() {
-<<<<<<< HEAD
-    
-=======
     //fetch student data from the server using the student id
     //*student id should be received from the routing system
     //After getting the data from the server:
     //update state!
->>>>>>> master
     fetch('http://localhost:8080/api/skills/')
       .then(response => response.json())
       .then(skills => this.skills = {
@@ -151,7 +147,6 @@ export default class AddProject extends React.Component {
   submit(e) {
     e.preventDefault();
     
-<<<<<<< HEAD
     const technicalSkill = [],
     productSkill = [];
 
@@ -184,24 +179,6 @@ export default class AddProject extends React.Component {
     fetch(`http://localhost:8080/api/projects/`,{method:"POST",body:JSON.stringify(values)}).then(response => {
       if(response) console.log("response add project");
     })
-=======
-    
-    let index = 0;
-    const values = {
-      projectName: this.state.projectname.value,
-      managerID: 1,
-      description: this.state.description.value,
-      startDate: this.state.date.value,
-      skills:
-        this.state.requiredSkills.map((el) => ({
-          id: el.skillr.id, 
-          level: el.level 
-        })
-      ) 
-    }
-
-    console.log(values);
->>>>>>> master
   }
 
   render() {
