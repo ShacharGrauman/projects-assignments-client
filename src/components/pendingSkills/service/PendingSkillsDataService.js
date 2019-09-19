@@ -13,7 +13,7 @@ class PendingSkillsDataService {
 
 
     retrieveRequestedSkillsConfirmation(managerId){
-         return axios.get(API_URL+'/'+managerId);
+         return axios.get(API_URL+'/teamskills/'+managerId);
          
     }
 
