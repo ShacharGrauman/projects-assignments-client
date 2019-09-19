@@ -22,7 +22,7 @@ export default class UserProfileRoles extends React.Component{
 
     render(){
         return(<>
-        <div className="card mb-2">
+        <div className="card mb-2 p-2">
         
             <h5 className="text-center mt-3 mb-1">Roles</h5>
             <div className="d-flex justify-content-around">
