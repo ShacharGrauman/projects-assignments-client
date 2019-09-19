@@ -14,7 +14,7 @@ export default class ListComponent extends React.Component{
     render(){
         return(<>
             <div className="form-group">
-                <label>{this.props.title}</label>
+                <p className="text-center mb-1">{this.props.title}</p>
                 <select multiple 
                         className="form-control"   
                         disabled={this.props.disabled}>

@@ -1,0 +1,13 @@
+for use of toastr:
+import makeToast from '../shared-components/Toast'
+in the needed componnents
+
+
+for success situation:
+makeToast.success(enter message here)
+
+for error situation:
+makeToast.error(enter message here)
+
+for info situation:
+makeToast.info(enter message here)

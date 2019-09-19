@@ -22,20 +22,31 @@
     "parcel-plugin-asset-copier": "^1.0.0"
   },
   "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.8",
+    "@fortawesome/fontawesome-free-solid": "^5.0.13",
     "@fortawesome/fontawesome-svg-core": "^1.2.22",
     "@fortawesome/free-solid-svg-icons": "^5.10.2",
     "@fortawesome/react-fontawesome": "^0.1.4",
+    "axios": "^0.19.0",
+    "google-charts": "^2.0.0",
     "highcharts": "^7.2.0",
     "highcharts-react-official": "^2.2.2",
-    "prop-types": "15.7.2",
+    "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-bootstrap": "^1.0.0-beta.12",
     "react-calendar": "^2.19.2",
+    "react-confirm-alert": "^2.4.1",
     "react-datepicker": "^2.9.6",
     "react-dom": "^16.9.0",
+    "react-google-charts": "^3.0.15",
     "react-router-dom": "^5.0.1",
     "react-select": "^3.0.4",
-    "react-select-country-list": "^2.0.1"
+    "react-select-country-list": "^2.0.1",
+    "react-toastr": "^3.0.0",
+    "toastr": "^2.1.4"
   },
+  "browserslist": [
+    "last 2 Chrome versions"
+  ],
   "assetsPath": "assets/"
 }
