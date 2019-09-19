@@ -10,4 +10,4 @@ for error situation:
 makeToast.error(enter message here)
 
 for info situation:
-makeToast.error(enter message here)
+makeToast.info(enter message here)
