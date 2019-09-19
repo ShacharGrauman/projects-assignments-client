@@ -41,7 +41,9 @@
     "react-google-charts": "^3.0.15",
     "react-router-dom": "^5.0.1",
     "react-select": "^3.0.4",
-    "react-select-country-list": "^2.0.1"
+    "react-select-country-list": "^2.0.1",
+    "react-toastr": "^3.0.0",
+    "toastr": "^2.1.4"
   },
   "browserslist": [
     "last 2 Chrome versions"
