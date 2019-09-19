@@ -5,6 +5,8 @@ import { Button, Badge } from "react-bootstrap";
 import { Route, Link, BrowserRouter as Router } from "react-router-dom";
 import SkillBadge from "./SkillBadge";
 import InputErrors from "./InputError";
+import  Api from './Api';
+
 
 export default class AssignHistory extends React.Component {
   constructor() {
@@ -21,54 +23,31 @@ export default class AssignHistory extends React.Component {
     };
     this.setProjectInSession = this.setProjectInSession.bind(this);
     this.getEmpForProject = this.getEmpForProject.bind(this);
-    this.getSearchData = this.getSearchData.bind(this);
+    this.getSearchDataByProjectName = this.getSearchDataByProjectName.bind(this);
+    this.getSearchDataByEmployeeName = this.getSearchDataByEmployeeName.bind(this);
     this.inputChange = this.inputChange.bind(this);
     this.setSearchValue = this.setSearchValue.bind(this);
 
-    // this.setEmployeeInSession = this.setEmployeeInSession.bind(this);
   }
-  componentDidMount() {
-    fetch("http://localhost:8080/api/projects/1")
-      .then(response => response.json())
-      .then(Projects => {
-        this.setState({
-          projectsData: Projects
-        });
-      });
+  async componentDidMount() {
+    const projectsData = await Api.getProjects();
+    this.setState({projectsData});
   }
 
-  getSearchData() {
-    fetch(
-          `http://localhost:8080/api/projects?projectName=${this.state.searchBar.value}&pageNumber=1&limit=5`
-        )
-          .then(response => response.json())
-          .then(Projects => {
-            this.setState({
-              projectsData: Projects
-            });
-          });
-    // console.log(this.state.searchBar.errors);
-    // if (this.state.searchBar.errors != null) {
-    //   fetch(
-    //     `http://localhost:8080/api/projects?projectName=${this.state.searchBar.value}&pageNumber=1&limit=5`
-    //   )
-    //     .then(response => response.json())
-    //     .then(Projects => {
-    //       this.setState({
-    //         projectsData: Projects
-    //       });
-    //     });
-    // } else if (this.state.searchBar.value == null) {
-    //   fetch(`http://localhost:8080/api/projects/1`)
-    //     .then(response => response.json())
-    //     .then(Projects => {
-    //       this.setState({
-    //         projectsData: Projects
-    //       });
-    //     });
-    // }
+  async getSearchDataByProjectName() {
+    const projectsData = await Api.getProjectsByProjectName(this.state.searchBar.value);
+    this.setState({projectsData});
   }
+  async getSearchDataByEmployeeName() {
+    const projectsData = await Api.getProjectsByEmployeeName(this.state.searchBar.value);
+    this.setState({projectsData});
+  }
+  async getEmpForProject(projectID) {
+    
+    const EmployeesByProjectByID = await Api.getEmpForProjects(projectID);
+    this.setState({EmployeesByProjectByID});
 
+  }
   setSearchValue(event){
     this.setState({
       searchBar: {
@@ -77,17 +56,7 @@ export default class AssignHistory extends React.Component {
       }
     });
   }
-  getEmpForProject(ProjectID) {
-    fetch(
-      `http://localhost:8080/api/team//projectid?projectid=${ProjectID}`
-    )
-      .then(response => response.json())
-      .then(Employees => {
-        this.setState({
-          EmployeesByProjectByID: Employees
-        });
-      });
-  }
+
   setProjectInSession(project) {
     sessionStorage.clear();
     sessionStorage.setItem("Project", JSON.stringify(project));
@@ -129,18 +98,26 @@ export default class AssignHistory extends React.Component {
               className="form-control mr-sm-2 w-25 "
               type="search"
               placeholder="Search"
-              aria-label="Search"
+              aria-label="Search By Project Name"
               // defaultValue={this.state.searchBar.value}
               // onBlur={e=>this.inputChange}
               onKeyUp={this.setSearchValue}
             ></input>
 
             <button
+              className="btn btn-outline-success my-2 my-sm-0 mr-2"
+              type="submit"
+              onClick={this.getSearchDataByProjectName}
+            >
+              Search Project By Name
+            </button>
+            
+            <button
               className="btn btn-outline-success my-2 my-sm-0"
               type="submit"
-              onClick={this.getSearchData}
+              onClick={this.getSearchDataByEmployeeName}
             >
-              Search
+              Search Employee By Name 
             </button>
           </div>
           <div className="d-flex justify-content-center align-items-center mb-2">

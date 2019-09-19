@@ -1,6 +1,7 @@
 import React from "react";
 // import { AssignHistoryForEmp } from "../data/AssignHistoryForEmp";
 import { Link } from "react-router-dom";
+import Api from "./Api";
 export default class AssignmentRequets extends React.Component {
   constructor() {
     super();
@@ -10,41 +11,19 @@ export default class AssignmentRequets extends React.Component {
     this.sendPendingAssignment = this.sendPendingAssignment.bind(this);
   }
 
-  componentDidMount() {
-    setTimeout(() => {
-      fetch(
-        `http://localhost:8080/api/assignments/assignmentsrequest?managerid=1&pageNumber=1&limit=10`
-      )
-        .then(response => response.json())
-        .then(pending => {
-          this.setState({
-            PendingRequests: pending
-          });
-        });
-    }, 0);
-   
+  async componentDidMount() {
+    const PendingRequests = await Api.getPendingAssignments();
+    this.setState({ PendingRequests });
   }
-  sendPendingAssignment(status, AssignID) {
-    
-    // console.log(AssignID);
-    console.log(status);
-    // fetch("http://localhost:8080/api/login", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify({
-    //     AssignmentID: AssignID
-    //     status:status
-    //   })
-    // })
-    //   .then(res => {
-    //     if (res.ok) this.props.history.push("/");
-    //     else {
-    //       console.log("Error Logging in");
-    //     }
-    //   })
-    //   .catch(err => console.error(err));
+  async sendPendingAssignment(status, assignID) {
+    try {
+      const chanageStatus = await Api.sendAssignment(status, assignID);
+      if (chanageStatus) {
+        console.log(sucsses);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   }
   render() {
     return (
@@ -83,7 +62,7 @@ export default class AssignmentRequets extends React.Component {
                   <td>{Assign.startDate}</td>
                   <td>{Assign.endDate}</td>
                   <td>{Assign.status}</td>
-                  <td>{Assign.requestFromManagerID}</td>
+                  <td>{Assign.fromManagerName}</td>
 
                   <td>
                     <button

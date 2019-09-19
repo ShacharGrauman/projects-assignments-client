@@ -1,6 +1,5 @@
 import React from 'react';
 import ListComponent from '../shared-components/List'
-import {UserRoles} from '../../mock-data/mock-data'
 import {api} from '../../mock-data/api'
 
 
@@ -10,7 +9,6 @@ export default class UserProfileRoles extends React.Component{
         super(props);
         this.state={
             allRoles:[],
-            userRoles : UserRoles.map(({name})=>name),
             }
         
     }
@@ -32,7 +30,7 @@ export default class UserProfileRoles extends React.Component{
                         <div className="w-75 m-2">
                                 <ListComponent disabled={this.props.editMode}
                                 options={this.state.allRoles.map(({name})=>name)
-                                            .filter(name=>!this.state.userRoles.map(({name})=>name).includes(name))} 
+                                            .filter(name=>!this.props.userRoles.map(({name})=>name).includes(name))} 
                                 title={"All Roles"}
                                 id="userRoles"/>
                         </div>
@@ -43,7 +41,7 @@ export default class UserProfileRoles extends React.Component{
                     </>}
                     <div className="w-75 m-2">
                         <ListComponent disabled={this.props.editMode} 
-                                        options={this.state.userRoles}
+                                        options={[this.props.userRoles.map(role=>role.name)]}
                                         title={"User Roles"}
                                         />
                     </div>
