@@ -3,6 +3,8 @@ import DataService from './service/PendingSkillsDataService';
 import { BrowserRouter as Router,Link, Route, Switch } from 'react-router-dom';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class PendingSkills extends Component {
   constructor(props) {
@@ -53,10 +55,12 @@ class PendingSkills extends Component {
             if(response.data.status=="APPROVED"){
               let row = document.getElementById(targetId);
               row.parentNode.removeChild(row);
-              window.alert("The skill is Added to the Approved Skills")
+              toast.success("The skill is Added to the approved skills.");
+              //window.alert("The skill is Added to the Approved Skills")
             }
             else{
-              window.alert("Adding this skill is currently not possible")
+              toast.error("Adding this skill is currently not possible");
+              //window.alert("Adding this skill is currently not possible")
             }
           }    
           ) 
@@ -94,10 +98,12 @@ confirmReject(e){
          if(response.data==true){
           let row = document.getElementById(targetId);
            row.parentNode.removeChild(row);
-           window.alert("Request is rejected successfully!")
+           toast.error("Request is rejected successfully!");
+           //window.alert("Request is rejected successfully!")
          }
          else{
-           window.alert("An error is occured, please try again later")
+          toast.error("An error is occured, please try again later");
+           //window.alert("An error is occured, please try again later")
          }
 
        }    
@@ -117,8 +123,9 @@ confirmReject(e){
   
   render() {
     return (
+      
       <div class="container">
-
+         <ToastContainer />
 
         <div class="row">
           <div class="col">
@@ -144,7 +151,7 @@ confirmReject(e){
                         <table class="table table-hover table-sm">
                           <thead class="thead-dark">
                             <tr>
-                              <th>User Name</th>
+                              <th>Employee Name</th>
                               <th>Skill Name</th>
                               
                               <th>Request Date</th>
@@ -186,7 +193,7 @@ confirmReject(e){
                           <table class="table table-hover table-sm">
                             <thead class="thead-dark">
                               <tr>
-                                <th>User Name</th>
+                                <th>Employee Name</th>
                                 <th>Skill Name</th>
                                 <th>Request Date</th>
 
