@@ -27,11 +27,7 @@ const MySkillsTable = ({ type, updateClick, deleteClick, skills }) => {
                   <td>
                     <button
                       className="btn btn-danger btn-sm"
-                      onClick={deleteClick.bind(
-                        this,
-                        type,
-                        skill.employeeSkillId
-                      )}
+                      onClick={deleteClick.bind(this, skill.employeeSkillId)}
                     >
                       {" "}
                       Delete{" "}
