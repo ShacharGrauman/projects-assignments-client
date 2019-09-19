@@ -23,17 +23,4 @@ export default props => {
       ); 
    }
   
-//   else {
-//     return (
-//       <span className="badge badge-info mr-1" key={index}>
-//         {skill.name}{" "}
-//         <span
-//           className="badge badge-info"
-//           style={{ fontSize: skill.level > 3 ? "1em" : "" }}
-//         >
-//           {skill.level}
-//         </span>
-//       </span>
-//     );
-//   }
 }   

@@ -22,7 +22,7 @@ export default class MyTeamTable extends React.Component {
   componentDidMount() {
     //Ya'ani call to the server for data
     //should be manager ID form Login
-    fetch(`http://localhost:8080/api/team?managerID=1&pageNumber=1&limit=10`)
+    fetch(`http://localhost:8080/api/team/1?pageNumber=1&limit=10`)
       .then(response => response.json())
       .then(employees => {
         this.setState({
@@ -49,7 +49,7 @@ export default class MyTeamTable extends React.Component {
     //debugger;
 
     const requiredSkill = this.state.search.toLowerCase();
-    console.log(requiredSkill);
+   // console.log(requiredSkill);
     if (!requiredSkill) {
       this.setState({
         employeesSearch: this.state.employees
