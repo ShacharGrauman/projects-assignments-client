@@ -4,7 +4,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import SkillBadge from "./SkillBadge";
 import MyTeamDetailsTable from "./MyTeamDetailsTable";
-
+import Api  from './Api';
 export default class MyTeamTable extends React.Component {
   constructor() {
     super();
@@ -19,10 +19,10 @@ export default class MyTeamTable extends React.Component {
     this.filterList = this.filterList.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     //Ya'ani call to the server for data
     //should be manager ID form Login
-    fetch(`http://localhost:8080/api/team?managerID=1&pageNumber=1&limit=10`)
+    fetch(`http://localhost:8080/api/team/1/?&pageNumber=1&limit=10`)
       .then(response => response.json())
       .then(employees => {
         this.setState({
@@ -30,6 +30,8 @@ export default class MyTeamTable extends React.Component {
           employeesSearch: employees
         });
       });
+    
+  
     this.setState({ project: JSON.parse(sessionStorage.getItem("Project")) });
   }
 
