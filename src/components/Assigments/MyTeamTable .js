@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import SkillBadge from "./SkillBadge";
 import MyTeamDetailsTable from "./MyTeamDetailsTable";
 import Api from "./Api";
-import { async } from "q";
+
 export default class MyTeamTable extends React.Component {
   constructor() {
     super();
