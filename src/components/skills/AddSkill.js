@@ -29,21 +29,10 @@ class AddSkill extends React.Component {
         value: "",
         errors: [],
         validations: {
-          required: true,
-          /**pattern: /^[a-z0-9]+$/i,*/ exists: true
+          required: true
         },
         valid: true
       },
-      /* [date]: {
-        value: "",
-        errors: [],
-        validations: {
-          required: true,
-          minYear: 2009,
-          maxYea: new Date().getFullYear()
-        },
-        valid: true
-      },*/
       [level]: {
         value: "",
         errors: [],
@@ -78,16 +67,6 @@ class AddSkill extends React.Component {
       }
     }
 
-    /*if (validations.exists) {
-      if (
-        !this.props.technical.find(skill => skill.skillName === value) &&
-        !this.props.product.find(skill => skill.skillName === value)
-      ) {
-        errors.push(`${name} does no exist`);
-        valid = false;
-      }
-    }*/
-
     if (validations.maxLevel) {
       if (value > validations.maxLevel) {
         errors.push(`${name} should be at most ${validations.maxLevel}`);
@@ -117,13 +96,6 @@ class AddSkill extends React.Component {
         valid = false;
       }
     }
-
-    /*if (validations.pattern) {
-      if (!validations.pattern.test(value)) {
-        errors.push(`invalid ${name}`);
-        valid = false;
-      }
-    }*/
 
     this.setState({
       [name]: {
@@ -167,7 +139,6 @@ class AddSkill extends React.Component {
         skill[0].skillId,
         this.state.name.value,
         this.state.level.value,
-        //   this.state.date.value,
         this.state.type.value
       );
 
@@ -187,15 +158,6 @@ class AddSkill extends React.Component {
   }
 
   getSuggestions(e) {
-    /* else {
-      const arr = this.props.product.filter(s =>
-        s.skillName.startsWith(e.target.value)
-      );
-      const arr2 = this.props.technical.filter(s =>
-        s.skillName.startsWith(e.target.value)
-      );
-
-      this.setState({ suggestions: [...arr, ...arr2] });*/
     if (e.target.value === "") {
       this.setState({ suggestions: null });
     }

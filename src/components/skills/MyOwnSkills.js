@@ -48,6 +48,8 @@ class MyOwnSkills extends Component {
       productSkills
     );
 
+    DataService.fetchDataList(this, DataService.getAllSkills, id, skills);
+
     DataService.fetchSkillsHistory(
       this,
       this.state.currentTab,
@@ -65,26 +67,21 @@ class MyOwnSkills extends Component {
     );
   }
 
-  addSkill(skillId, skillName, level, type, date) {
-    DataService.sendPostRequest(this, "Add Skill", DataService.addNewSkill, {
-      employeeId: this.state.id,
-      skillId,
-      skillName,
-      level,
-      type,
-      date
-    });
+  addSkill(skillId, skillName, level, type) {
+    DataService.sendPostRequest.call(
+      this,
+      "Add Skill",
+      DataService.addNewSkill,
+      { employeeId: this.state.id, skillId, skillName, level, type }
+    );
   }
 
-  submitUpdate(type, id, grade) {
+  submitUpdate(id, grade) {
     DataService.sendPostRequest.call(
       this,
       "Update Skill",
       DataService.updateSkillByIdSkill,
-      {
-        id,
-        level: grade
-      }
+      { id, level: grade }
     );
   }
 

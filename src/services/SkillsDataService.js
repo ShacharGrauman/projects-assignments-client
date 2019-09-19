@@ -1,7 +1,5 @@
 import axios from "axios";
-import makeTaost from "../components/shared-components/Toast";
-
-const USERNAME = "someUser";
+import { toast } from "react-toastify";
 
 const API_URL = `http://localhost:8080/api/`;
 
@@ -21,11 +19,11 @@ class SkillsDataService {
     method({ id, employeeId, skillId, skillName, level, skillType, date })
       .then(resp => {
         if (resp.data) {
-          makeTaost.success(`${opration} successful`);
+          toast.success(`${opration} successful`);
         }
       })
       .catch(error => {
-        makeTaost.error(`${opration} successful failed ${error.message}`);
+        toast.error(`${opration} failed ${error.message}`);
       })
       .finally(() => this.refetch());
   }
@@ -52,31 +50,16 @@ class SkillsDataService {
     method(id)
       .then(resp => component.setState({ [arrName]: resp.data }))
       .catch(error => {
-        makeTaost.error(`failed to fetch Data ${error.message}`);
+        toast.error(`failed to fetch Data ${error.message}`);
         component.setState({ [arrName]: [] });
       });
   }
 
   retrieveProductSkillsById(id) {
     return axios.get(`${API_URL}/skills/employeeskills/${id}/PRODUCT`);
-    /*if (response.status === 200) {
-      return response.data;
-    }
-    return null;*/
-    //return ProductSkills;
-
-    // return axios.get(`${API_URL}/skills/employeeskills/${id}/PRODUCT`);
   }
 
   retrieveTechnicalSkillsById(id) {
-    /*const response = await axios.get(
-      `${API_URL}/skills/employeeskills/${id}/TECHNICAL`
-    );
-    if (response.status === 200) {
-      return response.data;
-    }*/
-    // return TechnicalSkills;
-
     return axios.get(`${API_URL}/skills/employeeskills/${id}/TECHNICAL`);
   }
 
@@ -88,34 +71,26 @@ class SkillsDataService {
     return axios.get(`${API_URL}/skills/approvedskillshistory/${id}/TECHNICAL`);
   }
 
-  addNewSkill({ employeeId, skillId, skillName, level, skillType, date }) {
+  addNewSkill({ employeeId, skillId, skillName, level, type }) {
+    console.log(employeeId, skillId, skillName, level, type);
     if (skillId) {
       return axios.post(`${API_URL}/skills/`, {
         skillId,
         employeeId,
         skillName,
         level
-        // date,
       });
     } else {
       return axios.post(`${API_URL}/skills/`, {
         employeeId,
         skillName,
         level,
-        // date,
-        type: skillType
+        type
       });
     }
   }
 
   updateSkillByIdSkill({ id, level }) {
-    /*const response = await axios.post(`${API_URL}/skills/updatelevel/`, {
-      id,
-      level
-    });
-    if (response.status === 200) {
-      return response.data;
-    }*/
     return axios.post(`${API_URL}/skills/updatelevel/`, {
       id,
       level
@@ -123,10 +98,6 @@ class SkillsDataService {
   }
 
   removeUnapprovedSkillById({ id }) {
-    /*const response = await axios.delete(`${API_URL}/skills/${id}`);
-    if (response.status === 200) {
-      return response.data;
-    }*/
     return axios.delete(`${API_URL}/skills/${id}`);
   }
 }
