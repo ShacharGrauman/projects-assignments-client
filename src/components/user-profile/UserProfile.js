@@ -46,6 +46,7 @@ export default class UserProfile extends React.Component{
         this.addUser = this.addUser.bind(this)
         this.deactivateUser = this.deactivateUser.bind(this)
         this.editUser = this.editUser.bind(this)
+        this.sendEmail = this.sendEmail.bind(this)
     }
 
     async componentDidMount(){
@@ -150,7 +151,6 @@ export default class UserProfile extends React.Component{
         .catch(err=>console.error(err));
     }
 
-
     editUser(){
         api.updateUserDetails(this.state.userData)
         .then(res=>{
@@ -212,6 +212,9 @@ export default class UserProfile extends React.Component{
             }))
     }
     
+    sendEmail(title , body){
+        console.log('sending email to email: ' + this.state.userData.details.email.value)
+    }
     
     render(){
         return(
@@ -240,13 +243,15 @@ export default class UserProfile extends React.Component{
                                         toggleRole={this.toggleRole}/>
 </DataProvider>
                     <UserProfileFooter editMode={!this.state.profileMode.edit}
+                                        name={`${this.state.userData.details.firstName.value} ${this.state.userData.details.lastName.value}`}
                                         isLocked={this.state.status.locked}
                                         toggleLockUser={this.toggleLockUser}
                                         addUserForm={this.state.profileMode.addUserForm}
                                         printRoles={this.printRoles}
                                         addUser={this.addUser}
                                         editUser={this.editUser}
-                                        deactivateUser={this.deactivateUser}/>
+                                        deactivateUser={this.deactivateUser}
+                                        sendEmail={this.sendEmail}/>
 
 
                 </div>
