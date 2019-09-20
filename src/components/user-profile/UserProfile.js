@@ -38,23 +38,26 @@ export default class UserProfile extends React.Component{
                 img:'x'
             }
         }
-        
+        const allRoles=[];
         this.toggleEditMode=this.toggleEditMode.bind(this)
         this.toggleLockUser=this.toggleLockUser.bind(this)
-        this.printRoles = this.printRoles.bind(this)
         this.toggleRole = this.toggleRole.bind(this)
         this.handleInputChange = this.handleInputChange.bind(this)
         this.addUser = this.addUser.bind(this)
         this.deactivateUser = this.deactivateUser.bind(this)
+        this.editUser = this.editUser.bind(this)
     }
 
     async componentDidMount(){
-        const allRoles = await api.getRoles();
+        await api.getRoles().then(result=>{
+            this.allRoles = result
+        });
+
 
     if (this.state.userData.details.id ){
         api.getUserById(this.state.userData.details.id).then(({employee,managerName,lastLogin,roles})=>{
             
-            const non_userRoles = allRoles.filter((elem) => !roles.find(({ name }) => elem.name === name))
+            const non_userRoles = this.allRoles.filter((elem) => !roles.find(({ name }) => elem.name === name))
 
 
             this.setState({
@@ -84,7 +87,7 @@ export default class UserProfile extends React.Component{
         })}else{
             this.setState({
                 profileMode:{edit:true,addUserForm:true},
-                userData:{...this.state.userData, non_userRoles:allRoles}
+                userData:{...this.state.userData, non_userRoles:this.allRoles}
         })
 
 
@@ -108,14 +111,25 @@ export default class UserProfile extends React.Component{
     addRoles(rolesSelected){
         this.setState({
             userData:{...this.state.userData,
-                roles:[...this.state.userData.roles, ...rolesSelected]
+                roles:[...this.state.userData.roles, ...rolesSelected],
             },
-        })
+        }, ()=>{this.setState({
+            userData:{...this.state.userData,
+                non_userRoles:this.allRoles.filter((elem) => !this.state.userData.roles.find(({ name }) => elem.name === name))
+        }})})
     }
+
     removeRoles(rolesSelected){
-        console.log(this.state.userData.roles)
-        console.log('Removing Roles' , rolesSelected)
+        this.setState({
+            userData:{...this.state.userData,
+                roles:this.state.userData.roles.filter((elem) => !rolesSelected.find(({ name }) => elem.name === name))
+            },
+        }, ()=>{this.setState({
+            userData:{...this.state.userData,
+                non_userRoles:this.allRoles.filter((elem) => !this.state.userData.roles.find(({ name }) => elem.name === name))
+        }})})
     }
+
     toggleRole(rolesSelected){ //rolesSelected is an array of Roles. innerText to access the values
     if(!this.state.userData.roles.map(el=>el.id).includes(rolesSelected[0].id)){
         this.addRoles(rolesSelected);
@@ -125,41 +139,52 @@ export default class UserProfile extends React.Component{
     }
 
     addUser(){
-        console.log(this.state.userData)
-        // api.addUser(this.state.userData)
-        // .then(res=>{
-        // if(res.ok)
-        //     console.log('OK!!')
-        // else{
-        //     console.log('Error Adding the user')
-        // }
-        // })
-        // .catch(err=>console.error(err));
+        api.addUser(this.state.userData)
+        .then(res=>{
+        if(res.ok)
+            console.log('OK!!')
+        else{
+            console.log('Error Adding the user')
+        }
+        })
+        .catch(err=>console.error(err));
     }
 
-    printRoles(){
-        console.log({
-            "employee":{
-                "id":this.state.userData.details.id,
-                "number":this.state.userData.details.employeeNumber,
-                "firstName":this.state.userData.details.firstName,
-                "lastName":this.state.userData.details.lastName,
-               "email":this.state.userData.details.email,
-               "managerId":this.state.userData.details.manager.id,
-               "department":this.state.userData.details.department,
-               "worksite":{
-                    "id":this.state.userData.details.workSite.id
-               },
-               "country":{
-                    "name":this.state.userData.details.workSite.country.name
-               },
-               "phone":this.state.userData.details.phone,
-               "loginStatus":false,
-               "locked":false,
-               "deactivated":false
-        },
-      "roles":this.state.userData.roles
-    })
+    // printRoles(){
+    //     console.log({
+    //         "employee":{
+    //             "id":this.state.userData.details.id,
+    //             "number":this.state.userData.details.employeeNumber,
+    //             "firstName":this.state.userData.details.firstName,
+    //             "lastName":this.state.userData.details.lastName,
+    //            "email":this.state.userData.details.email,
+    //            "managerId":this.state.userData.details.manager.id,
+    //            "department":this.state.userData.details.department,
+    //            "worksite":{
+    //                 "id":this.state.userData.details.workSite.id
+    //            },
+    //            "country":{
+    //                 "name":this.state.userData.details.workSite.country.name
+    //            },
+    //            "phone":this.state.userData.details.phone,
+    //            "loginStatus":false,
+    //            "locked":false,
+    //            "deactivated":false
+    //     },
+    //   "roles":this.state.userData.roles
+    // })
+    // }
+
+    editUser(){
+        api.updateUserDetails(this.state.userData)
+        .then(res=>{
+        if(res.ok)
+            console.log('OK!!')
+        else{
+            console.log('Error Adding the user')
+        }
+        })
+        .catch(err=>console.error(err));
     }
 
     handleRequiredValidation(name, value) {
@@ -229,8 +254,8 @@ export default class UserProfile extends React.Component{
 
                     <UserProfileRoles   editMode={!this.state.profileMode.edit}
                                         userRoles={this.state.userData.roles}
-                                        toggleRole={this.toggleRole}
-                                        non_userRoles={this.state.userData.non_userRoles}/>
+                                        non_userRoles={this.state.userData.non_userRoles}
+                                        toggleRole={this.toggleRole}/>
 </DataProvider>
                     <UserProfileFooter editMode={!this.state.profileMode.edit}
                                         isLocked={this.state.status.locked}
@@ -238,6 +263,7 @@ export default class UserProfile extends React.Component{
                                         addUserForm={this.state.profileMode.addUserForm}
                                         printRoles={this.printRoles}
                                         addUser={this.addUser}
+                                        editUser={this.editUser}
                                         deactivateUser={this.deactivateUser}/>
 
 

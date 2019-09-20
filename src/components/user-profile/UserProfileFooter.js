@@ -33,7 +33,7 @@ export default class UserProfileFooter extends React.Component{
                             {this.props.addUserForm?
                             <button className="btn btn-success" onClick={this.props.printRoles} onClick={this.props.addUser}>Finish</button>
                             :
-                            <button className="btn btn-success">Apply</button>
+                            <button className="btn btn-success" onClick={this.props.editUser}>Apply</button>
                             }
                         </div>
                     </>

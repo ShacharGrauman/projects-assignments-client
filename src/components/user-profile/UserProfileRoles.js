@@ -14,15 +14,10 @@ export default class UserProfileRoles extends React.Component{
             this.toggleRole= this.toggleRole.bind(this)
     }
     
-    
-
-    
     async componentDidMount(){
         const allRoles = await api.getRoles();
          this.setState({allRoles});
     }
-
-
 
     toggleRole(element){
         let rolesList=[];
@@ -42,7 +37,6 @@ export default class UserProfileRoles extends React.Component{
         
     }
     
-
     render(){
         return(<>
         <div className="card mb-2 p-2">
