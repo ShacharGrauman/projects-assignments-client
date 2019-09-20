@@ -22,7 +22,7 @@ export default class UserProfileFooter extends React.Component{
                                 <div className="dropdown-menu">
                                     <h6 className="dropdown-item" onClick={this.props.deactivateUser}>Deactivate User</h6>
                                     <h6 className="dropdown-item" to="/">Direct Message</h6>
-                                    <h6 className="dropdown-item" to="/">Reset Password</h6>
+                                    <h6 className="dropdown-item" >Reset Password</h6>
                                 </div>
                             </div>
                             }

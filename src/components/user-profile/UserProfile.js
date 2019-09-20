@@ -58,7 +58,7 @@ export default class UserProfile extends React.Component{
         api.getUserById(this.state.userData.details.id).then(({employee,managerName,lastLogin,roles})=>{
             
             const non_userRoles = this.allRoles.filter((elem) => !roles.find(({ name }) => elem.name === name))
-
+            
 
             this.setState({
                 profileMode:{edit:false, addUserForm:false},
@@ -103,8 +103,8 @@ export default class UserProfile extends React.Component{
 
     toggleLockUser(){
         this.setState({
-            status:{deactivated:false, locked:!this.state.status.locked},
-            profileMode:{edit:false,addUserForm:true},
+            status:{deactivated:false, locked:false},
+            profileMode:{edit:false,addUserForm:false},
         })
     }
 
@@ -150,30 +150,6 @@ export default class UserProfile extends React.Component{
         .catch(err=>console.error(err));
     }
 
-    // printRoles(){
-    //     console.log({
-    //         "employee":{
-    //             "id":this.state.userData.details.id,
-    //             "number":this.state.userData.details.employeeNumber,
-    //             "firstName":this.state.userData.details.firstName,
-    //             "lastName":this.state.userData.details.lastName,
-    //            "email":this.state.userData.details.email,
-    //            "managerId":this.state.userData.details.manager.id,
-    //            "department":this.state.userData.details.department,
-    //            "worksite":{
-    //                 "id":this.state.userData.details.workSite.id
-    //            },
-    //            "country":{
-    //                 "name":this.state.userData.details.workSite.country.name
-    //            },
-    //            "phone":this.state.userData.details.phone,
-    //            "loginStatus":false,
-    //            "locked":false,
-    //            "deactivated":false
-    //     },
-    //   "roles":this.state.userData.roles
-    // })
-    // }
 
     editUser(){
         api.updateUserDetails(this.state.userData)
@@ -229,7 +205,11 @@ export default class UserProfile extends React.Component{
     }
 
     deactivateUser(){
-        api.deactivateUser(this.state.userData.details.id).then(response =>console.log(response))
+        api.deactivateUser(this.state.userData.details.id)
+            .then(this.setState({
+                    status:{deactivated:true, locked:true},
+                    profileMode:{edit:false,addUserForm:false},
+            }))
     }
     
     
@@ -241,8 +221,10 @@ export default class UserProfile extends React.Component{
                 <div className="col-12 mb-2 mr-3 ml-3 p-0 mt-5">
                     <UserProfileHeader imgURL={this.state.userData.img}
                                         employeeName={this.state.userData.details.firstName.value+" " + this.state.userData.details.lastName.value}
-                                        isLocked={this.state.status.locked}
+                                        userState={this.state.status}
                                         id={this.state.userData.details.id}
+                                        name={`${this.state.userData.details.firstName.value} ${this.state.userData.details.lastName.value}`}
+                                        employeeNumber={this.state.userData.details.employeeNumber.value}
                                         edit={this.state.profileMode.edit}
                                         toggleEditMode={this.toggleEditMode}
                                         />

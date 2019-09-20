@@ -30,7 +30,7 @@ export default () => (
         <Route path="/"                         component={Home} exact />
         <Route path="/users-list/"              component={UsersListPage} />
         <Route path="/user-profile/:id"         component={UserProfile} />
-        <Route path="/user-profile/addUser"     component={UserProfile} />
+        <Route path="/user-profile/addUser"     component={UserProfile} exact/>
         <Route path="/audit"                    component={Audit} />
         <Route path="/roles"                    component={Roles} />
         <Route path="/settings"                 component={Settings} />

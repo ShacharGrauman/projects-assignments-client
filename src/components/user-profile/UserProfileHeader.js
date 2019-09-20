@@ -13,13 +13,20 @@ const styleProfileImg = {
   cursor: "pointer"
 };
 
+const  deactivatedStyle = {
+fontWeight:'bold',
+border:'2px solid red',
+color:'red',
+width:'auto'
+}
+
 export default class extends React.Component {
   constructor(props) {
     super(props);
 
     this.state={
       edit:undefined,
-      id:this.props.id
+      id:this.props.id,
     }
 
   }
@@ -28,30 +35,37 @@ export default class extends React.Component {
 
   componentDidMount(){
     this.setState({
-      edit:this.props.edit
+      edit:this.props.edit,
     })
   }
 
   render() {
     return (
       <>
-        {this.state.id &&<h5 style={{ marginBottom: "-25px" }}>
-                          {this.state.id}'s User Profile
-                        </h5>}
+      {this.props.userState.deactivated && 
+          <h2 className="p-2 text-center" style={deactivatedStyle}>Deactivated</h2>}
+          
+        {this.state.id && <div  style={{ marginBottom: "-25px" }}>
+                            <h3>{this.props.name}'s Profile</h3>
+                            <h6 className="mt-2">Employee Number: {this.props.employeeNumber}</h6>
+                          </div>}
         <div className=" d-flex justify-content-between align-items-baseline">
           <img
             className="position-relative shadow"
             src={ImgProfile}
             style={styleProfileImg}
           ></img>
-
-          {(!this.props.isLocked && this.state.id)&& 
+          
+          {(!this.props.userState.locked && this.state.id)&& 
             <FontAwesomeIcon
-              style={{fontSize:'1.5rem', opacity:'0.8', cursor:'pointer'}}
+              style={{fontSize:'2rem', opacity:'0.8', cursor:'pointer'}}
               icon={faEdit}
               onClick={()=>this.props.toggleEditMode()}
             ></FontAwesomeIcon>
           }
+          
+          
+          
         </div>
       </>
     );
