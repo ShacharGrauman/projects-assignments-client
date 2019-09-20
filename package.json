@@ -46,7 +46,6 @@
     "react-select-country-list": "^2.0.1",
     "react-toastify": "^5.3.2",
     "toastr": "^2.1.4"
-
   },
   "browserslist": [
     "last 2 Chrome versions"
