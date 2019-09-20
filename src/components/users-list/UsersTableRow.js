@@ -8,7 +8,6 @@ export default class UsersTableRow extends React.Component{
 
     
     render(){
-        console.log(this.props.roles.name)
         return (
             <tr>
                 <td><Link to={`/user-profile/${this.props.user.id}`}>{this.props.user.number}</Link></td>
