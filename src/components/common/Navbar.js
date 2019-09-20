@@ -80,6 +80,8 @@ export default class Navbar extends React.Component {
               <Link className="nav-link" to="/done-assignments">
                 Done Assigments
               </Link>
+            </li>
+            <li>
               <Link className="nav-link" to="/pendingSkills/1">
                 Pending Skills
               </Link>
