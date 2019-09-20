@@ -151,7 +151,7 @@ export const api = {
         }
     ,
     getWorkSites :async () =>{ 
-        const workSites = await fetch('http://localhost:8080/api/employee/WorkSites')
+        const workSites = await fetch('http://localhost:8080/api/employee/worksites')
         return workSites.json();
         }
     ,
@@ -199,33 +199,32 @@ export const api = {
     },
 
 
-    addUser: async (user)=>{
+    addUser: async ({details,img,roles})=>{
         const addedUser = await fetch(`http://localhost:8080/api/employee/`,{
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json',
             },
             body:JSON.stringify({
-                number:user.employeeNumber,
-                firstName:user.firstName,
-                lastName:user.lastName,
-                email:user.email,
-                managerId:user.managerId,
-                department:user.department,
-                worksite:{
-                    id:user.worksite.id,
-                    name:user.worksite.name,
-                    country:{
-                        id:user.worksite.country.id,
-                        name:user.worksite.country.id
-                    },
-                    city:user.worksite.city,
+                employee:{
+                       number:details.employeeNumber.value,
+                       firstName:details.firstName.value,
+                       lastName:details.lastName.value,
+                       email:details.email.value,
+                       managerId:+details.manager.value,
+                       department:details.department.value,
+                       worksite:{
+                            id:+details.workSite.value
+                       },
+                       country:{
+                            name:details.country.value
+                       },
+                       phone:details.phone.value,
+                       loginStatus:false,
+                       locked:false,
+                       deactivated:false
                 },
-                phone:user.country,
-                phone:user.phone,
-                loginStatus:false,
-                locked:false,
-                deactivated:false
+              roles:roles
             }),
             
         })
@@ -292,5 +291,21 @@ export const api = {
             
         })
         return addedUser;
-    }
+    },
+
+    deactivateUser: async (id) =>{
+
+        const deletedUser = await fetch(`http://localhost:8080/api/employee/id?id=${id}`,{
+            method: 'DELETE',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify({id}),
+        })
+        return deletedUser;
+    },
+
+    
+
+
 }

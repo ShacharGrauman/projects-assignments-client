@@ -20,7 +20,7 @@ export default class UserProfileFooter extends React.Component{
                                 Options
                                 </button>
                                 <div className="dropdown-menu">
-                                    <h6 className="dropdown-item" to="/">Deactivate User</h6>
+                                    <h6 className="dropdown-item" onClick={this.props.deactivateUser}>Deactivate User</h6>
                                     <h6 className="dropdown-item" to="/">Direct Message</h6>
                                     <h6 className="dropdown-item" to="/">Reset Password</h6>
                                 </div>
@@ -29,12 +29,11 @@ export default class UserProfileFooter extends React.Component{
                         </div>
 
                         <button className='ml-auto btn btn-danger mr-2'><Link to="/users-list" style={{color:'white', textDecoration:'none'}}>Cancel</Link></button>
-                        {!this.props.addUserForm && <button className="btn btn-secondary mr-2" onClick={this.props.toggleLockUser}>Lock User</button>}
                         <div className="mr-2">
                             {this.props.addUserForm?
-                            <button className="btn btn-success">Apply</button>
+                            <button className="btn btn-success" onClick={this.props.printRoles} onClick={this.props.addUser}>Finish</button>
                             :
-                            <button className="btn btn-success">Finish</button>
+                            <button className="btn btn-success">Apply</button>
                             }
                         </div>
                     </>
