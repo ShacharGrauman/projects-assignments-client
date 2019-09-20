@@ -10,7 +10,6 @@ const styleProfileImg = {
   right: "45px",
   top: "45px",
   zIndex: "3",
-  cursor: "pointer"
 };
 
 const  deactivatedStyle = {
