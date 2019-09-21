@@ -66,6 +66,9 @@ export default class ForgotPasswordModal extends React.Component {
             }
             console.log(finalResult);
         }
+        else{
+        alert('Please insert valid credentials')
+        }
     }
 
     render() {
