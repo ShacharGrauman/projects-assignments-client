@@ -44,9 +44,7 @@
     "react-router-dom": "^5.0.1",
     "react-select": "^3.0.4",
     "react-select-country-list": "^2.0.1",
-    "react-toastify": "^5.3.2",
-    "toastr": "^2.1.4"
-
+    "react-toastify": "^5.3.2"
   },
   "browserslist": [
     "last 2 Chrome versions"
