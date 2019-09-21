@@ -6,6 +6,8 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 import { AuditTableData } from '../../mock-data/mock-data'
 
+import {api} from '../../mock-data/api'
+
 
 const AdvancedSearchStyle = {
     cursor: "pointer",
@@ -24,20 +26,22 @@ export default class Audit extends React.Component {
         this.state = {
             startDate: new Date(),
             endDate: new Date(),
-            actions: [] ////////////////// users? or actions ? 
-
+            actions: [],
+            employeeNumber:{value:'', errors:[], validations:{}}
         };
-        this.handleChange = date => {
+
+        this.searchAudit = this.searchAudit.bind(this)
+        this.inputChange = this.inputChange.bind(this)
+
+        this.handleChange = date => { /////////////////?!?!
             this.setState({
                 startDate: date,
-
             });
         };
 
-        this.handleChange2 = date => {
+        this.handleChange2 = date => {/////////////////////////?!?!?!
             this.setState({
                 endDate: date,
-
             });
         };
     }
@@ -53,7 +57,23 @@ export default class Audit extends React.Component {
         );
     }
 
- 
+
+    inputChange ({ target: { name, value } }){
+        this.setState({
+            [name]: {
+                ...this.state[name],
+                value: value,
+                // errors
+            }
+        });
+    }
+
+    async searchAudit(e){
+        e.preventDefault()
+        const actions = await api.auditSearchByEmployeeNumber(this.state.employeeNumber.value);
+        this.setState({actions},()=> console.log(this.state.actions))
+        
+    }
 
     showAdvancedSearch() {
         const advancedSearchOptions = document.querySelector('#advancedSearchOptions');
@@ -71,9 +91,7 @@ export default class Audit extends React.Component {
         return (
             <>
                 <div className="mt-4">
-                    <h2 className="text-center">
-                        Audit
-                </h2>
+                    <h2 className="text-center">Audit</h2>
                 </div>
 
             {/* SEARCH/FILTER INPUTS  */}
@@ -115,7 +133,8 @@ export default class Audit extends React.Component {
                                             type="text"
                                             className="form-control "
                                             placeholder="Search by Employee No."
-                                            name="user"
+                                            defaultValue={this.state.employeeNumber.value}
+                                            name="employeeNumber"
                                             onBlur={this.inputChange} />
                                     </div>
 
@@ -129,7 +148,7 @@ export default class Audit extends React.Component {
                                                 <option value="Add User">Add User</option>
                                                 <option value="Delete Role">Delete Role</option>
                                             </select>
-                                            <button className=" btn btn-outline-success mx-1" style={{ borderRadius: "50%" }}>
+                                            <button onClick={this.searchAudit} className=" btn btn-outline-success mx-1" style={{ borderRadius: "50%" }}>
                                                 <FontAwesomeIcon icon={faSearch} />
                                             </button>
 
@@ -141,7 +160,7 @@ export default class Audit extends React.Component {
                     </form>
                 </div>
 
-                {/* A component to built the table */}
+                {/* A component to build the table */}
                 <div className=" d-flex justify-content-center mt-3" style={{ height: 'auto' }}>
                     <table className="table table-sm col-lg-8 table-hover text-center"
                         style={{ cursor: "pointer" }}>
