@@ -234,13 +234,14 @@ export const api = {
     },
 
     updateUserDetails: async({details,img,roles})=>{
-        const addedUser = await fetch(`http://localhost:8080/api/employee/${details.id}`,{
+        const updatedUser = await fetch(`http://localhost:8080/api/employee/id?id=${details.id}`,{
             method: 'PUT',
             headers:{
                 'Content-Type': 'application/json',
             },
             body:JSON.stringify({
                 employee:{
+                       id:+details.id,
                        number:+details.employeeNumber.value,
                        firstName:details.firstName.value,
                        lastName:details.lastName.value,
@@ -262,7 +263,7 @@ export const api = {
             }),
             
         })
-        return addedUser;
+        return updatedUser;
     },
 
     toggleDeactivateUser: async(id)=>{

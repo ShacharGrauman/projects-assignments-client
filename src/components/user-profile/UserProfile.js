@@ -157,7 +157,7 @@ export default class UserProfile extends React.Component{
         if(res.ok)
             console.log('OK!!')
         else{
-            console.log('Error Adding the user')
+            console.log('Error Updating the user')
         }
         })
         .catch(err=>console.error(err));
