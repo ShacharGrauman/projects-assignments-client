@@ -57,7 +57,7 @@ export default class UserProfile extends React.Component{
 
     if (this.state.userData.details.id ){
         api.getUserById(this.state.userData.details.id).then(({employee,managerName,lastLogin,roles})=>{
-            
+           
             const non_userRoles = this.allRoles.filter((elem) => !roles.find(({ name }) => elem.name === name))
             
 
@@ -72,7 +72,7 @@ export default class UserProfile extends React.Component{
                         employeeNumber:{...this.state.userData.details.employeeNumber, value:employee.number},
                         workSite:{...this.state.userData.details.workSite, value:employee.workSite},
                         country:{...this.state.userData.details.country, value:employee.country},
-                        manager:{...this.state.userData.details.manager, value:employee.manager},
+                        manager:{...this.state.userData.details.manager, value:employee.managerId},
                         managerName:{...this.state.userData.details.managerName, value:managerName},
                         phone:{...this.state.userData.details.phone, value:employee.phone},
                         email:{...this.state.userData.details.email, value:employee.email},

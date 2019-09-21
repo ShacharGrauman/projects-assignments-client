@@ -194,7 +194,7 @@ export const api = {
         })
     },
     getUserById: async (id)=>{
-        const user = await fetch(`http://localhost:8080/api/employee/id?id=${id}`)
+        const user = await fetch(`http://localhost:8080/api/employee/employeeid?employeeid=${id}`)
         return user.json();
     },
 
