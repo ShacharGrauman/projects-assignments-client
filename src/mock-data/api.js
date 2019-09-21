@@ -1,8 +1,3 @@
-import { async } from "q";
-
-// const users=await fetch('./Data,js')
-//                 .then(res=>res.json());
-// return users;
 
 
 export const api = {
@@ -122,19 +117,9 @@ export const api = {
         }
     ];
     },
-    // getAllUsers : async () =>{
-    //     //return await getData('users');
+   
+    
 
-    //     const users = await fetch('http:localhost:8080/api/users', {
-    //         headers: {
-    //             'auth': 'ZW1hZEBnbWFpbC5jb206MTIzNDU2',
-    //             // 'Content-Type': 'application/x-www-form-urlencoded',
-    //         }
-    //     })
-    //     .then(response => response.json());
-
-    //     return users;
-    // },
     getDepartments : async function(){ 
         const departments = await fetch('http://localhost:8080/api/employee/departments')
         return departments.json();
@@ -289,7 +274,10 @@ export const api = {
         })
         return addedUser;
     },
-
+    auditSearchByEmployeeNumber: async(id)=>{
+        const result = await fetch(`http://localhost:8080/api/audit/number?number=${id}`)
+        return result.json();
+    },
     deactivateUser: async (id) =>{
         const deletedUser = await fetch(`http://localhost:8080/api/employee/id?id=${id}`,{
             method: 'DELETE',
@@ -298,9 +286,5 @@ export const api = {
             },
         })
         return deletedUser;
-    },
-
-    
-
-
+    }
 }
