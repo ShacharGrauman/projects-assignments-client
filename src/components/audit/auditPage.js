@@ -4,7 +4,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-import { AuditTableData } from '../../mock-data/mock-data'
+import PaginationHOC from '../shared-components/PaginationHOC'
+
 
 import {api} from '../../mock-data/api'
 
@@ -19,7 +20,7 @@ const AdvancedSearchOptionsStyle = {
     display: "none"
 }
 
-export default class Audit extends React.Component {
+class Audit extends React.Component {
 
     constructor() {
         super();
@@ -48,6 +49,11 @@ export default class Audit extends React.Component {
     onChange() { (date) => this.setState({ date }) }
 
     componentDidMount() {
+
+        // this.props.paginationConfig({
+        //     url:'',
+        //     rowsPerPage:50,
+        // })
 
         fetch('http://localhost:8080/api/audit')
         .then(response => response.json())
@@ -189,33 +195,15 @@ export default class Audit extends React.Component {
                     </table>
                 </div>
 
-                <div className="d-flex justify-content-center mt-4 col-md-12">
-                    <nav aria-label="Page navigation example">
-                        <ul className="pagination">
-                            <li className="page-item">
-                                <a className="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <li className="page-item"><a className="page-link" href="#">1</a></li>
-                            <li className="page-item"><a className="page-link" href="#">2</a></li>
-                            <li className="page-item"><a className="page-link" href="#">3</a></li>
-                            <li className="page-item"><a className="page-link" href="#">4</a></li>
-                            <li className="page-item"><a className="page-link" href="#">5</a></li>
-                            <li className="page-item"><a className="page-link" href="#">6</a></li>
-                            <li className="page-item"><a className="page-link" href="#">7</a></li>
-                            <li className="page-item">
-                                <a className="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-
+              
 
             </>
         );
     }
 
 }
+
+
+
+
+export default PaginationHOC(Audit)
