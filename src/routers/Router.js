@@ -59,12 +59,10 @@ export default () => (
             component={AssignHisToryTable}
           />
           <Route path="/pendingSkills/:managerId" component={PendingSkills} />
-
           <Route component={PageNotFound} />
         </Switch>
         <ToastContainer />
       </div>
-
       <Footer />
     </div>
   </BrowserRouter>
