@@ -40,7 +40,7 @@ export default class UserProfile extends React.Component{
         }
         const allRoles=[];
         this.toggleEditMode=this.toggleEditMode.bind(this)
-        this.toggleLockUser=this.toggleLockUser.bind(this)
+        this.unlockUser=this.unlockUser.bind(this)
         this.toggleRole = this.toggleRole.bind(this)
         this.handleInputChange = this.handleInputChange.bind(this)
         this.addUser = this.addUser.bind(this)
@@ -81,7 +81,6 @@ export default class UserProfile extends React.Component{
                     },
                     roles:roles,
                     non_userRoles,
-
                     img:'x' 
                 }
             })
@@ -102,11 +101,14 @@ export default class UserProfile extends React.Component{
         
     }
 
-    toggleLockUser(){
-        this.setState({
-            status:{deactivated:false, locked:false},
-            profileMode:{edit:false,addUserForm:false},
-        })
+    unlockUser(){
+        api.unlockUser(this.state.userData.details.id)
+        .then(()=>{
+                this.setState({
+                    status:{deactivated:false, locked:false},
+                    profileMode:{edit:false,addUserForm:false},
+                })
+            })
     }
 
     addRoles(rolesSelected){
@@ -245,7 +247,7 @@ export default class UserProfile extends React.Component{
                     <UserProfileFooter editMode={!this.state.profileMode.edit}
                                         name={`${this.state.userData.details.firstName.value} ${this.state.userData.details.lastName.value}`}
                                         isLocked={this.state.status.locked}
-                                        toggleLockUser={this.toggleLockUser}
+                                        unlockUser={this.unlockUser}
                                         addUserForm={this.state.profileMode.addUserForm}
                                         printRoles={this.printRoles}
                                         addUser={this.addUser}

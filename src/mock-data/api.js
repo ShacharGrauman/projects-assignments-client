@@ -286,16 +286,11 @@ export const api = {
             headers:{
                 'Content-Type': 'application/json',
             },
-            body:JSON.stringify({
-               
-            }),
-            
         })
         return addedUser;
     },
 
     deactivateUser: async (id) =>{
-
         const deletedUser = await fetch(`http://localhost:8080/api/employee/id?id=${id}`,{
             method: 'DELETE',
             headers:{

@@ -25,7 +25,7 @@ sendEmail(){
                 <div className="card position-relative d-flex flex-row bd-highlight p-2 mb-2" style={{bottom:"0"}}>
                     {
                         this.props.isLocked ?
-                    <button className="btn btn-info ml-auto mr-2" onClick={this.props.toggleLockUser}>Activate</button>
+                    <button className="btn btn-info ml-auto mr-2" onClick={this.props.unlockUser}>Activate</button>
                     :
                     <>
                         <div className=" ">
