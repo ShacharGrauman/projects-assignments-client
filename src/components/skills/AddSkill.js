@@ -146,11 +146,11 @@ class AddSkill extends React.Component {
       this.setState({ suggestions: null });
     }else{
 
-    const arr = this.props[this.state.type.value.toLowerCase()].filter(s =>
-      s.skillName.startsWith(e.target.value)
-    );
-    this.setState({ suggestions: arr });
-}
+      const arr = [...this.prop.technical, ...this.prop.product].filter(s =>
+        s.skillName.startsWith(e.target.value)
+      );
+      this.setState({ suggestions: arr });
+    }
   }
 
   render() {
