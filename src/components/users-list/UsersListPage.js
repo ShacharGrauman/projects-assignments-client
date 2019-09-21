@@ -1,10 +1,8 @@
 import React from 'react';
-import ReactDom from 'react-dom';
 import UsersTable from './UsersTable'
 import UsersStatus from './UsersStatus';
 import UsersDetailsGraphs from './UsersDetailsGraphs';
 import {api} from '../../mock-data/api';
-import { async } from 'q';
 
 export default class UsersListPage extends React.Component{
     constructor(){
