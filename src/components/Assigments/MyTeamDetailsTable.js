@@ -35,7 +35,10 @@ export default class MyTeamDetailsTable extends React.Component {
                 <tr key={employee.id}>
                   <td>
                     {/* <img src={employee.img} style={{ width: "50px" }}></img> */}
-                    <a href="#">{employee.name}</a>
+                   
+                    <Link to={"./my-skills/:${employee.id}"}   //check this !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                     >{employee.name}
+                    </Link>
                   </td>
                   <td>{employee.id}</td>
                   <td>

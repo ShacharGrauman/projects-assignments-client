@@ -21,6 +21,7 @@ export default class AssignHistory extends React.Component {
         validations: { required: true, minLength: 1 }
       }
     };
+    
     this.setProjectInSession = this.setProjectInSession.bind(this);
     this.getEmpForProject = this.getEmpForProject.bind(this);
     this.getSearchDataByProjectName = this.getSearchDataByProjectName.bind(this);
