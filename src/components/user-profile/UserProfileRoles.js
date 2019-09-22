@@ -9,15 +9,34 @@ export default class UserProfileRoles extends React.Component{
         super(props);
         this.state={
             allRoles:[],
+            userRoles:[]
             }
-        
+            this.toggleRole= this.toggleRole.bind(this)
     }
-
+    
     async componentDidMount(){
         const allRoles = await api.getRoles();
-        this.setState({allRoles});
+         this.setState({allRoles});
     }
 
+    toggleRole(element){
+        let rolesList=[];
+        if(element.target.getAttribute('id')==='btn_add'){
+            rolesList = document.getElementById('allRoles')
+            
+        }else if(element.target.getAttribute('id')==='btn_remove'){
+            rolesList = document.getElementById('userRoles')
+            
+        }
+        
+        const rolesToManipulate = [...rolesList.options]
+                            .filter(option => option.selected)
+                            .map(selectedOption=>{
+                                return {id:+selectedOption.id, name:selectedOption.innerText}});
+       {rolesToManipulate.length>0 && this.props.toggleRole(rolesToManipulate)}
+        
+    }
+    
     render(){
         return(<>
         <div className="card mb-2 p-2">
@@ -29,20 +48,22 @@ export default class UserProfileRoles extends React.Component{
                     <>
                         <div className="w-75 m-2">
                                 <ListComponent disabled={this.props.editMode}
-                                options={this.state.allRoles.map(({name})=>name)
-                                            .filter(name=>!this.props.userRoles.map(({name})=>name).includes(name))} 
+                                options={this.props.non_userRoles} 
                                 title={"All Roles"}
-                                id="userRoles"/>
+                                id="allRoles"/>
                         </div>
+                        
+                        
                         <div className="d-flex flex-column justify-content-center">
-                            <button className="btn btn-sm btn-outline-success m-1">Add <i className="fas fa-arrow-right"></i></button>
-                            <button className="btn btn-sm btn-outline-danger m-1"><i className="fas fa-arrow-left"></i> Remove</button>
+                            <button className="btn btn-sm btn-outline-success m-1" id="btn_add" onClick={this.toggleRole}>Add <i className="fas fa-arrow-right"></i></button>
+                            <button className="btn btn-sm btn-outline-danger m-1" id="btn_remove" onClick={this.toggleRole}><i className="fas fa-arrow-left"></i> Remove</button>
                         </div>  
                     </>}
                     <div className="w-75 m-2">
                         <ListComponent disabled={this.props.editMode} 
-                                        options={[this.props.userRoles.map(role=>role.name)]}
+                                        options={this.props.userRoles}
                                         title={"User Roles"}
+                                        id="userRoles"
                                         />
                     </div>
                     

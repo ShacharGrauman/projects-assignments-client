@@ -1,8 +1,3 @@
-import { async } from "q";
-
-// const users=await fetch('./Data,js')
-//                 .then(res=>res.json());
-// return users;
 
 
 export const api = {
@@ -122,19 +117,9 @@ export const api = {
         }
     ];
     },
-    // getAllUsers : async () =>{
-    //     //return await getData('users');
+   
+    
 
-    //     const users = await fetch('http:localhost:8080/api/users', {
-    //         headers: {
-    //             'auth': 'ZW1hZEBnbWFpbC5jb206MTIzNDU2',
-    //             // 'Content-Type': 'application/x-www-form-urlencoded',
-    //         }
-    //     })
-    //     .then(response => response.json());
-
-    //     return users;
-    // },
     getDepartments : async function(){ 
         const departments = await fetch('http://localhost:8080/api/employee/departments')
         return departments.json();
@@ -151,7 +136,7 @@ export const api = {
         }
     ,
     getWorkSites :async () =>{ 
-        const workSites = await fetch('http://localhost:8080/api/employee/WorkSites')
+        const workSites = await fetch('http://localhost:8080/api/employee/worksites')
         return workSites.json();
         }
     ,
@@ -194,76 +179,76 @@ export const api = {
         })
     },
     getUserById: async (id)=>{
-        const user = await fetch(`http://localhost:8080/api/employee/id?id=${id}`)
+        const user = await fetch(`http://localhost:8080/api/employee/employeeid?employeeid=${id}`)
         return user.json();
     },
 
 
-    addUser: async (user)=>{
+    addUser: async ({details,img,roles})=>{
+        console.log(details, roles)
+
         const addedUser = await fetch(`http://localhost:8080/api/employee/`,{
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json',
             },
             body:JSON.stringify({
-                number:user.employeeNumber,
-                firstName:user.firstName,
-                lastName:user.lastName,
-                email:user.email,
-                managerId:user.managerId,
-                department:user.department,
-                worksite:{
-                    id:user.worksite.id,
-                    name:user.worksite.name,
-                    country:{
-                        id:user.worksite.country.id,
-                        name:user.worksite.country.id
-                    },
-                    city:user.worksite.city,
+                employee:{
+                       number:+details.employeeNumber.value,
+                       firstName:details.firstName.value,
+                       lastName:details.lastName.value,
+                       email:details.email.value,
+                       managerId:+details.manager.value,
+                       department:details.department.value,
+                       worksite:{
+                            id:+details.workSite.value
+                       },
+                       country:{
+                            name:details.country.value
+                       },
+                       phone:details.phone.value,
+                       loginStatus:false,
+                       locked:false,
+                       deactivated:false
                 },
-                phone:user.country,
-                phone:user.phone,
-                loginStatus:false,
-                locked:false,
-                deactivated:false
+              roles:roles
             }),
             
         })
         return addedUser;
     },
 
-    updateUserDetails: async(id, user)=>{
-        const addedUser = await fetch(`http://localhost:8080/api/employee/`,{
+    updateUserDetails: async({details,img,roles})=>{
+        const updatedUser = await fetch(`http://localhost:8080/api/employee/id?id=${details.id}`,{
             method: 'PUT',
             headers:{
                 'Content-Type': 'application/json',
             },
             body:JSON.stringify({
-                id:user.id,
-                number:user.employeeNumber,
-                firstName:user.firstName,
-                lastName:user.lastName,
-                email:user.email,
-                managerId:user.managerId,
-                department:user.department,
-                worksite:{
-                    id:user.worksite.id,
-                    name:user.worksite.name,
-                    country:{
-                        id:user.worksite.country.id,
-                        name:user.worksite.country.id
-                    },
-                    city:user.worksite.city,
+                employee:{
+                       id:+details.id,
+                       number:+details.employeeNumber.value,
+                       firstName:details.firstName.value,
+                       lastName:details.lastName.value,
+                       email:details.email.value,
+                       managerId:+details.manager.value,
+                       department:details.department.value,
+                       worksite:{
+                            id:+details.workSite.value
+                       },
+                       country:{
+                            name:details.country.value
+                       },
+                       phone:details.phone.value,
+                       loginStatus:false,
+                       locked:false,
+                       deactivated:false
                 },
-                phone:user.country,
-                phone:user.phone,
-                loginStatus:false,
-                locked:false,
-                deactivated:false
+              roles:roles
             }),
             
         })
-        return addedUser;
+        return updatedUser;
     },
 
     toggleDeactivateUser: async(id)=>{
@@ -286,11 +271,20 @@ export const api = {
             headers:{
                 'Content-Type': 'application/json',
             },
-            body:JSON.stringify({
-               
-            }),
-            
         })
         return addedUser;
+    },
+    auditSearchByEmployeeNumber: async(id)=>{
+        const result = await fetch(`http://localhost:8080/api/audit/number?number=${id}`)
+        return result.json();
+    },
+    deactivateUser: async (id) =>{
+        const deletedUser = await fetch(`http://localhost:8080/api/employee/id?id=${id}`,{
+            method: 'DELETE',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+        })
+        return deletedUser;
     }
 }
