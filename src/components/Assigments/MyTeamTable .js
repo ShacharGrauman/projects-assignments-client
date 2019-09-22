@@ -19,6 +19,7 @@ export default class MyTeamTable extends React.Component {
     this.filterList = this.filterList.bind(this);
   }
 
+
   async componentDidMount() {
     //Ya'ani call to the server for data
     //should be manager ID form Login
@@ -147,9 +148,13 @@ export default class MyTeamTable extends React.Component {
             data-toggle="collapse"
             aria-expanded="true"
             aria-controls="collapseOne"
+            onClick={this.toggleDiv}
           >
+
             Advanced search...
           </button>
+
+
         </div>
 
         <MyTeamDetailsTable
