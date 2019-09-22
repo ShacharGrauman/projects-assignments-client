@@ -140,17 +140,24 @@ export const api = {
         return workSites.json();
         }
     ,
+    getManagers :async () =>{ 
+        const managers = await fetch('http://localhost:8080/api/employee/managers')
+        return managers.json();
+        }
+    ,
     getAllData: async function() {
         const  [departments,
                 worksites,
                 countries,
-                roles]= await Promise.all([
+                roles,
+                managers]= await Promise.all([
                         this.getDepartments(),
                         this.getWorkSites(),
                         this.getCountries(),
-                        this.getRoles()
+                        this.getRoles(),
+                        this.getManagers()
                 ])
-        return {departments, worksites, countries, roles}
+        return {departments, worksites, countries, roles, managers}
     }
     ,
     getUsersList: async function() {

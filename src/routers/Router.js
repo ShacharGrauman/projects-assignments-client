@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import Navbar from "../components/common/Navbar";
 import Footer from "../components/common/Footer";
-import Home from "../components/common/Home";
 import PageNotFound from "../components/common/PageNotFound";
 
 import UserProfile from "../components/user-profile/UserProfile";
@@ -31,7 +30,7 @@ export default () => (
 
       <div className="container">
         <Switch>
-          <Route path="/" component={Home} exact />
+          <Route path="/" component={Login} exact />
        
           <Route path="/users-list/" component={UsersListPage} />
           <Route path="/user-profile/:id" component={UserProfile} />
@@ -39,7 +38,6 @@ export default () => (
           <Route path="/audit" component={Audit} />
           <Route path="/roles" component={Roles} />
           <Route path="/settings" component={Settings} />
-          <Route path="/login" component={Login} />
           <Route path="/my-team/:projectName" component={MyTeamTable} />
           <Route path="/done-assignments/" component={DoneAssignments} />
           <Route path="/add-new-project/" component={AddNewProject} />

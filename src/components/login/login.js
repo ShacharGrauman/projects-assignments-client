@@ -7,6 +7,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faBarcode, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { Link, BrowserRouter } from 'react-router-dom';
 import ForgotPasswordModal from './ForgotPasswordModel'
+import { toast } from 'react-toastify';
 
 export class login extends React.Component {
 
@@ -76,15 +77,15 @@ export class login extends React.Component {
             api.validateLogin(this.state.email.value, this.state.password.value)
                 .then(res=>{
                 if(res.ok)
-                    this.props.history.push('/')
+                    this.props.history.push('/users-list')
                 else{
-                    console.log('Error Logging in')
+                    toast.error("Invalid username / password");
                 }
                 })
                 .catch(err=>console.error(err));
       }
       else{
-        alert('Please insert valid credentials')
+        toast.error('Please insert valid credentials')
       }
 
             
@@ -92,15 +93,11 @@ export class login extends React.Component {
 
     render() {
         return (
-            <div
-                style={{ minHeight: "82vh" }}
-                className="d-flex flex-lg-row-reverse align-items-lg-center flex-column"
-            >
+            <div style={{ minHeight: "82vh" }} className="d-flex flex-lg-row-reverse align-items-lg-center flex-column">
                 <div className="flex-grow-1">
                     <h3 className="text-center my-3" style={{ fontFamily: "Sans-Serif", letterSpacing: "2px" }}>
-                        {/* <img style={{width:'72px', position:'relative', right:'-15px', bottom:"38px"}} src="g5185.png"></img> */}
-                        <img style={{ width: "29px" }} src="a_logo.png"></img>ssign {/*<i style={{color:"teal", fontSize:"23px"}} className="fas fa-terminal"></i>  */} Me
-                </h3>
+                        <img style={{ width: "29px" }} src="a_logo.png"></img>ssign Me
+                    </h3>
                     <hr className="col-12 col-md-8"></hr>
                 </div>
 

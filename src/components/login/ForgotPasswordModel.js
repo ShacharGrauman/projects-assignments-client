@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBarcode, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import InputErrors from '../shared-components/InputErrors'
 import { Link, BrowserRouter } from 'react-router-dom';
+import {toast} from 'react-toastify'
 
 export default class ForgotPasswordModal extends React.Component {
 
@@ -64,10 +65,10 @@ export default class ForgotPasswordModal extends React.Component {
                 email: this.state.email,
                 employeeNumber: this.state.employeeNumber
             }
-            console.log(finalResult);
+            toast.error("Invalid email / employee number");
         }
         else{
-        alert('Please insert valid credentials')
+            toast.error("Please insert valid credentials")
         }
     }
 
@@ -121,7 +122,7 @@ export default class ForgotPasswordModal extends React.Component {
                             <InputErrors errors={this.state.employeeNumber.errors} />
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" onClick={this.ForgotPasswordSubmit} className="btn btn-primary">Reset Password</button>
+                                <button type="submit" onClick={this.ForgotPasswordSubmit} className="btn btn-primary">Reset Password</button>
                             </div>
                         </div>
                     </div>
