@@ -19,7 +19,8 @@ class MyOwnSkills extends Component {
       [productSkills]: [],
       [skills]: [],
       [technicalSkills]: [],
-      skillsHistory: []
+      skillsHistory: [],
+      loading: true
     };
 
     this.container = {};
@@ -166,14 +167,20 @@ class MyOwnSkills extends Component {
               </ul>
 
               <div className="tab-content ml-1" id="myTabContent">
-                <SkillsOverViewTab
-                  type={this.state.currentTab}
-                  skills={this.state[this.state.currentTab]}
-                  data={this.state.skillsHistory}
-                  deleteClick={this.deleteSkill}
-                  submitUpdate={this.submitUpdate}
-                  submitNewSkill={this.addSkill}
-                />
+                {this.state.loading ? (
+                  <div style={{ alignContent: "center" }}>
+                    <h1>Loading Content</h1>
+                  </div>
+                ) : (
+                  <SkillsOverViewTab
+                    type={this.state.currentTab}
+                    skills={this.state[this.state.currentTab]}
+                    data={this.state.skillsHistory}
+                    deleteClick={this.deleteSkill}
+                    submitUpdate={this.submitUpdate}
+                    submitNewSkill={this.addSkill}
+                  />
+                )}
               </div>
               <div className="float-right float-top">
                 <button

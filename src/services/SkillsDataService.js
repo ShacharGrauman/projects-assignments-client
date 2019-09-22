@@ -23,7 +23,15 @@ class SkillsDataService {
         }
       })
       .catch(error => {
-        toast.error(`${opration} failed ${error.message}`);
+        if (error.response) {
+          if (error.response.status !== 404) {
+            toast.error(
+              `${opration} failed  ${error.response.data.errorMessage}`
+            );
+          }
+        } else {
+          toast.error(`${opration} failed ${error.message}`);
+        }
       })
       .finally(() => this.refetch());
   }
@@ -48,10 +56,20 @@ class SkillsDataService {
 
   fetchDataList(component, method, id, arrName) {
     method(id)
-      .then(resp => component.setState({ [arrName]: resp.data }))
+      .then(resp => {
+        component.setState({ [arrName]: resp.data, loading: false });
+      })
       .catch(error => {
-        toast.error(`failed to fetch Data ${error.message}`);
-        component.setState({ [arrName]: [] });
+        if (error.response) {
+          if (error.response.status !== 404) {
+            toast.error(
+              `failed to fetch Data ${error.response.data.errorMessage}`
+            );
+          }
+        } else {
+          toast.error(`failed to fetch Data ${error.message}`);
+        }
+        component.setState({ [arrName]: [], loading: false });
       });
   }
 
