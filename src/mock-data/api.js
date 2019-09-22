@@ -186,4 +186,20 @@ export const api = {
 
         return users;
     },
+
+
+    resetPassword: async function({email, employeeNumber}){
+    const response = await fetch(`http://localhost:8080/api/resetPassword/`,{
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/json',
+        },
+        body:JSON.stringify({
+            email,
+            employeeNumber
+        }),
+        
+    })
+    return response;
+},
 }
