@@ -4,6 +4,7 @@ import countryList from 'react-select-country-list';
 import InputErrors from '../shared-components/InputErrors'
 import {DataProvider} from '../common/Provider/DataProvider';
 import {DataContext} from '../common/Provider/DataProvider'
+import {toast} from 'react-toastify'
 
 
 export class AddWorkSite extends Component {
@@ -86,13 +87,13 @@ export class AddWorkSite extends Component {
                     if (res.ok)
                         this.props.history.push('/')
                     else {
-                        console.log('Error Logging in')
+                        toast.error("Error Logging in");
                     }
                 })
                 .catch(err => console.error(err));
         }
         else{
-            alert('Please fill the missing')
+            toast.error("Please fill the missing")
 
         }
     }
@@ -147,7 +148,16 @@ export class AddWorkSite extends Component {
                                 <InputErrors errors={this.state.city.errors} />
                             </div>
                             <div>
-                               
+                                
+                                <Select className=" mt-2" placeholder="Select Country"
+                                    name="country"
+                                    options={this.state.options}
+                                    value={this.state.value}
+                                    onChange={this.changeHandler}
+
+                               />
+
+                                <InputErrors errors={this.state.country.errors} />
                                 <div className="d-flex justify-content-around ">
                                     <button type="submit" className="btn btn-primary mt-3 mr-1">Save</button>
                                     <button type="button" className="btn btn-primary mt-3">Cancel</button>
