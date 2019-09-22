@@ -144,9 +144,8 @@ class AddSkill extends React.Component {
   getSuggestions(e) {
     if (e.target.value === "") {
       this.setState({ suggestions: null });
-    }else{
-
-      const arr = [...this.prop.technical, ...this.prop.product].filter(s =>
+    } else {
+      const arr = [...this.props.technical, ...this.props.product].filter(s =>
         s.skillName.startsWith(e.target.value)
       );
       this.setState({ suggestions: arr });
