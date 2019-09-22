@@ -1,6 +1,7 @@
 import axios from "axios";
 const url = "http://localhost:8080/api/";
 const pageNumberLimit = "pageNumber=1&limit=20";
+const curentLimit = "currentPage=1&limit=20";
 class Api {
   async getProjects() {
     const projects = await axios.get(`${url}projects/manager/2`);
@@ -8,7 +9,7 @@ class Api {
   }
   async getProjectsByProjectName(projectName) {
     const projects = await axios.get(
-      `${url}projects/name/${projectName}?${pageNumberLimit}`
+      `${url}projects/name/${projectName}?${curentLimit}`
     );
     return projects.data;
   }
@@ -19,7 +20,7 @@ class Api {
     return projects.data;
   }
   async getEmpForProjects(projectID) {
-    const employees = await axios.get(`${url}team/project/${projectID}`);
+    const employees = await axios.get(`${url}team/project/${projectID}?${curentLimit}`);
     return employees.data;
   }
   async getPendingAssignments(projectID) {

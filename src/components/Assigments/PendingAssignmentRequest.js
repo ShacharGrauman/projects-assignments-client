@@ -2,11 +2,13 @@ import React from "react";
 // import { AssignHistoryForEmp } from "../data/AssignHistoryForEmp";
 import { Link } from "react-router-dom";
 import Api from "./Api";
+import { toast } from 'react-toastify';
 export default class AssignmentRequets extends React.Component {
   constructor() {
     super();
     this.state = {
-      PendingRequests: []
+      PendingRequests: [],
+      isLoading:true
     };
     this.sendPendingAssignment = this.sendPendingAssignment.bind(this);
   }
@@ -14,6 +16,11 @@ export default class AssignmentRequets extends React.Component {
   async componentDidMount() {
     try {
       const PendingRequests = await Api.getPendingAssignments();
+      setTimeout(() => {
+        this.setState({
+          isLoading: false
+        });
+      }, 1000);
       this.setState({ PendingRequests });
     } catch (error) {
       this.setState({ PendingRequests:[] });
@@ -23,6 +30,7 @@ export default class AssignmentRequets extends React.Component {
     try {
       const chanageStatus = await Api.sendAssignment(status, assignID);
       if (chanageStatus) {
+        toast.success("Assignment Added Succ")
         try {
           const PendingRequests = await Api.getPendingAssignments();
           this.setState({ PendingRequests });
@@ -31,11 +39,13 @@ export default class AssignmentRequets extends React.Component {
         }
       }
     } catch (error) {
+      toast.error("Failed to updateStatus")
       console.log(error.message);
     }
   }
   render() {
     return (
+    this.state.isLoading ? <h1>Hello World!</h1>:
       <div className="col justify-content-md-center mt4">
         <table
           className="table"
@@ -50,7 +60,6 @@ export default class AssignmentRequets extends React.Component {
           <thead className="thead-dark">
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Assignment ID</th>
               <th scope="col">Project Name</th>
               <th scope="col">Employee Name</th>
               <th scope="col">Start Date</th>
@@ -65,7 +74,6 @@ export default class AssignmentRequets extends React.Component {
               return (
                 <tr key={i}>
                   <td>{i}</td>
-                  <td>{assign.id}</td>
                   <td>{assign.projectName}</td>
                   <td>{assign.employeeName}</td>
                   <td>{assign.startDate}</td>

@@ -23,15 +23,16 @@ export default class AssignHisToryTable extends React.Component {
 
   render() {
     return (
+      
       <div className="col justify-content-md-center">
         <div className="row" style={{ width: "300x" }}>
           <div className="col md-3"></div>
 
           <div className="col md-6">
             <div class="card">
-              <div class="card-header">Assignments History </div>
+              <div class="card-header">{this.state.MyEmp.name} </div>
               <div class="card-body">
-                <h5 class="card-title">{this.state.MyEmp.name}</h5>
+                
                 <Link to="/Projects" className="btn btn-outline-info">
                   Back
                 </Link>

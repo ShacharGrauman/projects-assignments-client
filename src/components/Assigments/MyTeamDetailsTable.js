@@ -73,7 +73,7 @@ export default class MyTeamDetailsTable extends React.Component {
                           this.props.onAssign(
                             employee.id,
                             this.props.project.id,
-                            1,
+                            2,
                             employee.managerID
                           )
                         }
