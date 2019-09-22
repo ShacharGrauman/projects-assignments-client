@@ -40,7 +40,7 @@ export default class UserProfileDetails extends React.Component{
                                     disabled={this.props.editMode}
                                     placeholder="Manager"
                                     onChange={this.props.handleInputChange} 
-                                    defaultValue={this.props.details.manager.value}
+                                    defaultValue={this.props.details.managerName.value}
                                     name="manager"
                                     list="managers"></input>
                                 <datalist id="managers">
