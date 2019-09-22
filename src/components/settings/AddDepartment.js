@@ -104,7 +104,7 @@ export default class AddDepartment extends Component {
                 <ul className="list-group">
                     <DataProvider>
                         <DataContext.Consumer>
-                            {context=>context.departments.map(department=> <li class="list-group-item">{department.name}</li>)}
+                            {({departments})=>departments.map(department=> <li class="list-group-item">{department.name}</li>)}
                         </DataContext.Consumer>
                     </DataProvider>
 
