@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import Select from 'react-select';
 import countryList from 'react-select-country-list';
 import InputErrors from '../shared-components/InputErrors'
+import {DataProvider} from '../common/Provider/DataProvider';
+import {DataContext} from '../common/Provider/DataProvider'
+
 
 export class AddWorkSite extends Component {
     constructor(props) {
@@ -99,13 +102,15 @@ export class AddWorkSite extends Component {
         const { country, region } = this.state;
         return (
             <>
-                <div className="" role="">
-
-
-                    <div className="row justify-content-center mt-2">
-                        <h3>Work Site</h3>
+                    <div className=" mt-2">
+                        <h3 className="text-center">Work Site</h3>
                     </div>
-                    <div className="d-flex flex-column align-items-center">
+                <div className="d-flex justify-content-around">
+
+
+
+
+                    <div className="d-flex flex-column align-items-center col-9">
 
                         <p>Add new work site:</p>
                         <form onSubmit={this.submit}>
@@ -120,6 +125,17 @@ export class AddWorkSite extends Component {
                                 <InputErrors errors={this.state.worksite.errors} />
                             </div>
                             <div>
+                                <div>
+                                <Select className=" mt-2" placeholder="Select Country"
+                                    name="country"
+                                    options={this.state.options}
+                                    value={this.state.value}
+                                    onChange={this.changeHandler}
+
+                                />
+                                <InputErrors errors={this.state.country.errors} />
+                                </div>
+
                                 <div>
                                     <label>City Name:</label>
 
@@ -149,6 +165,16 @@ export class AddWorkSite extends Component {
                             </div>
                         </form>
                     </div>
+                <div className="col-3">
+                    <ul className="list-group">
+                        <DataProvider>
+                            <DataContext.Consumer>
+                                {({worksites})=>worksites.map(worksite=><li class="list-group-item">{worksite.name}</li>)}
+                            </DataContext.Consumer>
+                        </DataProvider>
+                    </ul>
+                </div>
+
                 </div>
 
 

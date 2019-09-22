@@ -9,7 +9,8 @@ export class DataProvider extends Component {
             departments:[],
             worksites:[],
             roles:[],
-            countries:[]
+            countries:[],
+            managers:[]
         }
     }
 
@@ -19,7 +20,8 @@ export class DataProvider extends Component {
             departments:result.departments,
             worksites:result.worksites,
             roles:result.roles,
-            countries:result.countries
+            countries:result.countries,
+            managers:result.managers
         })
     }
     
