@@ -4,6 +4,7 @@ import countryList from 'react-select-country-list';
 import InputErrors from '../shared-components/InputErrors'
 import {DataProvider} from '../common/Provider/DataProvider';
 import {DataContext} from '../common/Provider/DataProvider'
+import {toast} from 'react-toastify'
 
 
 export class AddWorkSite extends Component {
@@ -86,13 +87,13 @@ export class AddWorkSite extends Component {
                     if (res.ok)
                         this.props.history.push('/')
                     else {
-                        console.log('Error Logging in')
+                        toast.error("Error Logging in");
                     }
                 })
                 .catch(err => console.error(err));
         }
         else{
-            alert('Please fill the missing')
+            toast.error("Please fill the missing")
 
         }
     }

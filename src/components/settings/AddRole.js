@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ListComponent from '../shared-components/List'
 import InputErrors from '../shared-components/InputErrors'
-
+import {toast} from 'react-toastify'
 
 export default class AddRole extends Component {
     constructor(props) {
@@ -52,10 +52,10 @@ export default class AddRole extends Component {
             const finalResult = {
                 role: this.state.role,
             }
-            console.log(finalResult);
+            toast.success("Adding new department successed")
         }
         else {
-            alert('Please insert valid role')
+            toast.error("Please fill the missing")
         }
     }
 

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfo, faBuilding } from '@fortawesome/free-solid-svg-icons';
 import {DataProvider} from '../common/Provider/DataProvider';
 import {DataContext} from '../common/Provider/DataProvider'
-
+import {toast} from 'react-toastify'
 import InputErrors from '../shared-components/InputErrors'
 
 export default class AddDepartment extends Component {
@@ -58,10 +58,10 @@ export default class AddDepartment extends Component {
             const finalResult = {
                 deprtment: this.state.department,
             }
-            console.log(finalResult);
+            toast.success("Adding new department successed")
         }
         else {
-            alert('Please insert valid department')
+            toast.error("Please fill the missing")
         }
     }
 

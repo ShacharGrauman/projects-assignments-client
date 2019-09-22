@@ -85,7 +85,7 @@ export class login extends React.Component {
                 .catch(err=>console.error(err));
       }
       else{
-        alert('Please insert valid credentials')
+        toast.error('Please insert valid credentials')
       }
 
             
