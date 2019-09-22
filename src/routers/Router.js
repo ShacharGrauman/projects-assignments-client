@@ -28,12 +28,7 @@ export default () => (
     <div>
       <Header />
       <Navbar />
-<<<<<<< HEAD
       <div className="mx-5 pb-5">
-=======
-
-      <div className="container">
->>>>>>> origin/master
         <Switch>
           <Route path="/" component={Home} exact />
        
