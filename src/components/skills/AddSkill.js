@@ -1,24 +1,8 @@
 import React from "react";
-import { GoogleCharts } from "google-charts";
-import { SSL_OP_SSLREF2_REUSE_CERT_TYPE_BUG } from "constants";
+import InputError from "../shared-components/DivInputError";
 
-const id = "id";
 const level = "level";
-const date = "date";
 const skillName = "name";
-
-const Error = ({ e }) => {
-  return e.map((eerr, index) => (
-    <div
-      className="alert alert-danger"
-      role="alert"
-      style={{ marginTop: "5px" }}
-      key={index}
-    >
-      {eerr}
-    </div>
-  ));
-};
 
 class AddSkill extends React.Component {
   constructor() {
@@ -29,21 +13,10 @@ class AddSkill extends React.Component {
         value: "",
         errors: [],
         validations: {
-          required: true,
-          /**pattern: /^[a-z0-9]+$/i,*/ exists: true
+          required: true
         },
         valid: true
       },
-      /* [date]: {
-        value: "",
-        errors: [],
-        validations: {
-          required: true,
-          minYear: 2009,
-          maxYea: new Date().getFullYear()
-        },
-        valid: true
-      },*/
       [level]: {
         value: "",
         errors: [],
@@ -78,16 +51,6 @@ class AddSkill extends React.Component {
       }
     }
 
-    /*if (validations.exists) {
-      if (
-        !this.props.technical.find(skill => skill.skillName === value) &&
-        !this.props.product.find(skill => skill.skillName === value)
-      ) {
-        errors.push(`${name} does no exist`);
-        valid = false;
-      }
-    }*/
-
     if (validations.maxLevel) {
       if (value > validations.maxLevel) {
         errors.push(`${name} should be at most ${validations.maxLevel}`);
@@ -117,13 +80,6 @@ class AddSkill extends React.Component {
         valid = false;
       }
     }
-
-    /*if (validations.pattern) {
-      if (!validations.pattern.test(value)) {
-        errors.push(`invalid ${name}`);
-        valid = false;
-      }
-    }*/
 
     this.setState({
       [name]: {
@@ -167,7 +123,6 @@ class AddSkill extends React.Component {
         skill[0].skillId,
         this.state.name.value,
         this.state.level.value,
-        //   this.state.date.value,
         this.state.type.value
       );
 
@@ -187,23 +142,15 @@ class AddSkill extends React.Component {
   }
 
   getSuggestions(e) {
-    /* else {
-      const arr = this.props.product.filter(s =>
-        s.skillName.startsWith(e.target.value)
-      );
-      const arr2 = this.props.technical.filter(s =>
-        s.skillName.startsWith(e.target.value)
-      );
-
-      this.setState({ suggestions: [...arr, ...arr2] });*/
     if (e.target.value === "") {
       this.setState({ suggestions: null });
-    }
+    }else{
 
-    const arr = this.props[this.state.type.value.toLowerCase()].filter(s =>
-      s.skillName.startsWith(e.target.value)
-    );
-    this.setState({ suggestions: arr });
+      const arr = [...this.prop.technical, ...this.prop.product].filter(s =>
+        s.skillName.startsWith(e.target.value)
+      );
+      this.setState({ suggestions: arr });
+    }
   }
 
   render() {
@@ -223,7 +170,6 @@ class AddSkill extends React.Component {
             onBlur={this.inputChanged}
             onChange={this.getSuggestions}
           />
-
           {this.state.suggestions ? (
             <ul className="dropdown-menu" style={{ display: "inline-block" }}>
               {this.state.suggestions.map((e, index) => (
@@ -262,22 +208,7 @@ class AddSkill extends React.Component {
             </div>
           </div>
         </div>
-        <Error e={this.state.name.errors} />
-        {/**<div className="input-group mb-3">
-          <div className="input-group-prepend">
-            <span className="input-group-text" id="basic-addon3">
-              Date
-            </span>
-          </div>
-          <input
-            type="date"
-            className="form-control"
-            name={date}
-            aria-describedby="basic-addon3"
-            onBlur={this.inputChanged}
-          />
-        </div>
-        <Error e={this.state.date.errors} /> */}
+        <InputError e={this.state.name.errors} />
 
         <div className="input-group mb-3">
           <div className="input-group-prepend">
@@ -295,7 +226,7 @@ class AddSkill extends React.Component {
             onBlur={this.inputChanged}
           />
         </div>
-        <Error e={this.state.level.errors} />
+        <InputError e={this.state.level.errors} />
         <button
           type="button"
           className="btn btn-primary btn-lg btn-block"

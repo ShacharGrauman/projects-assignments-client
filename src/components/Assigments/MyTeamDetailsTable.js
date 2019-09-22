@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import SkillBadge from "./SkillBadge";
@@ -7,10 +8,6 @@ export default class MyTeamDetailsTable extends React.Component {
     return (
       <>
         <div className="d-flex justify-content-center align-items-center mb-2 mt-3">
-        
-
-        
-
         <table
           className="table"
           style={{
@@ -71,6 +68,7 @@ export default class MyTeamDetailsTable extends React.Component {
                       className="btn btn-primary"
                       data-toggle="modal"
                       data-target={"#assignModal" + employee.id}
+                      onClick={e => this.props.onAssign(employee.id,this.props.project.id,1,employee.managerID,)}
                     >
                       Assign
                     </button>

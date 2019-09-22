@@ -13,6 +13,7 @@ class SkillsOverViewTab extends Component {
     this.updateSkill = this.updateSkill.bind(this);
     this.cancelUpdate = this.cancelUpdate.bind(this);
     this.submit = this.submit.bind(this);
+    this.proccessData = this.proccessData.bind(this);
   }
 
   updateSkill(type, id) {
@@ -28,6 +29,48 @@ class SkillsOverViewTab extends Component {
     this.props.submitUpdate(type, id, grade);
     //req();
     this.setState({ editInput: null });
+  }
+
+  proccessData() {
+    const { data } = this.props;
+    if (data.length === 0) {
+      return [["Year", "Skill"], [new Date().getFullYear(), 0]];
+    }
+    const skills = [];
+
+    data.forEach(skill => {
+      skills.push(
+        ...skill.updates.map(update => {
+          return {
+            skillName: skill.name,
+            date: update.date,
+            level: update.level
+          };
+        })
+      );
+    });
+
+    const skillNames = [...new Set(skills.map(skill => skill.skillName))];
+    const header = ["Year", ...skillNames];
+    const years = [
+      ...new Set(skills.map(skill => new Date(skill.date).getFullYear()))
+    ];
+    const body = [];
+    const prevGrade = new Array(header.length - 1).fill(0);
+    years.sort((y1, y2) => y1 > y2);
+
+    years.forEach(year => {
+      skills
+        .filter(skill => new Date(skill.date).getFullYear() === year)
+        .forEach(skill => {
+          const index = skillNames.indexOf(skill.skillName);
+          prevGrade[index] = parseInt(`${skill.level}`);
+        });
+
+      body.push([`${year}`, ...prevGrade]);
+    });
+
+    return [header, ...body];
   }
 
   render() {
@@ -47,7 +90,7 @@ class SkillsOverViewTab extends Component {
                 height="300px"
                 chartType="AreaChart"
                 loader={<div>Loading Chart</div>}
-                data={this.props.data}
+                data={this.proccessData()}
                 options={{
                   title: `Skills Progress`,
                   hAxis: { title: "Year", titleTextStyle: { color: "#333" } },

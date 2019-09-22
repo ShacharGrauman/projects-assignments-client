@@ -15,10 +15,11 @@ export default class ListComponent extends React.Component{
         return(<>
             <div className="form-group">
                 <p className="text-center mb-1">{this.props.title}</p>
-                <select multiple 
+                <select id={this.props.id}
+                        multiple 
                         className="form-control"   
                         disabled={this.props.disabled}>
-                    {this.props.options.map((option,i)=>(<option key={i}>{option}</option>))}
+                    {this.props.options.map((option,i)=>(<option id={option.id} key={i}>{option.name}</option>))}
                 </select>
             </div>
         </>)
