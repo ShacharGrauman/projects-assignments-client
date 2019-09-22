@@ -30,7 +30,7 @@ class SkillsDataService {
             );
           }
         } else {
-          toast.error(`failed to fetch Data ${error.message}`);
+          toast.error(`${opration} failed ${error.message}`);
         }
       })
       .finally(() => this.refetch());
