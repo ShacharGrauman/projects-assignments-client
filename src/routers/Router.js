@@ -28,29 +28,21 @@ export default () => (
     <div>
       <Header />
       <Navbar />
-<<<<<<< HEAD
       <div className="mx-1 pb-5">
         <Switch>
           <Route path="/" component={Login} exact />
-=======
 
-      <div className="container">
-        <Switch>
-          <Route path="/" component={Home} exact />
-       
->>>>>>> origin/master
           <Route path="/users-list/" component={UsersListPage} />
           <Route path="/user-profile/:id" component={UserProfile} />
           <Route path="/user-profile/addUser" component={UserProfile} />
           <Route path="/audit" component={Audit} />
           <Route path="/roles" component={Roles} />
           <Route path="/settings" component={Settings} />
-<<<<<<< HEAD
+
           <Route path="/my-team/" component={MyTeamTable} />
-=======
+
           <Route path="/login" component={Login} />
           <Route path="/my-team/:projectName" component={MyTeamTable} />
->>>>>>> origin/master
           <Route path="/done-assignments/" component={DoneAssignments} />
           <Route path="/add-new-project/" component={AddNewProject} />
           <Route
