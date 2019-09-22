@@ -4,7 +4,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-import { AuditTableData } from '../../mock-data/mock-data'
+import PaginationHOC from '../shared-components/PaginationHOC'
+
+
+import {api} from '../../mock-data/api'
 
 
 const AdvancedSearchStyle = {
@@ -17,33 +20,40 @@ const AdvancedSearchOptionsStyle = {
     display: "none"
 }
 
-export default class Audit extends React.Component {
+class Audit extends React.Component {
 
     constructor() {
         super();
         this.state = {
             startDate: new Date(),
             endDate: new Date(),
-            actions: [] ////////////////// users? or actions ? 
-
+            actions: [],
+            employeeNumber:{value:'', errors:[], validations:{}}
         };
-        this.handleChange = date => {
+
+        this.searchAudit = this.searchAudit.bind(this)
+        this.inputChange = this.inputChange.bind(this)
+
+        this.handleChange = date => { /////////////////?!?!
             this.setState({
                 startDate: date,
-
             });
         };
 
-        this.handleChange2 = date => {
+        this.handleChange2 = date => {/////////////////////////?!?!?!
             this.setState({
                 endDate: date,
-
             });
         };
     }
     onChange() { (date) => this.setState({ date }) }
 
     componentDidMount() {
+
+        // this.props.paginationConfig({
+        //     url:'',
+        //     rowsPerPage:50,
+        // })
 
         fetch('http://localhost:8080/api/audit')
         .then(response => response.json())
@@ -53,7 +63,23 @@ export default class Audit extends React.Component {
         );
     }
 
- 
+
+    inputChange ({ target: { name, value } }){
+        this.setState({
+            [name]: {
+                ...this.state[name],
+                value: value,
+                // errors
+            }
+        });
+    }
+
+    async searchAudit(e){
+        e.preventDefault()
+        const actions = await api.auditSearchByEmployeeNumber(this.state.employeeNumber.value);
+        this.setState({actions},()=> console.log(this.state.actions))
+        
+    }
 
     showAdvancedSearch() {
         const advancedSearchOptions = document.querySelector('#advancedSearchOptions');
@@ -71,9 +97,7 @@ export default class Audit extends React.Component {
         return (
             <>
                 <div className="mt-4">
-                    <h2 className="text-center">
-                        Audit
-                </h2>
+                    <h2 className="text-center">Audit</h2>
                 </div>
 
             {/* SEARCH/FILTER INPUTS  */}
@@ -115,7 +139,8 @@ export default class Audit extends React.Component {
                                             type="text"
                                             className="form-control "
                                             placeholder="Search by Employee No."
-                                            name="user"
+                                            defaultValue={this.state.employeeNumber.value}
+                                            name="employeeNumber"
                                             onBlur={this.inputChange} />
                                     </div>
 
@@ -129,7 +154,7 @@ export default class Audit extends React.Component {
                                                 <option value="Add User">Add User</option>
                                                 <option value="Delete Role">Delete Role</option>
                                             </select>
-                                            <button className=" btn btn-outline-success mx-1" style={{ borderRadius: "50%" }}>
+                                            <button onClick={this.searchAudit} className=" btn btn-outline-success mx-1" style={{ borderRadius: "50%" }}>
                                                 <FontAwesomeIcon icon={faSearch} />
                                             </button>
 
@@ -141,7 +166,7 @@ export default class Audit extends React.Component {
                     </form>
                 </div>
 
-                {/* A component to built the table */}
+                {/* A component to build the table */}
                 <div className=" d-flex justify-content-center mt-3" style={{ height: 'auto' }}>
                     <table className="table table-sm col-lg-8 table-hover text-center"
                         style={{ cursor: "pointer" }}>
@@ -170,33 +195,15 @@ export default class Audit extends React.Component {
                     </table>
                 </div>
 
-                <div className="d-flex justify-content-center mt-4 col-md-12">
-                    <nav aria-label="Page navigation example">
-                        <ul className="pagination">
-                            <li className="page-item">
-                                <a className="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <li className="page-item"><a className="page-link" href="#">1</a></li>
-                            <li className="page-item"><a className="page-link" href="#">2</a></li>
-                            <li className="page-item"><a className="page-link" href="#">3</a></li>
-                            <li className="page-item"><a className="page-link" href="#">4</a></li>
-                            <li className="page-item"><a className="page-link" href="#">5</a></li>
-                            <li className="page-item"><a className="page-link" href="#">6</a></li>
-                            <li className="page-item"><a className="page-link" href="#">7</a></li>
-                            <li className="page-item">
-                                <a className="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-
+              
 
             </>
         );
     }
 
 }
+
+
+
+
+export default PaginationHOC(Audit)

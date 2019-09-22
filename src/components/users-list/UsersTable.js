@@ -134,6 +134,7 @@ export default class UsersTable extends React.Component{
                     <table className="table table-sm table-hover mt-2" style={{cursor : "pointer"}} id="usersTable">
                         <thead className="thead-dark">
                             <tr>
+                                <th></th>
                                 <th>ID</th>
                                 <th>Full Name</th>
                                 <th>Roles</th>
