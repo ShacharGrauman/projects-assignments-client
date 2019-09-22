@@ -28,12 +28,9 @@ export default () => (
     <div>
       <Header />
       <Navbar />
-<<<<<<< HEAD
-      <div className="mx-5 pb-5">
-=======
-
+      {/* <div className="mx-5 pb-5"><div> */}
       <div className="container">
->>>>>>> 93275bab897f74a4c4c2d98dd0989d04f0be3166
+
         <Switch>
           <Route path="/" component={Home} exact />
        
