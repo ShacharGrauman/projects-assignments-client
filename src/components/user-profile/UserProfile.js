@@ -55,6 +55,7 @@ export default class UserProfile extends React.Component {
         });
 
 
+
         if (this.state.userData.details.id) {
             api.getUserById(this.state.userData.details.id).then(({ employee, managerName, lastLogin, roles }) => {
 
@@ -84,6 +85,7 @@ export default class UserProfile extends React.Component {
                         img: 'x'
                     }
                 })
+
             })
         } else {
             this.setState({
@@ -164,6 +166,7 @@ export default class UserProfile extends React.Component {
             .catch(err => console.error(err));
     }
 
+
     editUser() {
         api.updateUserDetails(this.state.userData)
             .then(res => {
@@ -174,6 +177,7 @@ export default class UserProfile extends React.Component {
                 }
             })
             .catch(err => console.error(err));
+
     }
 
     handleRequiredValidation(name, value) {
