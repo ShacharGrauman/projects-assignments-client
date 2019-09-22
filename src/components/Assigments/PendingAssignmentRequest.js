@@ -1,38 +1,46 @@
 import React from "react";
 // import { AssignHistoryForEmp } from "../data/AssignHistoryForEmp";
 import { Link } from "react-router-dom";
+import Api from "./Api";
 export default class AssignmentRequets extends React.Component {
   constructor() {
     super();
     this.state = {
       PendingRequests: []
     };
-    this.sendPendingAssignment=this.sendPendingAssignment.bind(this)
+    this.sendPendingAssignment = this.sendPendingAssignment.bind(this);
   }
 
-  componentDidMount() {
-    setTimeout(() => {
-      fetch(
-        `http://localhost:8080/api/assignments/assignmentsrequest?managerid=1&pageNumber=1&limit=10`
-      )
-        .then(response => response.json())
-        .then(pending => {
-          this.setState({
-            PendingRequests: pending
-          });
-        });
-    }, 0);
+  async componentDidMount() {
+    try {
+      const PendingRequests = await Api.getPendingAssignments();
+      this.setState({ PendingRequests });
+    } catch (error) {
+      this.setState({ PendingRequests:[] });
+    }
   }
-  sendPendingAssignment(Data){
-    console.log(Data)
-}
+  async sendPendingAssignment(status, assignID) {
+    try {
+      const chanageStatus = await Api.sendAssignment(status, assignID);
+      if (chanageStatus) {
+        try {
+          const PendingRequests = await Api.getPendingAssignments();
+          this.setState({ PendingRequests });
+        } catch (error) {
+          this.setState({ PendingRequests:[] });
+        }
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
   render() {
     return (
-      <div className="col justify-content-md-center">
+      <div className="col justify-content-md-center mt4">
         <table
           className="table"
           style={{
-            width: "85%",
+            width: "90%",
             marginLeft: "100px",
             marginTop: "20px",
             border: "1px solid black",
@@ -44,6 +52,7 @@ export default class AssignmentRequets extends React.Component {
               <th scope="col">#</th>
               <th scope="col">Assignment ID</th>
               <th scope="col">Project Name</th>
+              <th scope="col">Employee Name</th>
               <th scope="col">Start Date</th>
               <th scope="col">End Date</th>
               <th scope="col">Status</th>
@@ -52,20 +61,33 @@ export default class AssignmentRequets extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.PendingRequests.map((Assign, i) => {
+            {this.state.PendingRequests.map((assign, i) => {
               return (
-                <tr>
+                <tr key={i}>
                   <td>{i}</td>
-                  <td>{Assign.projectID}</td>
-                  <td>{Assign.projectName}</td>
-                  <td>{Assign.startDate}</td>
-                  <td>{Assign.endDate}</td>
-                  <td>{Assign.status}</td>
-                  <td>{Assign.requestFromManagerID}</td>
+                  <td>{assign.id}</td>
+                  <td>{assign.projectName}</td>
+                  <td>{assign.employeeName}</td>
+                  <td>{assign.startDate}</td>
+                  <td>{assign.endDate}</td>
+                  <td>{assign.status}</td>
+                  <td>{assign.fromManagerName}</td>
 
-                  <td >
-                    <button onClick={e => this.sendPendingAssignment("Accept")}  className="btn btn-success mr-2"> Accept</button>
-                    <button onClick={e => this.sendPendingAssignment("Reject")} className="btn btn-danger"> Reject </button>
+                  <td>
+                    <button
+                      onClick={e => this.sendPendingAssignment(1, assign.id)}
+                      className="btn btn-success mr-2"
+                    >
+                      {" "}
+                      Accept
+                    </button>
+                    <button
+                      onClick={e => this.sendPendingAssignment(0, assign.id)}
+                      className="btn btn-danger"
+                    >
+                      {" "}
+                      Reject{" "}
+                    </button>
                   </td>
                 </tr>
               );

@@ -7,7 +7,8 @@ class SkillsOverViewTab extends Component {
   constructor() {
     super();
     this.state = {
-      editInput: null
+      editInput: null,
+      data: []
     };
     this.updateSkill = this.updateSkill.bind(this);
     this.cancelUpdate = this.cancelUpdate.bind(this);
@@ -17,7 +18,6 @@ class SkillsOverViewTab extends Component {
 
   updateSkill(type, id) {
     const value = this.props.skills.find(skill => skill.employeeSkillId === id);
-
     this.setState({ editInput: value });
   }
 
@@ -25,8 +25,31 @@ class SkillsOverViewTab extends Component {
     this.setState({ editInput: null });
   }
 
+  submit(type, id, grade) {
+    this.props.submitUpdate(type, id, grade);
+    //req();
+    this.setState({ editInput: null });
+  }
+
   proccessData() {
-    const { skills } = this.props;
+    const { data } = this.props;
+    if (data.length === 0) {
+      return [["Year", "Skill"], [new Date().getFullYear(), 0]];
+    }
+    const skills = [];
+
+    data.forEach(skill => {
+      skills.push(
+        ...skill.updates.map(update => {
+          return {
+            skillName: skill.name,
+            date: update.date,
+            level: update.level
+          };
+        })
+      );
+    });
+
     const skillNames = [...new Set(skills.map(skill => skill.skillName))];
     const header = ["Year", ...skillNames];
     const years = [
@@ -34,6 +57,7 @@ class SkillsOverViewTab extends Component {
     ];
     const body = [];
     const prevGrade = new Array(header.length - 1).fill(0);
+    years.sort((y1, y2) => y1 > y2);
 
     years.forEach(year => {
       skills
@@ -46,15 +70,7 @@ class SkillsOverViewTab extends Component {
       body.push([`${year}`, ...prevGrade]);
     });
 
-    body.sort((arr1, arr2) => arr1[0] > arr2[0]);
-
     return [header, ...body];
-  }
-
-  submit(type, id, grade) {
-    this.props.submitUpdate(type, id, grade);
-    //req();
-    this.setState({ editInput: null });
   }
 
   render() {

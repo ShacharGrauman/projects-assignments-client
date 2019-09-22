@@ -1,30 +1,33 @@
 import React from 'react';
-import ReactDom from 'react-dom';
 import UsersTable from './UsersTable'
 import UsersStatus from './UsersStatus';
 import UsersDetailsGraphs from './UsersDetailsGraphs';
 import {api} from '../../mock-data/api';
-import { async } from 'q';
 
-export default class UsersListPage extends React.Component{
+
+class UsersListPage extends React.Component{
     constructor(){
         super();
         this.state ={
-            users : [],
             userStatuses: {
-                rolesCount : 0,
-                departmentsCount : 0,
-                workSitesCount : 0,
-                usersCount :0
-            }
+                rolesCount : 1,
+                departmentsCount : 1,
+                workSitesCount : 1,
+                usersCount :1,
+            },
+            rowsPerPage:10
         }
     }
 
-    componentDidMount(){
+
+    async componentDidMount(){
+       
+
+
         // let temp = [];
-        api.getUsersList().then(users=> {
-            this.setState({users});
-        }).catch(err=>alert(err));
+        // api.getUsersList().then(users=> {
+        //     this.setState({users});
+        // }).catch(err=>alert(err));
 
         // api.getCount('WorkSites').then(workSites => {
         //     this.setState({workSitesCount : workSites.length})
@@ -47,9 +50,7 @@ export default class UsersListPage extends React.Component{
         //         this.state.departmentsCount]
         // }, ()=>console.log(this.state.departmentsCount));
 
-
-        
-        Promise.all([
+        await Promise.all([
             api.getCount('countRoles'),
             api.getCount('countDepartments'),
             api.getCount('countWorkSites'),
@@ -61,18 +62,6 @@ export default class UsersListPage extends React.Component{
                 workSitesCount,
                 usersCount
             }}));
-
-        // Promise.all([api.getCount('countEmployees'), 
-        //         api.getCount('countWorkSites'), 
-        //         api.getCount('countRoles'), 
-        //         api.getCount('countDepartments')
-        //     ])
-        //     .then((data) =>{
-        //         this.setState({
-        //             dataLengths : data
-        //         })
-        // });
-    
     }
 
 
@@ -88,7 +77,7 @@ export default class UsersListPage extends React.Component{
                 <UsersStatus userStatuses={this.state.userStatuses}/>
                 <div className="row d-flex">
                     <div className="col-lg-8">
-                        <UsersTable users={this.state.users}/>
+                        <UsersTable userCount={this.state.userStatuses.usersCount} rowsPerPage={this.state.rowsPerPage}/>
                     </div>
                     <div className="col-lg-4">
                         <UsersDetailsGraphs />
@@ -98,5 +87,7 @@ export default class UsersListPage extends React.Component{
            
         );
     }
-}
+};
 
+
+export default UsersListPage

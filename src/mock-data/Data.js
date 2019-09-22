@@ -1,8 +1,8 @@
-import { faUser, faUserTie, faNetworkWired, faCity } from "@fortawesome/free-solid-svg-icons";
+import { faUsers, faUserTie, faNetworkWired, faCity } from "@fortawesome/free-solid-svg-icons";
 
 export const MockDataStatus =[
     {
-        iconName : faUser,
+        iconName : faUsers,
         titleName : 'Users',
         variable:'usersCount'
     },
@@ -25,3 +25,18 @@ export const MockDataStatus =[
 
     }
 ];
+
+export const dropDownData =[
+    {
+        name : "roles"
+    },
+    {
+        name : "departments"
+    },
+    {
+        name : "worksites"
+    },
+    {
+        name : "countries"
+    }
+]

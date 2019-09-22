@@ -1,12 +1,13 @@
 import React from 'react';
 import InputErrors from '../shared-components/InputErrors'
-
 import {api} from '../../mock-data/api'
 
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faBarcode, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { Link, BrowserRouter } from 'react-router-dom';
+import ForgotPasswordModal from './ForgotPasswordModel'
+import { toast } from 'react-toastify';
 
 export class login extends React.Component {
 
@@ -76,30 +77,27 @@ export class login extends React.Component {
             api.validateLogin(this.state.email.value, this.state.password.value)
                 .then(res=>{
                 if(res.ok)
-                    this.props.history.push('/')
+                    this.props.history.push('/users-list')
                 else{
-                    console.log('Error Logging in')
+                    toast.error("Invalid username / password");
                 }
                 })
                 .catch(err=>console.error(err));
       }
+      else{
+        toast.error('Please insert valid credentials')
+      }
+
             
     }
 
-
-
-
     render() {
         return (
-            <div
-                style={{ minHeight: "82vh" }}
-                className="d-flex flex-lg-row-reverse align-items-lg-center flex-column"
-            >
+            <div style={{ minHeight: "82vh" }} className="d-flex flex-lg-row-reverse align-items-lg-center flex-column">
                 <div className="flex-grow-1">
                     <h3 className="text-center my-3" style={{ fontFamily: "Sans-Serif", letterSpacing: "2px" }}>
-                        {/* <img style={{width:'72px', position:'relative', right:'-15px', bottom:"38px"}} src="g5185.png"></img> */}
-                        <img style={{ width: "29px" }} src="a_logo.png"></img>ssign {/*<i style={{color:"teal", fontSize:"23px"}} className="fas fa-terminal"></i>  */} Me
-                </h3>
+                        <img style={{ width: "29px" }} src="a_logo.png"></img>ssign Me
+                    </h3>
                     <hr className="col-12 col-md-8"></hr>
                 </div>
 
@@ -110,7 +108,7 @@ export class login extends React.Component {
                             <img className="position-absolute" src="avatar.jpg" style={{ width: "5rem", top: "-42px", border: "1px solid teal", borderRadius: "50%" }}></img>
                         </div>
                         {/* LOGIN FORM INPUT*/}
-                        <form onSubmit={this.loginSubmit}>
+                        <form onSubmit={this.loginSubmit} >
                             {/* Input Email */}
                             <div className="form-group mb-3">
                                 <label className="mb-0" htmlFor="input__email">Email address</label>
@@ -153,62 +151,25 @@ export class login extends React.Component {
                                         aria-label="password"></input>
                                 </div>
                                 <InputErrors errors={this.state.password.errors} />
-                                
+
                                 {/* Forgot ypur password? */}
-                                <a className="nav-link text-left p-0 mb-3 mt-2" style={{ "color": "teal", cursor: 'pointer' }}>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                        Forgot your password?
-                                    </button>
-                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Reset Your Password</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text" id="basic-addon1">
-                                                                <FontAwesomeIcon icon={faUserCircle} ></FontAwesomeIcon>
-                                                            </span>
-                                                        </div>
-                                                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" />
-                                                    </div>
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text" id="basic-addon1">
-                                                                <FontAwesomeIcon icon={faBarcode} ></FontAwesomeIcon>
-                                                            </span>
-                                                        </div>
-                                                        <input type="text" class="form-control" placeholder="Employee Number" aria-label="Employee Number" aria-describedby="basic-addon1"/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                        <button type="button" class="btn btn-primary">Reset Password</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                </a>
+                                <a className="btn btn nav-link text-left p-0 mb-3 mt-2" style={{ "color": "teal", cursor: 'pointer' }} data-toggle="modal" data-target="#ForgotPasswordModal">
+                                    Forgot your password?
+                                    </a>
+                                {/* Calling for forgot password component*/}
+                                <ForgotPasswordModal />
+
                             </div>
-
-
-                                <div className="d-flex justify-content-end">
-                                    <button type="submit" className="mr-2 mb-3 btn btn-info">Login</button>
-                                </div>
-
+                            <div className="d-flex justify-content-end">
+                                <button type="submit" className="mr-2 mb-3 btn btn-info">Login</button>
+                            </div>
                         </form>
-
-                    </div>
                     </div>
                 </div>
-                )
-            }
-        }
-        
-        export default login
+            </div>
+        )
+    }
+}
+
+export default login
