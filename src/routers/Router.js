@@ -27,7 +27,7 @@ export default () => (
   <BrowserRouter>
     <div>
       <Navbar />
-      <div className="container">
+      <div className="mx-1 pb-5">
         <Switch>
           <Route path="/" component={Home} exact />
           <Route path="/users-list/" component={UsersListPage} />
