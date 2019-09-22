@@ -1,7 +1,4 @@
 import React from 'react';
-import {DataProvider} from '../common/Provider/DataProvider'
-import {DataContext} from '../common/Provider/DataProvider'
-import { dropDownData } from '../../mock-data/mock-data';
 
 const DropDownsOptions = (props) => {
     return (

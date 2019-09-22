@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import {api} from '../../mock-data/api';
 import InputErrors from './InputErrors';
 import DataProvider, { DataContext } from '../common/Provider/DataProvider';
-import {dropDownData} from '../../mock-data/mock-data'
+import {dropDownData} from '../../mock-data/Data'
 import DropDownsOptions from './DropDownsOptions';
 
 const AdvancedSearchStyle = {
