@@ -21,9 +21,15 @@ export default class MyTeamTable extends React.Component {
   }
 
   async componentDidMount() {
+   
     const employees = await Api.getMyTeam();
     this.setState({ employees, employeesSearch: employees });
     this.setState({ project: JSON.parse(sessionStorage.getItem("Project")) });
+    // this.setState({project})
+    // console.log(this.state.project);
+    const test=this.props.match
+    console.log(test);
+   
   }
 
   async assign(
@@ -43,11 +49,6 @@ export default class MyTeamTable extends React.Component {
         console.log("bla");
       }
     } catch (error) {}
-    // }
-    // console.log(employeeID);
-    // console.log(projectID);
-    // console.log(requestFromManagerID);
-    // console.log(requestToManagerID);
   }
 
   filterList() {
@@ -71,11 +72,11 @@ export default class MyTeamTable extends React.Component {
       return false;
     });
 
-    console.log(
-      filtered.map(emp => {
-        return emp.name;
-      })
-    );
+    // console.log(
+    //   filtered.map(emp => {
+    //     return emp.name;
+    //   })
+    // );
 
     this.setState({
       employeesSearch: filtered
@@ -85,47 +86,55 @@ export default class MyTeamTable extends React.Component {
   render() {
     return (
       <>
-        <div className="row" style={{ width: "300x" }}>
-          <div className="col-md-6">
-            <div
-              className="card"
-              style={{
-                width: "1060px",
-                marginLeft: "230px",
-                marginTop: "20px",
-                border: "1px solid black"
-              }}
-            >
-              <h2 className="card-header">
-                <center>Project information</center>{" "}
-              </h2>
-              <div className="card-body">
-                <h4 className="card-title">
-                  Project Name : {this.state.project.name}
-                </h4>
-                <p className="card-text">
-                  Project ID : {this.state.project.id}
-                </p>
-                <p className="card-text">
-                  Start Date : {this.state.project.startDate}
-                </p>
-                <p className="card-text">
-                  Description : {this.state.project.description}
-                </p>
+        {/* <div className="row" style={{ width: "300x" }}> */}
+        {/* <div className="col-md-6"> */}
+        <div
+          className="card d-flex justify-content-center  mt-3"
+          style={{
+            width: "700px",
+            marginLeft: "230px",
+            marginTop: "20px",
+            border: "1px solid black"
+          }}
+        >
+          <h2 className="card-header">
+            <center>Project information</center>{" "}
+          </h2>
+          <div className="card-body">
+            <h4 className="card-title">
+              Project Name : {this.state.project.name}
+            </h4>
+            <p className="card-text">Project ID : {this.state.project.id}</p>
+            <p className="card-text">
+              Start Date : {this.state.project.startDate}
+            </p>
+            <p className="card-text">
+              Description : {this.state.project.description}
+            </p>
 
-                <p> </p>
+            {/* <p> Technical Skills:
+            {this.state.project.technicalSkills.map((skill, index) => {
+                        return (
+                          <SkillBadge
+                            key={index}
+                            name={skill.name}
+                            level={skill.level}
+                            type={"Tech"}
+                          />
+                        );
+                      })} </p> */}
 
-                <Link to="/Projects" className="btn btn-outline-info">
-                  Back to projects
-                </Link>
-              </div>
-            </div>
+            <Link to="/Projects" className="btn btn-outline-info">
+              Back to projects
+            </Link>
           </div>
-
-          <div className="col md-3"></div>
         </div>
+        {/* </div> */}
 
-        <div className="d-flex justify-content-center align-items-center mb-2 mt-3">
+        {/* <div className="col md-3"></div>
+        </div> */}
+
+        <div className="d-flex justify-content-center align-items-center  mt-3">
           <input
             className="form-control mr-sm-2 w-25 "
             type="text"
@@ -152,12 +161,15 @@ export default class MyTeamTable extends React.Component {
             Advanced search...
           </button>
         </div>
-
-        <MyTeamDetailsTable
-          project={this.state.project}
-          employees={this.state.employeesSearch}
-          onAssign={this.assign}
-        />
+        <div className="d-flex justify-content-center align-items-center"
+        style={{marginBottom:"50px"}}>
+          <MyTeamDetailsTable
+            project={this.state.project}
+            employees={this.state.employeesSearch}
+            onAssign={this.assign}
+            
+          />
+        </div>
       </>
     );
   }

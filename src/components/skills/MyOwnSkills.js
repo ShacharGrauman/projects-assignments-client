@@ -68,15 +68,17 @@ class MyOwnSkills extends Component {
   }
 
   addSkill(skillId, skillName, level, type) {
+    const { id } = this.props.match.params;
+    console.log(type);
     DataService.sendPostRequest.call(
       this,
       "Add Skill",
       DataService.addNewSkill,
-      { employeeId: this.state.id, skillId, skillName, level, type }
+      { employeeId: id, skillId, skillName, level, type }
     );
   }
 
-  submitUpdate(id, grade) {
+  submitUpdate(type, id, grade) {
     DataService.sendPostRequest.call(
       this,
       "Update Skill",

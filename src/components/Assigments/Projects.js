@@ -89,11 +89,14 @@ export default class AssignHistory extends React.Component {
   }
 
   render() {
+    // console.log(this.state.projectsData[2].technicalSkill)
     return (
       <>
         <div className="col justify-content-md-center">
-          <h1 style={{ marginLeft: "600px" }}>Projects </h1>
+          <div className="d-flex justify-content-center align-items-center mb-2"><h1>Projects </h1></div>
           <div className="d-flex justify-content-center align-items-center mb-2">
+           
+            
             <input
               className="form-control mr-sm-2 w-25 "
               type="search"
@@ -153,9 +156,11 @@ export default class AssignHistory extends React.Component {
                       <div className="col">
                         {" "}
                         <Link
-                          to={"./my-team"}
+                          to={`./my-team/${project.name}`}
+                           // to={`assign-history/${Emp.id}/${Emp.name}`}
                           className="btn btn-outline-success"
                           onClick={e => this.setProjectInSession(project)}
+
                         >
                           Assign
                         </Link>
@@ -176,6 +181,7 @@ export default class AssignHistory extends React.Component {
                           <h6 style={{ fontWeight: "bold" }}>
                             Required Technical Skills{" "}
                           </h6>
+                          
                           {project.technicalSkill.map((skill, index) => {
                             return (
                               <SkillBadge
@@ -226,15 +232,15 @@ export default class AssignHistory extends React.Component {
                               Employees
                             </button>
                             <div className="dropdown-menu w-20" style={{height:"150px",overflow:"scroll"}}>
-                              {this.state.EmployeesByProjectByID.map(Emp => {
+                              {this.state.EmployeesByProjectByID.map(emp => {
                                 return (
                                   <>
                                     <Link
-                                      to={`assign-history/${Emp.id}/${Emp.name}`}
+                                      to={`assign-history/${emp.id}/${emp.name}`}
                                       className="dropdown-item"
                                       
                                     >
-                                      {Emp.name}
+                                      {emp.name}
                                     </Link>
                                     <div role="separator" className="dropdown-divider"></div>
                                   </>

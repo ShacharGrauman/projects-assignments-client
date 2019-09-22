@@ -22,14 +22,21 @@ import MyOwnSkills from "../components/skills/MyOwnSkills";
 import PendingSkills from "../components/pendingSkills/PendingSkills";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Header from "../components/common/Header";
 export default () => (
   <BrowserRouter>
     <div>
+      <Header />
       <Navbar />
+<<<<<<< HEAD
       <div className="mx-5 pb-5">
+=======
+
+      <div className="container">
+>>>>>>> origin/master
         <Switch>
           <Route path="/" component={Home} exact />
+       
           <Route path="/users-list/" component={UsersListPage} />
           <Route path="/user-profile/:id" component={UserProfile} />
           <Route path="/user-profile/addUser" component={UserProfile} />
@@ -37,7 +44,7 @@ export default () => (
           <Route path="/roles" component={Roles} />
           <Route path="/settings" component={Settings} />
           <Route path="/login" component={Login} />
-          <Route path="/my-team/" component={MyTeamTable} />
+          <Route path="/my-team/:projectName" component={MyTeamTable} />
           <Route path="/done-assignments/" component={DoneAssignments} />
           <Route path="/add-new-project/" component={AddNewProject} />
           <Route
