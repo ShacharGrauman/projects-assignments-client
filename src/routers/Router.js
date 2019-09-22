@@ -30,6 +30,7 @@ export default () => (
       <div className="container">
         <Switch>
           <Route path="/" component={Login} exact />
+       
           <Route path="/users-list/" component={UsersListPage} />
           <Route path="/user-profile/:id" component={UserProfile} />
           <Route path="/user-profile/addUser" component={UserProfile} />

@@ -59,7 +59,7 @@ export default class UserProfile extends React.Component{
         api.getUserById(this.state.userData.details.id).then(({employee,managerName,lastLogin,roles})=>{
            
             const non_userRoles = this.allRoles.filter((elem) => !roles.find(({ name }) => elem.name === name))
-            
+            console.log(employee)
 
             this.setState({
                 profileMode:{edit:false, addUserForm:false},
@@ -70,8 +70,8 @@ export default class UserProfile extends React.Component{
                         firstName:{...this.state.userData.details.firstName,value:employee.firstName},
                         lastName:{...this.state.userData.details.lastName, value:employee.lastName},
                         employeeNumber:{...this.state.userData.details.employeeNumber, value:employee.number},
-                        workSite:{...this.state.userData.details.workSite, value:employee.workSite},
-                        country:{...this.state.userData.details.country, value:employee.country},
+                        workSite:{...this.state.userData.details.workSite, value:employee.worksite.name},
+                        country:{...this.state.userData.details.country, value:employee.worksite.country.name},
                         manager:{...this.state.userData.details.manager, value:employee.managerId},
                         managerName:{...this.state.userData.details.managerName, value:managerName},
                         phone:{...this.state.userData.details.phone, value:employee.phone},
@@ -154,15 +154,16 @@ export default class UserProfile extends React.Component{
     }
 
     editUser(){
-        api.updateUserDetails(this.state.userData)
-        .then(res=>{
-        if(res.ok)
-            console.log('OK!!')
-        else{
-            console.log('Error Updating the user')
-        }
-        })
-        .catch(err=>console.error(err));
+        console.log(this.state.userData)
+        // api.updateUserDetails(this.state.userData)
+        // .then(res=>{
+        // if(res.ok)
+        //     console.log('OK!!')
+        // else{
+        //     console.log('Error Updating the user')
+        // }
+        // })
+        // .catch(err=>console.error(err));
     }
 
     handleRequiredValidation(name, value) {
