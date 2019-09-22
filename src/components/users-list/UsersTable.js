@@ -7,6 +7,11 @@ import DataProvider, { DataContext } from '../common/Provider/DataProvider';
 import {dropDownData} from '../../mock-data/Data'
 import DropDownsOptions from './DropDownsOptions';
 
+
+import PaginationHOC from '../shared-components/PaginationHOC'
+
+
+
 const AdvancedSearchStyle = {
     cursor : "pointer",
     color : "blue",
@@ -17,7 +22,7 @@ const AdvancedSearchOptionsStyle = {
     display : "none"
 }
 
-export default class UsersTable extends React.Component{
+class UsersTable extends React.Component{
     constructor(){
         super();
         this.state ={
@@ -34,6 +39,14 @@ export default class UsersTable extends React.Component{
     }
 
     async componentDidMount(){
+        
+        this.props.paginationConfig({
+            url:'http://localhost:8080/api/employee/',
+            rowsPerPage:10,
+            rowsPerPage:50,
+        })  
+
+
         const users = await api.getUsersList();
         this.setState({users});
     }
@@ -153,7 +166,7 @@ export default class UsersTable extends React.Component{
                         <tbody>
                             {/* A Component for dynamically filling the table*/}
                             {
-                                this.props.users.map(user =>  
+                                this.props.dataValues.map(user =>  
                                     <UsersTableRow 
                                         key={user["employee"].id}
                                         user={user["employee"]}
@@ -165,25 +178,14 @@ export default class UsersTable extends React.Component{
                     </table>
                 </div>
             
-                <nav aria-label="..." className="d-flex justify-content-center">
-                    <ul className="pagination">
-                        <li className="page-item disabled">
-                        <a className="page-link" href="#" tabIndex="-1" aria-disabled="true">Previous</a>
-                        </li>
-                        <li className="page-item"><a className="page-link" href="#">1</a></li>
-                        <li className="page-item active" aria-current="page">
-                        <a className="page-link" href="#">2 <span className="sr-only">(current)</span></a>
-                        </li>
-                        <li className="page-item"><a className="page-link" href="#">3</a></li>
-                        <li className="page-item">
-                        <a className="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
+            
             </div>
         );
     }
 }
+
+
+export default PaginationHOC(UsersTable)
 
 // ReactDom.render(<UsersTable/>,
 //     document.querySelector('#container')
