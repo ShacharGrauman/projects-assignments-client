@@ -25,3 +25,18 @@ export const MockDataStatus =[
 
     }
 ];
+
+export const dropDownData =[
+    {
+        name : "roles"
+    },
+    {
+        name : "departments"
+    },
+    {
+        name : "worksites"
+    },
+    {
+        name : "countries"
+    }
+]
