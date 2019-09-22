@@ -51,7 +51,7 @@ export default class AddProject extends React.Component {
       }
       );
   }
-
+  
   addskill(e) {
     e.preventDefault();
     //  let obj = {id: this.state.skills.find(skill => skill.id == this.state.skill.value),level:this.state.level.value};
@@ -66,16 +66,13 @@ export default class AddProject extends React.Component {
         } 
     }
 
-
-
     let obj = {
       skillr: this.state.skills.skills.find(skill => skill.id == this.state.skill.value),
       level: this.state.level.value,
       type: this.state.skills.type
     };
 
-   
-
+  
     this.setState({
       requiredSkills: [...this.state.requiredSkills, obj]
     },
@@ -147,8 +144,8 @@ export default class AddProject extends React.Component {
   submit(e) {
     e.preventDefault();
     
-    const technicalSkill = [],
-    productSkill = [];
+    const technicalSkill = [],productSkill = [];
+    
 
     let index = 0;
     this.state.requiredSkills.map((el, index) => {
@@ -174,12 +171,14 @@ export default class AddProject extends React.Component {
       managerID:1
 
     }
+  }
       
-    console.log(values);
+  /* {/* console.log(values);
     fetch(`http://localhost:8080/api/projects/`,{method:"POST",body:JSON.stringify(values)}).then(response => {
       if(response) console.log("response add project");
     })
-  }
+  */
+  
 
   render() {
     return (
@@ -319,7 +318,7 @@ export default class AddProject extends React.Component {
                     name="level"
                     defaultValue={this.state.level.value}
                     onBlur={this.inputChange}
-                    onSelect={this.selectSkillType}
+                    
                   >
                     <option value="">Select</option>
                     <option value="1">1</option>

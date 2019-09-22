@@ -26,7 +26,7 @@ export default class DoneAssigments extends React.Component {
     }
     componentDidMount() {
 
-        fetch(`http://localhost:8080/api/doneassignments?managerID=1&requestedDate=${this.state.fromdate.value}&pageNumber=1&limit=10`)
+        fetch(`http://localhost:8080/api/assignments/status/1?managerID=1&requestedDate=${this.state.fromdate.value}&pageNumber=1&limit=10`)
             .then(response => response.json())
             .then(assigments => this.setState({ assigments }, () => console.log(this.state.assigments)));
 
@@ -36,7 +36,7 @@ export default class DoneAssigments extends React.Component {
     search() {
 
         try {
-            fetch(`http://localhost:8080/api/doneassignments?managerID=1&requestedDate=${this.state.fromdate.value}&pageNumber=1&limit=10`)
+            fetch(`http://localhost:8080/api/assignments/status/1?managerID=1&requestedDate=${this.state.fromdate.value}&pageNumber=1&limit=10`)
                 .then(response => response.json())
                 .then(assigments => this.setState({ assigments }, () => console.log(this.state.assigments)))
                 .catch(err => alert(err));
