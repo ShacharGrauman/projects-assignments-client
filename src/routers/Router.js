@@ -29,14 +29,13 @@ export default () => (
       <Navbar />
       <div className="mx-1 pb-5">
         <Switch>
-          <Route path="/" component={Home} exact />
+          <Route path="/" component={Login} exact />
           <Route path="/users-list/" component={UsersListPage} />
           <Route path="/user-profile/:id" component={UserProfile} />
           <Route path="/user-profile/addUser" component={UserProfile} />
           <Route path="/audit" component={Audit} />
           <Route path="/roles" component={Roles} />
           <Route path="/settings" component={Settings} />
-          <Route path="/login" component={Login} />
           <Route path="/my-team/" component={MyTeamTable} />
           <Route path="/done-assignments/" component={DoneAssignments} />
           <Route path="/add-new-project/" component={AddNewProject} />

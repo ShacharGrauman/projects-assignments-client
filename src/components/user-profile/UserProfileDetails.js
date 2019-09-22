@@ -118,7 +118,7 @@ export default class UserProfileDetails extends React.Component{
                                     <DataContext.Consumer>
                                         {(context)=>
                                             context.worksites.map(worksite=>{
-                                                let textValue = `${worksite.name || worksite.city}, ${worksite.country}`;
+                                                let textValue = `${worksite.name || worksite.city}, ${worksite.country.name }`;
                                                 return <option key={worksite.id} value={worksite.id}>{textValue}</option>
                                             }
                                         )}
