@@ -7,7 +7,7 @@ const NavbarWidth='240px';
 const styleNavbar ={
   position:'fixed',
   width:NavbarWidth,
-  backgroundColor:'rgb(210,210,210)',
+  backgroundColor:'rgb(245,245,250)',
   transition:'transform 0.228s ease-in',
   zIndex:'100',
   top:'0',
