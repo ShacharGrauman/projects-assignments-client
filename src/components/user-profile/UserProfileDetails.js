@@ -41,14 +41,14 @@ export default class UserProfileDetails extends React.Component{
                                     placeholder="Manager"
                                     onChange={this.props.handleInputChange} 
                                     defaultValue={this.props.details.managerName.value}
-                                    name="manager"
+                                    name="managerName"
                                     list="managers"></input>
                                 <datalist id="managers">
-                                    <option value="1">Ezer Biron</option>
-                                    <option value="2">Walaa</option>
-                                    <option value="3">Shahar</option>
-                                    <option value="4">Saheer</option>
-                                    <option value="5">Ramzi</option>
+                                <DataContext.Consumer>
+                                        {({managers})=>managers.map((mgr)=>{
+                                            let name =`${mgr.firstName}  ${mgr.lastName}`
+                                             return <option key={mgr.id} value={name}/>})}
+                                    </DataContext.Consumer>
                                 </datalist>
                                 <InputErrors errors = {this.props.details.managerName.errors}/>
                             </div>
@@ -97,7 +97,7 @@ export default class UserProfileDetails extends React.Component{
                                     list="department"></input>
                                 <datalist id="department">
                                     <DataContext.Consumer>
-                                        {(context)=>context.departments.map(dep=> <option value={dep.name}/>)}
+                                        {({departments})=>departments.map((dep, i)=> <option key={i} value={dep.name}/>)}
                                     </DataContext.Consumer>
                                 </datalist>
                                 <InputErrors errors = {this.props.details.department.errors}/>
@@ -116,10 +116,10 @@ export default class UserProfileDetails extends React.Component{
                                     list="worksite"></input>
                                 <datalist id="worksite">
                                     <DataContext.Consumer>
-                                        {(context)=>
-                                            context.worksites.map(worksite=>{
-                                                let textValue = `${worksite.name || worksite.city}, ${worksite.country.name }`;
-                                                return <option key={worksite.id} value={worksite.id}>{textValue}</option>
+                                        {({worksites})=>
+                                            worksites.map(worksite=>{
+                                                let textValue = `${worksite.name || worksite.city}`;
+                                                return <option key={worksite.id} value={textValue}>{worksite.country.name }</option>
                                             }
                                         )}
                                     </DataContext.Consumer>
