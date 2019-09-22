@@ -1,8 +1,11 @@
 import React from 'react';
 import UsersTableRow from './UsersTableRow';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-
 import {api} from '../../mock-data/api';
+import InputErrors from './InputErrors';
+import DataProvider, { DataContext } from '../common/Provider/DataProvider';
+import {dropDownData} from '../../mock-data/mock-data'
+import DropDownsOptions from './DropDownsOptions';
 
 const AdvancedSearchStyle = {
     cursor : "pointer",
@@ -19,17 +22,15 @@ export default class UsersTable extends React.Component{
         super();
         this.state ={
             users : [],
-            id : {value : 0, validations : {required : true, pattern : /^\d+$/}},
-            employeeNumber : {value : '', validations : {required : true, minLength : 1, pattern : /^\d+$/}},
-            firstName : {value : '', validations : {required : true, minLength : 2, pattern : /\d/gi}},
-            lastName : {value : '', validations : {required : true, minLength : 2, pattern : /\d/gi}},
-            roles : {value : '', validations : {required : true, minLength : 2}},
-            department : {value : '', validations : {required : true, minLength : 2}},
-            workSite : {value : '', validations : {required : true, minLength : 2, pattern : /\d/gi}},
-            status : {value : '', validations : {required : true, minLength : 2}},
-            errors: []
+            number : {value : '', errors: [], validations : {required : false, pattern : /^[a-zA-Z0-9]+$/}},
+            name : {value : '', errors: [], validations : {required : false, pattern : /^[a-zA-Z]+$/}},
+            rolesDropdown : '',
+            departmentsDropdown : '',
+            workSitesDropdown : '',
+            countryDropDown : '',
         }
-        this.searchHandler = this.searchHandler.bind(this)   
+        this.searchHandler = this.searchHandler.bind(this);
+        this.inputChange = this.inputChange.bind(this);
     }
 
     async componentDidMount(){
@@ -39,10 +40,8 @@ export default class UsersTable extends React.Component{
 
     showAdvancedSearch(){ 
         const advancedSearchOptions = document.querySelector('#advancedSearchOptions');
-
         if(advancedSearchOptions.style.display == "flex"){
-            advancedSearchOptions.style.display = "none";
-            
+            advancedSearchOptions.style.display = "none";   
         }
         else{
             advancedSearchOptions.style.display = "flex";
@@ -51,13 +50,47 @@ export default class UsersTable extends React.Component{
 
     searchHandler(e){
         e.preventDefault();
-        console.log(e);
-        // fetch('/', {
-        //     method: 'post',
-        //     body: {
-        //         "first_name": this.refs.fullName.value
-        //     }
-        // });
+        this.inputChange(e);
+        // if(!e.target.name === undefined){
+        //     fetch('/', {
+        //         method: 'post',
+        //         body: {
+        //             "name": this.state["name"].value,
+        //             "employeeNumber": this.state["employeeNumber"].value
+        //         }
+        //     });
+        // }
+    }
+
+    inputChange(e){
+        const nameErrors = [],
+            numberErrors = [];
+        if(e.target.name.value){
+            if(this.state["name"].validations.pattern){
+                if(!this.state["name"].validations.pattern.test(e.target.name.value)){
+                    nameErrors.push(`${e.target.name.name} must contain only letters`);
+                }
+            }
+        }
+        if(e.target.number.value){
+            if(this.state["number"].validations.pattern)
+            if(!this.state["number"].validations.pattern.test(e.target.number.value)){
+                numberErrors.push(`${e.target.number.name} must contain only letters and numbers`);
+            }
+        }
+
+        this.setState({
+            name: {
+                ...this.state["name"],
+                value : e.target.name.value, 
+                errors : nameErrors 
+            },
+            number: {
+                ...this.state["number"],
+                value : e.target.number.value, 
+                errors : numberErrors 
+            }
+        });  
     }
 
     render(){
@@ -67,62 +100,37 @@ export default class UsersTable extends React.Component{
                     <form onSubmit={this.searchHandler}>
                         <div className="form-row input-group lg-10 m-auto">
                             <input type="text" ref="id" className="form-control" 
-                                    placeholder="Search by ID" aria-label="Search by Emp. Number" aria-describedby="button-addon2" 
-                                    id="userID"
+                                    placeholder="Search by Employee Number" aria-label="Search by Emp. Number" aria-describedby="button-addon2" 
+                                    name="number"
                                     />
                             <input type="text" ref="fullName" className="form-control" 
                                     placeholder="Search by Name" aria-label="Search by Name" aria-describedby="button-addon2" 
-                                    id="userName"
+                                    name="name"
                                     />
                             <div className="input-group-append">
                                 <button className="btn btn-outline-success" type="submit" id="button-addon2">Search</button>
                             </div>
                         </div>
+                        <InputErrors errors={this.state["name"].errors}/>
+                        <InputErrors errors={this.state["number"].errors} />
                         <div className="form-row m-auto d-flex">
                             <div className="mt-2">
-                                <a style={AdvancedSearchStyle} className="justify-content-md-center mr-2" onClick={this.showAdvancedSearch}>Advanced Search</a>
+                                <a style={AdvancedSearchStyle} className="justify-content-center mr-2" onClick={this.showAdvancedSearch}>Advanced Search</a>
                             </div>
                             <div  id="advancedSearchOptions" style={AdvancedSearchOptionsStyle}>
-                                <div className="dropdown mr-1 mt-2">
-                                    <button type="button" className="btn btn-secondary dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
-                                        Role
-                                    </button>
-                                    <div className="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-                                        <a className="dropdown-item" href="#">Manager</a>
-                                        <a className="dropdown-item" href="#">Employee</a>
-                                        <a className="dropdown-item" href="#">Admin</a>
-                                    </div>
-                                </div>
-                                <div className="dropdown mr-1 mt-2">
-                                    <button type="button" className="btn btn-secondary dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
-                                        Department
-                                    </button>
-                                    <div className="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-                                        <a className="dropdown-item" href="#">Manager</a>
-                                        <a className="dropdown-item" href="#">Employee</a>
-                                        <a className="dropdown-item" href="#">Admin</a>
-                                    </div>
-                                </div>
-                                <div className="dropdown mr-1 mt-2">
-                                        <button type="button" className="btn btn-secondary dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
-                                            Work Site
-                                        </button>
-                                        <div className="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-                                        <a className="dropdown-item" href="#">Manager</a>
-                                        <a className="dropdown-item" href="#">Employee</a>
-                                        <a className="dropdown-item" href="#">Admin</a>
-                                        </div>
-                                </div>
-                                <div className="dropdown mr-1 mt-2">
-                                        <button type="button" className="btn btn-secondary dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
-                                            Country
-                                        </button>
-                                        <div className="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-                                        <a className="dropdown-item" href="#">Manager</a>
-                                        <a className="dropdown-item" href="#">Employee</a>
-                                        <a className="dropdown-item" href="#">Admin</a>
-                                        </div>
-                                </div>
+                                <DataProvider>
+                                {
+                                    dropDownData.map(data =>
+                                    <DataContext.Consumer>
+                                    {(context) =>
+                                        
+                                        <DropDownsOptions context={context[data.name]}
+                                            name={data.name}
+                                        />
+                                    }
+                                    </DataContext.Consumer>)
+                                }
+                                </DataProvider>
                             </div>
                         </div>
                     </form>

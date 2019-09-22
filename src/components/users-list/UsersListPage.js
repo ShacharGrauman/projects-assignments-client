@@ -59,18 +59,6 @@ export default class UsersListPage extends React.Component{
                 workSitesCount,
                 usersCount
             }}));
-
-        // Promise.all([api.getCount('countEmployees'), 
-        //         api.getCount('countWorkSites'), 
-        //         api.getCount('countRoles'), 
-        //         api.getCount('countDepartments')
-        //     ])
-        //     .then((data) =>{
-        //         this.setState({
-        //             dataLengths : data
-        //         })
-        // });
-    
     }
 
 
