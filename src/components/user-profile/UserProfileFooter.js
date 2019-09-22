@@ -7,16 +7,20 @@ export default class UserProfileFooter extends React.Component {
     constructor() {
         super();
         this.state = {
-            message_title: { value: '', errors: [], validations: {} },
-            message_body: { value: '', errors: [], validations: {} }
+            message_title:'',
+            message_body:'', 
         }
 
         this.sendEmail = this.sendEmail.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+    }
 
+    handleChange({target:{name, value}}){
+        this.setState({[name]:value})
     }
 
     sendEmail() {
-        this.props.sendEmail(this.state.message_title.value, this.state.message_body.value)
+        this.props.sendEmail(this.state.message_title, this.state.message_body)
     }
 
 
@@ -81,6 +85,7 @@ export default class UserProfileFooter extends React.Component {
                                                 aria-label="Title"
                                                 name="message_title"
                                                 style={{ fontSize: '20px', color: 'black' }}
+                                                onChange={this.handleChange}
                                                 aria-describedby="title"></input>
                                         </div>
                                     </div>
@@ -96,11 +101,9 @@ export default class UserProfileFooter extends React.Component {
                                                 aria-label="With textarea"
                                                 name="message_body"
                                                 placeholder="Message Body"
-                                                onChange={this.props.handleInputChange}
-                                                defaultValue={this.props.details.message_body.value}
+                                                onChange={this.handleChange}
                                             ></textarea>
                                         </div>
-                                        <InputErrors errors = {this.props.details.message_body.errors}/>
                                     </div>
                                 </div>
 
@@ -108,7 +111,10 @@ export default class UserProfileFooter extends React.Component {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
-                                <button type="button" className="btn btn-success" onClick={this.sendEmail}>Send Message</button>
+                                <button type="button" 
+                                className="btn btn-success" 
+                                onClick={this.sendEmail}
+                                disabled={!this.state.message_body}>Send Message</button>
                             </div>
                         </div>
                     </div>
