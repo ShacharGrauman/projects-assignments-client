@@ -183,6 +183,7 @@ class MyOwnSkills extends Component {
               <div className="float-right float-top">
                 <button
                   className="btn btn-primary btn-sm"
+                  disabled={this.state.loading}
                   onClick={this.toggleAddSkill}
                 >
                   Add New Skill
