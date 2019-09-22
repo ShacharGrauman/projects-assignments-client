@@ -55,6 +55,26 @@ class Api {
     
     return newAssign.status === 200;
   }
+
+  async addNewProject(value) {
+    const {id,name,description,startDate,technicalSkill,productSkill}=value
+    // console.log(assignID)
+    const newAssign = await axios.post(
+      `${url}projects`,
+      {
+        id: id,
+        name: name,
+        description: description,
+        startDate: startDate,
+        technicalSkill:technicalSkill,
+        productSkill:productSkill
+      }
+    );
+    
+    return newAssign.status === 200;
+  }
+
+
 }
 
 export default new Api();

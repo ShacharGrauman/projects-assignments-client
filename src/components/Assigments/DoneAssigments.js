@@ -35,6 +35,8 @@ export default class DoneAssigments extends React.Component {
 
     search() {
 
+        if(!this.state.fromdate.value) return;
+
         try {
             fetch(`http://localhost:8080/api/assignments/status/1?managerID=1&requestedDate=${this.state.fromdate.value}&pageNumber=1&limit=10`)
                 .then(response => response.json())
@@ -78,7 +80,7 @@ export default class DoneAssigments extends React.Component {
 
                 <hr></hr>
                 <div className="row">
-                    <div className="col-md-3 ">
+                    <div className="col-md-4 ">
                         <label htmlFor="StartDate">From Date</label>
                         <div className="input-group">
                             <div className="input-group-prepend">

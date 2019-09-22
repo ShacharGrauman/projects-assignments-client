@@ -8,9 +8,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import InputErrors from "./InputError";
-
+import { toast } from 'react-toastify';
 import SkillColor from './SkillColor';
-
+import Api import from './Api';
 export default class AddProject extends React.Component {
   constructor() {
     super();
@@ -22,7 +22,7 @@ export default class AddProject extends React.Component {
       },
       description: { value: "", errors: [], validations: { required: true } },
       date: { value: "", errors: [], validations: { required: true } },
-      skillType: { value: "", errors: [], validations: { required: true } },
+      skillType: { value: "0", errors: [], validations: { required: true } },
       level: { value: "", errors: [], validations: { required: true } },
       skill: { value: "", errors: [], validations: { required: true } }, //chose skill
       skills: { type: '', skills: [] },
@@ -36,6 +36,7 @@ export default class AddProject extends React.Component {
     this.submit = this.submit.bind(this);
     this.addskill = this.addskill.bind(this);
     this.removeSkill = this.removeSkill.bind(this);
+    this.selectSkillLevel=this.selectSkillLevel.bind(this);
   }
 
   componentDidMount() {
@@ -43,6 +44,8 @@ export default class AddProject extends React.Component {
     //*student id should be received from the routing system
     //After getting the data from the server:
     //update state!
+    // const data=Api.getSkills()
+    
     fetch('http://localhost:8080/api/skills/')
       .then(response => response.json())
       .then(skills => this.skills = {
@@ -51,8 +54,8 @@ export default class AddProject extends React.Component {
       }
       );
   }
-  
-  addskill(e) {
+
+   addskill(e) {
     e.preventDefault();
     //  let obj = {id: this.state.skills.find(skill => skill.id == this.state.skill.value),level:this.state.level.value};
     if (!this.state.skill.value) return;
@@ -66,46 +69,58 @@ export default class AddProject extends React.Component {
         } 
     }
 
+
+
     let obj = {
       skillr: this.state.skills.skills.find(skill => skill.id == this.state.skill.value),
       level: this.state.level.value,
       type: this.state.skills.type
     };
 
-  
+   
+
     this.setState({
       requiredSkills: [...this.state.requiredSkills, obj]
     },
+    () => console.log(this.state.requiredSkills)
+  );
 
-      () => console.log(this.state.requiredSkills)
-    );
+    
   }
 
 
 
 
   removeSkill(skillId) {
+
+    console.log(skillId);
     this.setState(
 
       {
-        requiredSkills: [
-          ...this.state.requiredSkills.filter(skill => skill.skillr.id != skillId)
-        ]
+        requiredSkills: 
+          this.state.requiredSkills.filter(skill => skill.skillr.id != skillId)
       },
+
       () => console.log(this.state.requiredSkills)
     );
+
+    
   }
 
-  selectSkillType() {
-    const skillType = this.state.skillType.value;
+  selectSkillType(event) {
+    const skillType = event.target.value;
     let skills = { type: '', skills: [] };
     if (skillType == 1) {
       skills = { type: 't', skills: this.skills.technicals };
     } else if (skillType == 2) {
       skills = { type: 'p', skills: this.skills.product };
     }
-
     this.setState({ skills });
+  }
+
+  selectSkillLevel(event){
+    const skillLevel = event.target.value;
+    this.setState({level: {...this.state.level ,value:skillLevel}})
   }
 
 
@@ -131,7 +146,7 @@ export default class AddProject extends React.Component {
         );
       }
     }
-
+    //console.log(this.state[name]);
     this.setState({
       [name]: {
         ...this.state[name],
@@ -143,42 +158,45 @@ export default class AddProject extends React.Component {
 
   submit(e) {
     e.preventDefault();
+    if (!this.state.skill.value) return;
+    if (!this.state.level.value) return;
+    if (!this.state.skillType.value) return;
+    if (!this.state.date.value) return;
+    if (!this.state.description.value) return;
     
-    const technicalSkill = [],productSkill = [];
-    
-
     let index = 0;
-    this.state.requiredSkills.map((el, index) => {
-      let i=0;
-      if(el.type == 't') {
-        technicalSkill[i]=el;
-      }
-      else
-      {
-        productSkill[i]=el;
-      }
-      i++;
-    });
-    
-
     const values = {
-      id: 1,
+      id:1,
       name: this.state.projectname.value,
       description: this.state.description.value,
       startDate: this.state.date.value,
-      technicalSkill,
-      productSkill,
-      managerID:1
+      technicalSkill:[this.state.requiredSkills.filter(skill=>skill.type=='t').map((skill)=>({
+        id:skill.skillr.id,
+        name:skill.skillr.name,
+        level:skill.level
+      }))],
+      productSkill:[this.state.requiredSkills.filter(skill=>skill.type=='p').map((skill)=>({
+        id:skill.skillr.id,
+        name:skill.skillr.name,
+        level:skill.level
+      }))],
+      }
 
-    }
-  }
+      const projectResponse= Api.addNewProject(value)
+      if(projectResponse){
+        toast.sucsses("Project Added ..")
+      }
+
       
-  /* {/* console.log(values);
-    fetch(`http://localhost:8080/api/projects/`,{method:"POST",body:JSON.stringify(values)}).then(response => {
-      if(response) console.log("response add project");
-    })
-  */
+      // axios.post("http://localhost:8080/api/projects/",values).then(response => console.log("response"))
+     
+    console.log(values);
+  }
+
+
   
+
+
 
   render() {
     return (
@@ -277,9 +295,9 @@ export default class AddProject extends React.Component {
                     name="skillType"
                     defaultValue={this.state.skillType.value}
                     onBlur={this.inputChange}
-                    onClick={this.selectSkillType}
+                    onChange={this.selectSkillType}
                   >
-                    <option value="">Select</option>
+                    <option value="0">Select</option>
                     <option value="1">Technical</option>
                     <option value="2">Product</option>
                   </select>
@@ -318,7 +336,7 @@ export default class AddProject extends React.Component {
                     name="level"
                     defaultValue={this.state.level.value}
                     onBlur={this.inputChange}
-                    
+                    onChange={this.selectSkillLevel}
                   >
                     <option value="">Select</option>
                     <option value="1">1</option>
@@ -347,6 +365,7 @@ export default class AddProject extends React.Component {
               </div>
 
               <div className=" ">
+              <div className="d-flex flex-wrap">
                 <table>
                   <thead>
                     <tr>
@@ -354,14 +373,14 @@ export default class AddProject extends React.Component {
                     </tr>
                   </thead>
                   <tbody >
-                    <div className="d-flex flex-wrap">
-                      {this.state.requiredSkills.length ? (
+                   
+                      {this.state.requiredSkills.length ?
                         this.state.requiredSkills.map((el, index) => {
 
-
+                          
                           return (<SkillColor
 
-                            key={index}
+                            key={el.skillr.id}
                             id={el.skillr.id}
                             name={el.skillr.name}
                             level={el.level}
@@ -370,16 +389,14 @@ export default class AddProject extends React.Component {
                           />
                           );
                         }
-                        )
-                      )
-                        : <tr>Not yet selected</tr>
+                        )                      
+                        : <tr><td>Not yet selected</td></tr>
 
                       }
-
-
-                    </div>
+                   
                   </tbody>
                 </table>
+                </div>
               </div>
             </div>
 
