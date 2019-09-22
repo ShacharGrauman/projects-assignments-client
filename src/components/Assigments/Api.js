@@ -25,7 +25,7 @@ class Api {
   }
   async getPendingAssignments(projectID) {
     const employees = await axios.get(
-      `${url}assignments/request/2?${pageNumberLimit}`
+      `${url}assignments/request/2?${curentLimit}`
     );
     return employees.data;
   }
@@ -39,12 +39,12 @@ class Api {
     return assign.status === 200;
   }
   async employeeAssignmentsHistory(empID) {
-    const history = await axios.get(`${url}/assignments/${empID}/?${pageNumberLimit}`);
+    const history = await axios.get(`${url}/assignments/${empID}?${curentLimit}`);
     return history.data;
   }
 
   async getMyTeam() {
-    const employees = await axios.get(`${url}team/2/?${pageNumberLimit}`);
+    const employees = await axios.get(`${url}team/2/?${curentLimit}`);
     return employees.data;
   }
   async addNewAssignment(employeeID,projectID,requestFromManagerID,requestToManagerID) {

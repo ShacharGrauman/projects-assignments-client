@@ -39,7 +39,7 @@ export default class AssignmentRequets extends React.Component {
         }
       }
     } catch (error) {
-      toast.error("Failed to updateStatus")
+      toast.error(error.message)
       console.log(error.message);
     }
   }
