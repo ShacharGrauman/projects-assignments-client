@@ -1,24 +1,8 @@
 import React from "react";
-import { GoogleCharts } from "google-charts";
-import { SSL_OP_SSLREF2_REUSE_CERT_TYPE_BUG } from "constants";
+import InputError from "../shared-components/DivInputError";
 
-const id = "id";
 const level = "level";
-const date = "date";
 const skillName = "name";
-
-const Error = ({ e }) => {
-  return e.map((eerr, index) => (
-    <div
-      className="alert alert-danger"
-      role="alert"
-      style={{ marginTop: "5px" }}
-      key={index}
-    >
-      {eerr}
-    </div>
-  ));
-};
 
 class AddSkill extends React.Component {
   constructor() {
@@ -29,34 +13,23 @@ class AddSkill extends React.Component {
         value: "",
         errors: [],
         validations: {
-          required: true,
-          /**pattern: /^[a-z0-9]+$/i,*/ exists: true
+          required: true
         },
         valid: true
       },
-      /* [date]: {
-        value: "",
-        errors: [],
-        validations: {
-          required: true,
-          minYear: 2009,
-          maxYea: new Date().getFullYear()
-        },
-        valid: true
-      },*/
       [level]: {
         value: "",
         errors: [],
         validations: { required: true, maxLevel: 5, minLevel: 1 },
         valid: true
-      }
+      },
 
-      /*type: {
+      type: {
         value: "TECHNICAL",
         errors: [],
         validations: { required: true },
         valid: true
-      }*/
+      }
     };
     this.trySubmit = this.trySubmit.bind(this);
     this.inputChanged = this.inputChanged.bind(this);
@@ -77,16 +50,6 @@ class AddSkill extends React.Component {
         valid = false;
       }
     }
-
-    /*if (validations.exists) {
-      if (
-        !this.props.technical.find(skill => skill.skillName === value) &&
-        !this.props.product.find(skill => skill.skillName === value)
-      ) {
-        errors.push(`${name} does no exist`);
-        valid = false;
-      }
-    }*/
 
     if (validations.maxLevel) {
       if (value > validations.maxLevel) {
@@ -117,13 +80,6 @@ class AddSkill extends React.Component {
         valid = false;
       }
     }
-
-    /*if (validations.pattern) {
-      if (!validations.pattern.test(value)) {
-        errors.push(`invalid ${name}`);
-        valid = false;
-      }
-    }*/
 
     this.setState({
       [name]: {
@@ -158,17 +114,16 @@ class AddSkill extends React.Component {
         s => s.skillName === this.state.name.value
       );
 
-      /*if (skill.length === 0) {
+      if (skill.length === 0) {
         skill = [{ skillId: null }];
-      }*/
+      }
 
       this.props.submitNewSkill.call(
         this,
         skill[0].skillId,
         this.state.name.value,
-        this.state.level.value
-        //   this.state.date.value,
-        //  this.state.type.value
+        this.state.level.value,
+        this.state.type.value
       );
 
       this.props.close();
@@ -190,20 +145,10 @@ class AddSkill extends React.Component {
     if (e.target.value === "") {
       this.setState({ suggestions: null });
     } else {
-      const arr = this.props.product.filter(s =>
+      const arr = [...this.props.technical, ...this.props.product].filter(s =>
         s.skillName.startsWith(e.target.value)
       );
-      const arr2 = this.props.technical.filter(s =>
-        s.skillName.startsWith(e.target.value)
-      );
-
-      this.setState({ suggestions: [...arr, ...arr2] });
-
-      /*  const arr = this.props[this.state.type.value.toLowerCase()].filter(s =>
-        s.skillName.startsWith(e.target.value)
-      );
-
-      this.setState({ suggestions: arr });*/
+      this.setState({ suggestions: arr });
     }
   }
 
@@ -224,7 +169,6 @@ class AddSkill extends React.Component {
             onBlur={this.inputChanged}
             onChange={this.getSuggestions}
           />
-
           {this.state.suggestions ? (
             <ul className="dropdown-menu" style={{ display: "inline-block" }}>
               {this.state.suggestions.map((e, index) => (
@@ -238,7 +182,7 @@ class AddSkill extends React.Component {
           )}
 
           <div className="input-group-append"></div>
-          {/*<div className="input-group-append">
+          <div className="input-group-append">
             <div className="input-group-prepend">
               <span className="input-group-text" id="basic-addon3">
                 Type
@@ -261,24 +205,9 @@ class AddSkill extends React.Component {
                 PRODUCT
               </option>
             </div>
-    </div>*/}
-        </div>
-        <Error e={this.state.name.errors} />
-        {/**<div className="input-group mb-3">
-          <div className="input-group-prepend">
-            <span className="input-group-text" id="basic-addon3">
-              Date
-            </span>
           </div>
-          <input
-            type="date"
-            className="form-control"
-            name={date}
-            aria-describedby="basic-addon3"
-            onBlur={this.inputChanged}
-          />
         </div>
-        <Error e={this.state.date.errors} /> */}
+        <InputError e={this.state.name.errors} />
 
         <div className="input-group mb-3">
           <div className="input-group-prepend">
@@ -296,7 +225,7 @@ class AddSkill extends React.Component {
             onBlur={this.inputChanged}
           />
         </div>
-        <Error e={this.state.level.errors} />
+        <InputError e={this.state.level.errors} />
         <button
           type="button"
           className="btn btn-primary btn-lg btn-block"

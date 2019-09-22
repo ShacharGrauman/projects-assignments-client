@@ -1,0 +1,25 @@
+for use of toastify:
+import {toast} from 'react-toastify'
+in the needed componnents
+
+
+toast("Default Notification !");
+
+for success situation:
+toast.success(enter message here)
+
+for error situation:
+toast.error(enter message here)
+
+for info situation:
+toast.info(enter message here)
+
+toasts can be positioned in the desired corner of the page
+by adding an object with any of these values 
+position: toast.POSITION.TOP_CENTER
+position: toast.POSITION.TOP_LEFT
+position: toast.POSITION.BOTTOM_LEFT
+position: toast.POSITION.BOTTOM_CENTER
+position: toast.POSITION.BOTTOM_RIGHT
+
+
