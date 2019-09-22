@@ -180,7 +180,6 @@ export const api = {
 
 
     getData: async function(url) {
-        console.log(url)
         const users = await fetch(url)
             .then(response => response.json());
 
