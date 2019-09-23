@@ -130,7 +130,7 @@ export default class ForgotPasswordModal extends React.Component {
                             <InputErrors errors={this.state.employeeNumber.errors} />
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" onClick={this.ForgotPasswordSubmit} className="btn btn-primary">Reset Password</button>
+                                <button type="button" onClick={this.ForgotPasswordSubmit} className="btn btn-primary" data-dismiss="modal">Reset Password</button>
                             </div>
                         </div>
                     </div>
