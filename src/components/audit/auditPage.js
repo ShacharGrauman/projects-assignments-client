@@ -50,17 +50,26 @@ class Audit extends React.Component {
 
     componentDidMount() {
 
+           
+        this.props.paginationConfig({
+            url:'http://localhost:8080/api/audit/',
+            rowsPerPage:10,
+            rowsPerPage:50,
+        })  
+
+
+
         // this.props.paginationConfig({
         //     url:'',
         //     rowsPerPage:50,
         // })
 
-        fetch('http://localhost:8080/api/audit')
-        .then(response => response.json())
-        .then(audit => this.setState({
-           actions:audit
-            })
-        );
+        // fetch('http://localhost:8080/api/audit')
+        // .then(response => response.json())
+        // .then(audit => this.setState({
+        //    actions:audit
+        //     })
+        // );
     }
 
 
@@ -180,7 +189,7 @@ class Audit extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.actions.map(action => {
+                            {this.props.dataValues.map(action => {
                                 return (
                                     <tr key={action.audit.employeeNumber}>
                                         <td>{action.audit.employeeNumber}</td>

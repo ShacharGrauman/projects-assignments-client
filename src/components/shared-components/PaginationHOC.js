@@ -13,7 +13,7 @@
                 super();
                 this.state={
                     currentTab: 1,
-                    rowsPerPage:1,
+                    rowsPerPage:20,
                     dataValues:[],
                     numberOfTabs:1,
                     userCount:1
@@ -27,19 +27,12 @@
 
 
             async paginationConfig(state){
-
                 this.url=state.url;
-
-              await this.setState({
-                    rowsPerPage:23,
-                      currentTab: 1,
-                    }, switchPage(state.currentTab,state.rowsPerPage))
             }
 
 
             componentDidMount(){
                 this.setState({
-                   rowsPerPage:this.props.rowsPerPage,
                    userCount:this.props.userCount
                 }, this.setState({
                     numberOfTabs:Math.floor(this.state.userCount/this.state.rowsPerPage)+1
