@@ -60,8 +60,15 @@ export default class AddDepartment extends Component {
             const finalResult = {
                 department: this.state.department,
             }
-            api.addDepartment(finalResult)
-            toast.success("Adding new department succeeded")
+            const result = api.addDepartment(finalResult)
+            result.then(res=>{
+                if(res.ok){
+                    toast.success("Adding new department succeeded")
+                }
+                else{
+                    toast.error('Failed to add department')
+                }
+            })
         }
         else {
             toast.error("Please fill the missing")

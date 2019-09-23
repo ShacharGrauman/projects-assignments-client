@@ -6,6 +6,8 @@ import AddDepartment from "./AddDepartment";
 import AddRole from "./AddRole";
 import AddProject from "./AddProject";
 import AddWorksite from "./AddWorksite";
+import {DataContext} from '../common/Provider/DataProvider'
+import { DataProvider } from '../common/Provider/DataProvider'
 
 
 export default class Settings extends React.Component{
@@ -13,7 +15,7 @@ export default class Settings extends React.Component{
         return(<>
             <BrowserRouter>
                 <div>
-                <SettingsNavbar />
+                <SettingsNavbar/>
                     <Switch>
                         <Route path="/settings/add/roles" component={AddRole}/>
                         <Route path="/settings/add/department" component={AddDepartment}/>
