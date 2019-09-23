@@ -5,6 +5,9 @@ import InputErrors from '../shared-components/InputErrors'
 import { Link, BrowserRouter } from 'react-router-dom';
 import {toast} from 'react-toastify'
 
+
+import {api} from '../../mock-data/api'
+
 export default class ForgotPasswordModal extends React.Component {
 
     constructor(props) {
@@ -59,13 +62,18 @@ export default class ForgotPasswordModal extends React.Component {
                 errors = true
             }
         })
-
         if (!errors) {
             const finalResult = {
                 email: this.state.email,
                 employeeNumber: this.state.employeeNumber
             }
-            toast.error("Invalid email / employee number");
+
+            console.log(finalResult)
+
+            const passwordResetRes=api.resetPassword(finalResult);
+            console.log(passwordResetRes)
+
+            toast.success("Password was successfuly reset");
         }
         else{
             toast.error("Please insert valid credentials")
@@ -122,7 +130,7 @@ export default class ForgotPasswordModal extends React.Component {
                             <InputErrors errors={this.state.employeeNumber.errors} />
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" onClick={this.ForgotPasswordSubmit} className="btn btn-primary">Reset Password</button>
+                                <button type="button" onClick={this.ForgotPasswordSubmit} className="btn btn-primary" data-dismiss="modal">Reset Password</button>
                             </div>
                         </div>
                     </div>
