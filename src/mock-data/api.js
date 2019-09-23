@@ -206,14 +206,15 @@ export const api = {
     },
   
     resetPassword: async function({email, employeeNumber}){
+        console.log(email, employeeNumber)
       const response = await fetch(`http://localhost:8080/api/resetPassword/`,{
           method: 'POST',
           headers:{
               'Content-Type': 'application/json',
           },
           body:JSON.stringify({
-              email,
-              employeeNumber
+              email:email.value,
+              employeeNumber:+employeeNumber.value
           }),
 
       })
