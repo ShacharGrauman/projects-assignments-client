@@ -1,0 +1,17 @@
+to use LoadingHoC (Loading high order component)
+
+import LoadingHoC form shared components folder and instaniate 
+a LoadingComponent out side a class
+
+for example:
+
+const LoadingComponent = LoadingHoC(ComponentToRender)
+
+class CompEx extends React.Component{
+    ...
+    return (
+        <LoadingComponent isLoading={this.state.loading} other props for "ComponentToRender" go here like they were in the normal one/>
+    );
+}
+
+isLoading prop must be passed to enable the behaviour of the loading component

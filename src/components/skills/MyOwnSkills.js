@@ -4,11 +4,14 @@ import SkillsOverViewTab from "./SkillsOverViewTab";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import AddSkill from "./AddSkill";
+import Loading from "../shared-components/Loading";
 
 const skills = "skills";
 const productSkills = "productSkills";
 const technicalSkills = "technicalSkills";
 const skillsHistory = "skillsHistory";
+
+const LoadingComponent = Loading(SkillsOverViewTab);
 
 class MyOwnSkills extends Component {
   constructor() {
@@ -167,24 +170,20 @@ class MyOwnSkills extends Component {
               </ul>
 
               <div className="tab-content ml-1" id="myTabContent">
-                {this.state.loading ? (
-                  <div style={{ alignContent: "center" }}>
-                    <h1>Loading Content</h1>
-                  </div>
-                ) : (
-                  <SkillsOverViewTab
-                    type={this.state.currentTab}
-                    skills={this.state[this.state.currentTab]}
-                    data={this.state.skillsHistory}
-                    deleteClick={this.deleteSkill}
-                    submitUpdate={this.submitUpdate}
-                    submitNewSkill={this.addSkill}
-                  />
-                )}
+                <LoadingComponent
+                  isLoading={this.state.loading}
+                  type={this.state.currentTab}
+                  skills={this.state[this.state.currentTab]}
+                  data={this.state.skillsHistory}
+                  deleteClick={this.deleteSkill}
+                  submitUpdate={this.submitUpdate}
+                  submitNewSkill={this.addSkill}
+                />
               </div>
               <div className="float-right float-top">
                 <button
                   className="btn btn-primary btn-sm"
+                  disabled={this.state.loading}
                   onClick={this.toggleAddSkill}
                 >
                   Add New Skill
