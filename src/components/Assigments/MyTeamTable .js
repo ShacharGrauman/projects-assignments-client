@@ -230,14 +230,16 @@ export default class MyTeamTable extends React.Component {
                 </select>
             </div>
         </div>
-                
-        <button
-            className="btn btn-outline-success mt-4 ml-4"
-            type="submit"
-            onClick={this.filterList}
-          >
-            Search
+        <div className="" >
+          <h6 className="ml-4">Search:</h6>  
+
+
+          <button onClick={this.filterList} className=" btn btn-outline-success mx-1" style={{ borderRadius: "50%" }}>
+              <FontAwesomeIcon icon={faSearch} />
           </button>
+        </div>
+
+
 {/*
           <button
             className="btn btn-outline-info"
@@ -261,17 +263,17 @@ export default class MyTeamTable extends React.Component {
             
           <div id="employeeNameSearch" style={employeeNameSearchStyle}>
               <div className="row">                            
-                  <div className="col-md-6" >
+                  <div className="col-md-6 mr-4" >
                       <h6 className="">Employee Name:</h6>
                       <input
                           type="text"
-                          className="form-control "
+                          className="form-control mr-4 "
                           placeholder="Search by Emp. Name"
                           onKeyUp={e => this.setState({ searchEmp: e.target.value })}
                           />
                   </div>
                   <div className="col-md-2">
-                      <h6 className="">Search</h6>
+                      <h6 className="">Search:</h6>
                     <button onClick={this.filterListByEmpName} className=" btn btn-outline-success mr-5 mx-1" style={{ borderRadius: "50%" }}>
                                 <FontAwesomeIcon icon={faSearch} />
                             </button>
