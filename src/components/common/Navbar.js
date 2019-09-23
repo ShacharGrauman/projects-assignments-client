@@ -69,7 +69,6 @@ export default class Navbar extends React.Component {
                 Settings
               </Link>
             </li>
- 
             <li className="nav-item mb-2" onClick={this.toggleNavbar}>
               <Link className="nav-link" to="/projects">
                 My Projects

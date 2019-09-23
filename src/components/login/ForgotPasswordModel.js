@@ -3,6 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBarcode, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import InputErrors from '../shared-components/InputErrors'
 import { Link, BrowserRouter } from 'react-router-dom';
+import {toast} from 'react-toastify'
+
+
+import {api} from '../../mock-data/api'
 
 export default class ForgotPasswordModal extends React.Component {
 
@@ -58,16 +62,21 @@ export default class ForgotPasswordModal extends React.Component {
                 errors = true
             }
         })
-
         if (!errors) {
             const finalResult = {
                 email: this.state.email,
                 employeeNumber: this.state.employeeNumber
             }
-            console.log(finalResult);
+
+            console.log(finalResult)
+
+            const passwordResetRes=api.resetPassword(finalResult);
+            console.log(passwordResetRes)
+
+            toast.success("Password was successfuly reset");
         }
         else{
-        alert('Please insert valid credentials')
+            toast.error("Please insert valid credentials")
         }
     }
 

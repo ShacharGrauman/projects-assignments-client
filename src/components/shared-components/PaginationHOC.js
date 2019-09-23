@@ -12,37 +12,48 @@
             constructor(){
                 super();
                 this.state={
-                    url:'',
-                    numberOfTabs:3,
-                    currentTab:1,
-                    rowsPerPage:50,
-                    dataValues:[]
+                    currentTab: 1,
+                    rowsPerPage:20,
+                    dataValues:[],
+                    numberOfTabs:1,
+                    userCount:1
                 }
+
+                let url='';
 
                 this.paginationConfig = this.paginationConfig.bind(this)
                 this.switchPage = this.switchPage.bind(this)
             }
 
 
-            paginationConfig(state){
-                this.setState({state})
+            async paginationConfig(state){
+                this.url=state.url;
             }
 
 
-            async switchPage(pageNumber){
-                //api.getDATA ///////////////////////////////////
+            componentDidMount(){
+                this.setState({
+                   userCount:this.props.userCount
+                }, this.setState({
+                    numberOfTabs:Math.floor(this.state.userCount/this.state.rowsPerPage)+1
+                }, ()=>this.switchPage(1,this.state.rowsPerPage)))
+                
+            }
 
-                const result = await api.getUsersList()
+
+            async switchPage(pageNumber, limit){
+                //api.getDATA ///////////////////////////////////
+                const result = await api.getData(this.url+`?page=${pageNumber}&limit=${limit}`)
                 await this.setState({
                     dataValues:result,
                    currentTab:pageNumber
-                }, ()=>console.log(this.state.dataValues))
+                })
             }
 
             createPaginationBar (){
                 let _tabs =[]
-                for(let i =1 ; i<this.state.numberOfTabs+1 ; i++){
-                    _tabs.push(<li onClick={()=>this.switchPage(i)} 
+                for(let i =1 ; i<this.state.numberOfTabs+2 ; i++){
+                    _tabs.push(<li onClick={()=>this.switchPage(i,this.state.rowsPerPage)} 
                                     style={this.state.currentTab === i ? styles.currentTab : null}
                                     className="page-item"><a style={styles.styleAnchor} className="page-link">{i}</a></li>)
                 }
@@ -52,17 +63,17 @@
             render(){
                 return(
                     <>
-                        <Table paginationConfig={this.paginationConfig}></Table>
+                        <Table paginationConfig={this.paginationConfig} dataValues={this.state.dataValues}></Table>
                         <div className="d-flex justify-content-center mt-4 col-md-12">
                             <nav aria-label="table navigation">
                                 <ul className="pagination">
-                                    <li onClick={()=>this.switchPage(this.state.currentTab-1)}
+                                    <li onClick={()=>this.switchPage(this.state.currentTab-1,this.state.rowsPerPage)}
                                         className="page-item"
                                         style={this.state.currentTab===1? styles.disableTab:null}><a style={styles.styleAnchor} className="page-link">Previous</a></li>
                                     {this.createPaginationBar()}
-                                    <li onClick={()=>this.switchPage(this.state.currentTab+1)}
+                                    <li onClick={()=>this.switchPage(this.state.currentTab+1,this.state.rowsPerPage)}
                                         className="page-item"
-                                        style={this.state.currentTab===this.state.numberOfTabs? styles.disableTab:null}><a style={styles.styleAnchor} className="page-link">Next</a></li>
+                                        style={this.state.currentTab===this.state.numberOfTabs+1? styles.disableTab:null}><a style={styles.styleAnchor} className="page-link">Next</a></li>
                                     
 
                                 </ul>

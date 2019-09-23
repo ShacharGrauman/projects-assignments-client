@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import Select from 'react-select';
 import countryList from 'react-select-country-list';
 import InputErrors from '../shared-components/InputErrors'
+import {DataProvider} from '../common/Provider/DataProvider';
+import {DataContext} from '../common/Provider/DataProvider'
+import {toast} from 'react-toastify'
+
 
 export class AddWorkSite extends Component {
     constructor(props) {
@@ -83,13 +87,13 @@ export class AddWorkSite extends Component {
                     if (res.ok)
                         this.props.history.push('/')
                     else {
-                        console.log('Error Logging in')
+                        toast.error("Error Logging in");
                     }
                 })
                 .catch(err => console.error(err));
         }
         else{
-            alert('Please fill the missing')
+            toast.error("Please fill the missing")
 
         }
     }
@@ -99,13 +103,15 @@ export class AddWorkSite extends Component {
         const { country, region } = this.state;
         return (
             <>
-                <div className="" role="">
-
-
-                    <div className="row justify-content-center mt-2">
-                        <h3>Work Site</h3>
+                    <div className=" mt-2">
+                        <h3 className="text-center">Work Site</h3>
                     </div>
-                    <div className="d-flex flex-column align-items-center">
+                <div className="d-flex justify-content-around">
+
+
+
+
+                    <div className="d-flex flex-column align-items-center col-9">
 
                         <p>Add new work site:</p>
                         <form onSubmit={this.submit}>
@@ -121,6 +127,17 @@ export class AddWorkSite extends Component {
                             </div>
                             <div>
                                 <div>
+                                <Select className=" mt-2" placeholder="Select Country"
+                                    name="country"
+                                    options={this.state.options}
+                                    value={this.state.value}
+                                    onChange={this.changeHandler}
+
+                                />
+                                <InputErrors errors={this.state.country.errors} />
+                                </div>
+
+                                <div>
                                     <label>City Name:</label>
 
                                     <input type="text" className="form-control" placeholder="City name" aria-label="city" aria-describedby="basic-addon1"
@@ -131,14 +148,7 @@ export class AddWorkSite extends Component {
                                 <InputErrors errors={this.state.city.errors} />
                             </div>
                             <div>
-                                <Select className=" mt-2" placeholder="Select Country"
-                                    name="country"
-                                    options={this.state.options}
-                                    value={this.state.value}
-                                    onChange={this.changeHandler}
-
-                                />
-                                <InputErrors errors={this.state.country.errors} />
+                        
                                 <div className="d-flex justify-content-around ">
                                     <button type="submit" className="btn btn-primary mt-3 mr-1">Save</button>
                                     <button type="button" className="btn btn-primary mt-3">Cancel</button>
@@ -147,6 +157,16 @@ export class AddWorkSite extends Component {
                             </div>
                         </form>
                     </div>
+                <div className="col-3">
+                    <ul className="list-group">
+                        <DataProvider>
+                            <DataContext.Consumer>
+                                {({worksites})=>worksites.map(worksite=><li class="list-group-item">{worksite.name}</li>)}
+                            </DataContext.Consumer>
+                        </DataProvider>
+                    </ul>
+                </div>
+
                 </div>
 
 

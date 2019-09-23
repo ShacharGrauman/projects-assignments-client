@@ -2,8 +2,12 @@ import React, { Component } from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfo, faBuilding } from '@fortawesome/free-solid-svg-icons';
-
+import {DataProvider} from '../common/Provider/DataProvider';
+import {DataContext} from '../common/Provider/DataProvider'
+import {toast} from 'react-toastify'
 import InputErrors from '../shared-components/InputErrors'
+
+import {api} from '../../mock-data/api'
 
 export default class AddDepartment extends Component {
     constructor(props) {
@@ -54,53 +58,69 @@ export default class AddDepartment extends Component {
 
         if (!errors) {
             const finalResult = {
-                deprtment: this.state.department,
+                department: this.state.department,
             }
-            console.log(finalResult);
+            api.addDepartment(finalResult)
+            toast.success("Adding new department succeeded")
         }
         else {
-            alert('Please insert valid department')
+            toast.error("Please fill the missing")
         }
     }
 
     render() {
-        return (
-
-            <form onSubmit={this.submit}>
-                <div className="">
-                    <h4 className="alert-heading text-center mx-auto mb-3">Department</h4>
-
-
-                    {/*Department name*/}
-                    <div className="mx-auto mb-3 col-md-6">
-                        <div className="">
-                            <label htmlFor="addDepartment">Name</label>
-                            <div className="input-group">
-                                <div className="input-group-prepend">
-                                    <span className="input-group-text" id="basic-addon1">
-                                        <FontAwesomeIcon icon={faBuilding}></FontAwesomeIcon>
-                                    </span>
+        return (<>
+        <div className="d-flex  justify-content-around">
+            <div>
+            <h4 className="alert-heading text-center mx-auto mb-3">Department</h4>
+                <form onSubmit={this.submit}>
+                    <div className="">
+                    
+                        {/*Department name*/}
+                        <div className="mx-auto mb-3">
+                            <div className="">
+                                <label htmlFor="addDepartment">Name</label>
+                                <div className="input-group">
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text" id="basic-addon1">
+                                            <FontAwesomeIcon icon={faBuilding}></FontAwesomeIcon>
+                                        </span>
+                                    </div>
+                                    <input type="text" className="form-control" placeholder="Department name" aria-label="department" aria-describedby="basic-addon1"
+                                        id="department"
+                                        name="department"
+                                        defaultValue={this.state.department.value}
+                                        onChange={this.inputChange}
+                                    ></input>
                                 </div>
-                                <input type="text" className="form-control" placeholder="Department name" aria-label="department" aria-describedby="basic-addon1"
-                                    id="department"
-                                    name="department"
-                                    defaultValue={this.state.department.value}
-                                    onBlur={this.inputChange}
-                                ></input>
+                                <InputErrors errors={this.state.department.errors} />
                             </div>
-                            <InputErrors errors={this.state.department.errors} />
+                        </div>
+                        <div className="mx-auto d-flex justify-content-between">
+                            <button 
+                            type="submit" 
+                            className="m-2 btn btn-success btn-block"
+                            disabled={this.state.department.value===""}>Add</button>
                         </div>
                     </div>
-                    <div className="row  mb-3">
+                </form>
+            </div>
+            <div>
+                <ul className="list-group">
+                    <DataProvider>
+                        <DataContext.Consumer>
+                            {({departments})=>departments.map((department,i)=> <li key={i} className="list-group-item">{department.name}</li>)}
+                        </DataContext.Consumer>
+                    </DataProvider>
 
-                        {/* Save & Cancel */}
-                    </div>
-                    <div className="mx-auto d-flex justify-content-between col-md-6">
-                        <button type="button" className="m-2 col-md-2 btn btn-danger">Cancel</button>
-                        <button type="submit" className="m-2 col-md-2 btn btn-success">Add</button>
-                    </div>
-                </div>
-            </form>
+                </ul>
+            </div>
+
+            </div>
+                
+
+                </>
+
         );
     }
 }
