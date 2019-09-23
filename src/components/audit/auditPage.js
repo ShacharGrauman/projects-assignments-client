@@ -128,10 +128,10 @@ class Audit extends React.Component {
 
                 <div className=" m-auto mt-5 col-10">
                     <form>
-                        <div className="form-row m-auto d-flex align-items-center" >
                             <div >
                                 <a style={AdvancedSearchStyle} className="justify-content-md-center mr-2" onClick={this.showAdvancedSearch}>Search</a>
                             </div>
+                        <div className="form-row m-auto d-flex align-items-center" >
                             <div id="advancedSearchOptions" style={AdvancedSearchOptionsStyle}>
                                 <div className="row align-items-end ml-3">
                                     <div className="col-lg-3 col-sm-6 col-xs-12  p-0" >
