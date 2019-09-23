@@ -82,14 +82,12 @@ class Audit extends React.Component {
     async searchAudit(e){
         e.preventDefault()
 
-        if(this.state.employeeNumber.value===''){
-            this.componentDidMount()
-        }else{
+       
             const actions = await api.auditSearchByEmployeeNumber(this.state.employeeNumber.value);
             this.setState({actions})
-        }
-        
     }
+        
+    
 
     showAdvancedSearch() {
         const advancedSearchOptions = document.querySelector('#advancedSearchOptions');
