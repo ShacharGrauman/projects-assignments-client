@@ -187,7 +187,6 @@ export const api = {
     },
   
     addDepartment:async function({department}){
-        console.log(department)
         const departmentResult = await fetch(`http://localhost:8080/api/department`,{
                 method: 'POST',
                 headers:{
@@ -216,4 +215,23 @@ export const api = {
       })
       return response;
   },
+
+
+  addRole:async function(role){
+      console.log(role)
+    const addRoleRes = await fetch(`http://localhost:8080/api/roles`,{
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify({
+                name:role.name,
+                description:role.description,
+                permissions:role.permissions
+            }),
+            
+        })
+        return addRoleRes;
+
+},
 }
