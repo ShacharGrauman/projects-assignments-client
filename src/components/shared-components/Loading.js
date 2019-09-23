@@ -5,7 +5,7 @@ import React from "react";
  * @param {* user's component} Component
  */
 
-const LoadingHoC = Component => ({ isLoading, ...props }) => {
+const Loading = Component => ({ isLoading, ...props }) => {
   return isLoading ? (
     <div>
       <h1>Loading Content</h1>
@@ -15,4 +15,4 @@ const LoadingHoC = Component => ({ isLoading, ...props }) => {
   );
 };
 
-export default LoadingHoC;
+export default Loading;

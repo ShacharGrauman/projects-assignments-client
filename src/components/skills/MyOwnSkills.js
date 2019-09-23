@@ -4,14 +4,14 @@ import SkillsOverViewTab from "./SkillsOverViewTab";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import AddSkill from "./AddSkill";
-import LoadingHoC from "../shared-components/LoadingHoc";
+import Loading from "../shared-components/Loading";
 
 const skills = "skills";
 const productSkills = "productSkills";
 const technicalSkills = "technicalSkills";
 const skillsHistory = "skillsHistory";
 
-const LoadingComponent = LoadingHoC(SkillsOverViewTab);
+const LoadingComponent = Loading(SkillsOverViewTab);
 
 class MyOwnSkills extends Component {
   constructor() {
