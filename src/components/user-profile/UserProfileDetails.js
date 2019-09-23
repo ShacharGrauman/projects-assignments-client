@@ -47,7 +47,7 @@ export default class UserProfileDetails extends React.Component{
                                 <DataContext.Consumer>
                                         {({managers})=>managers.map((mgr)=>{
                                             let name =`${mgr.firstName}  ${mgr.lastName}`
-                                             return <option key={mgr.id} value={name}/>})}
+                                             return <option key={mgr.id} value={mgr.id} label={name}/>})}
                                     </DataContext.Consumer>
                                 </datalist>
                                 <InputErrors errors = {this.props.details.managerName.errors}/>
