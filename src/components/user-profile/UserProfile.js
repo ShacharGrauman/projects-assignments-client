@@ -235,8 +235,11 @@ export default class UserProfile extends React.Component {
     }
 
     sendEmail(title, body) {
+        const res = api.sendEmail({email:this.state.userData.details.email.value,
+                        name:this.state.userData.details.firstName.value,
+                        messageBody:body,messageTitle:title})
+            console.log(res)
         toast.success('mail successfully sent')
-        console.log('sending email to email: ' + this.state.userData.details.email.value)
     }
 
     render() {
@@ -268,6 +271,7 @@ export default class UserProfile extends React.Component {
                             <UserProfileFooter editMode={!this.state.profileMode.edit}
                                 name={`${this.state.userData.details.firstName.value} ${this.state.userData.details.lastName.value}`}
                                 isLocked={this.state.status.locked}
+                                isDeactivated={this.state.status.deactivated}
                                 unlockUser={this.unlockUser}
                                 addUserForm={this.state.profileMode.addUserForm}
                                 printRoles={this.printRoles}
