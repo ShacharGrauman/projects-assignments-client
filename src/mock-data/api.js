@@ -180,10 +180,40 @@ export const api = {
 
 
     getData: async function(url) {
-        console.log(url)
         const users = await fetch(url)
             .then(response => response.json());
 
         return users;
     },
+  
+    addDepartment:async function({department}){
+        console.log(department)
+        const departmentResult = await fetch(`http://localhost:8080/api/department`,{
+                method: 'POST',
+                headers:{
+                    'Content-Type': 'application/json',
+                },
+                body:JSON.stringify({name:department.value}),
+                
+            })
+            console.log(departmentResult)
+            return departmentResult;
+
+    },
+  
+    resetPassword: async function({email, employeeNumber}){
+        console.log(email, employeeNumber)
+      const response = await fetch(`http://localhost:8080/api/resetPassword/`,{
+          method: 'POST',
+          headers:{
+              'Content-Type': 'application/json',
+          },
+          body:JSON.stringify({
+              email:email.value,
+              employeeNumber:+employeeNumber.value
+          }),
+
+      })
+      return response;
+  },
 }
