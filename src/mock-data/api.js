@@ -185,20 +185,34 @@ export const api = {
 
         return users;
     },
+  
+    addDepartment:async function({department}){
+        console.log(department)
+        const departmentResult = await fetch(`http://localhost:8080/api/department`,{
+                method: 'POST',
+                headers:{
+                    'Content-Type': 'application/json',
+                },
+                body:JSON.stringify({name:department.value}),
+                
+            })
+            console.log(departmentResult)
+            return departmentResult;
 
-
+    },
+  
     resetPassword: async function({email, employeeNumber}){
-    const response = await fetch(`http://localhost:8080/api/resetPassword/`,{
-        method: 'POST',
-        headers:{
-            'Content-Type': 'application/json',
-        },
-        body:JSON.stringify({
-            email,
-            employeeNumber
-        }),
-        
-    })
-    return response;
-},
+      const response = await fetch(`http://localhost:8080/api/resetPassword/`,{
+          method: 'POST',
+          headers:{
+              'Content-Type': 'application/json',
+          },
+          body:JSON.stringify({
+              email,
+              employeeNumber
+          }),
+
+      })
+      return response;
+  },
 }
