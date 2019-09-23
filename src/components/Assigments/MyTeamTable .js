@@ -30,8 +30,9 @@ export default class MyTeamTable extends React.Component {
       employeesSearch: [],
       project: [],
       search: "",
-      searchEmp: ""
+      selectedLevel:"",
     };
+    this.searchEmp = "";
 
     this.assign = this.assign.bind(this);
     this.filterList = this.filterList.bind(this);
@@ -67,12 +68,20 @@ export default class MyTeamTable extends React.Component {
     } catch (error) {}
   }
 
+
   filterList(e) {
     e.preventDefault();
 
+    // console.log(this.state.selectedValue);
+
     const requiredSkill = this.state.search.toLowerCase();
-   // console.log(requiredSkill);
-    if (!requiredSkill) {
+
+  //  if(option.value!="all levels") {
+  //    console.log(option.value)
+  //  }
+   
+   
+   if (!requiredSkill) {
       this.setState({
         employeesSearch: this.state.employees
       });
@@ -105,26 +114,21 @@ export default class MyTeamTable extends React.Component {
   filterListByEmpName(e) {
     e.preventDefault();
 
-
-    if (!this.state.searchEmp.toLowerCase()) {
+    if (!this.searchEmp.toLowerCase()) {
       this.setState({
         employeesSearch: this.state.employees
       });
       return;}
 
-    const employeeName = this.state.searchEmp.toLowerCase();
+    const employeeName = this.searchEmp.toLowerCase();
     
     
-     const empFiltered = this.state.employees.filter(
-       (emp) => {return  (emp.name.toLowerCase().includes(employeeName)) }
-    );
-      console.log(empFiltered)
+     const employeesSearch = this.state.employees.filter(emp => emp.name.toLowerCase().includes(employeeName));
 
-    this.setState({//
-      employeesSearch: empFiltered//
+    this.setState({
+      employeesSearch
      });
-
-}
+  }
 
 
 
@@ -220,8 +224,11 @@ export default class MyTeamTable extends React.Component {
           <div className="" >
             <h6 className="">Skill's Level :</h6>
             <div className="form-check-inline m-0 align-items-end">
-                <select className="form-control">
-                    <option value="all levels">All</option>
+                <select className="form-control"  defaultValue="0"
+                value={this.state.selectedLevel} 
+                onChange={e => this.setState({selectedLevel: e.target.innerHTML })}>
+
+                    <option value="0">All</option> 
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -240,7 +247,7 @@ export default class MyTeamTable extends React.Component {
         </div>
 
 
-{/*
+          {/*
           <button
             className="btn btn-outline-info"
             type="button"
@@ -269,7 +276,7 @@ export default class MyTeamTable extends React.Component {
                           type="text"
                           className="form-control mr-4 "
                           placeholder="Search by Emp. Name"
-                          onKeyUp={e => this.setState({ searchEmp: e.target.value })}
+                          onKeyUp={e => this.searchEmp = e.target.value }
                           />
                   </div>
                   <div className="col-md-2">
@@ -290,8 +297,7 @@ export default class MyTeamTable extends React.Component {
           <MyTeamDetailsTable
             project={this.state.project}
             employees={this.state.employeesSearch}
-            onAssign={this.assign}
-            
+            onAssign={this.assign}            
           />
         </div>
       </>
