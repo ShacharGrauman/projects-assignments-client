@@ -186,4 +186,21 @@ export const api = {
 
         return users;
     },
+
+
+
+    addDepartment:async function({department}){
+        console.log(department)
+        const departmentResult = await fetch(`http://localhost:8080/api/department`,{
+                method: 'POST',
+                headers:{
+                    'Content-Type': 'application/json',
+                },
+                body:JSON.stringify({name:department.value}),
+                
+            })
+            console.log(departmentResult)
+            return departmentResult;
+
+    },
 }
