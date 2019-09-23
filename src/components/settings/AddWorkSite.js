@@ -148,16 +148,7 @@ export class AddWorkSite extends Component {
                                 <InputErrors errors={this.state.city.errors} />
                             </div>
                             <div>
-                                
-                                <Select className=" mt-2" placeholder="Select Country"
-                                    name="country"
-                                    options={this.state.options}
-                                    value={this.state.value}
-                                    onChange={this.changeHandler}
-
-                               />
-
-                                <InputErrors errors={this.state.country.errors} />
+                        
                                 <div className="d-flex justify-content-around ">
                                     <button type="submit" className="btn btn-primary mt-3 mr-1">Save</button>
                                     <button type="button" className="btn btn-primary mt-3">Cancel</button>

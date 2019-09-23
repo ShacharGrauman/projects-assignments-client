@@ -67,7 +67,7 @@ export const api = {
         })
     },
     getUserById: async (id)=>{
-        const user = await fetch(`http://localhost:8080/api/employee/employeeid?employeeid=${id}`)
+        const user = await fetch(`http://localhost:8080/api/employee/id?id=${id}`)
         return user.json();
     },
 
@@ -180,15 +180,12 @@ export const api = {
 
 
     getData: async function(url) {
-        console.log(url)
         const users = await fetch(url)
             .then(response => response.json());
 
         return users;
     },
-
-
-
+  
     addDepartment:async function({department}){
         console.log(department)
         const departmentResult = await fetch(`http://localhost:8080/api/department`,{
@@ -203,4 +200,19 @@ export const api = {
             return departmentResult;
 
     },
+  
+    resetPassword: async function({email, employeeNumber}){
+      const response = await fetch(`http://localhost:8080/api/resetPassword/`,{
+          method: 'POST',
+          headers:{
+              'Content-Type': 'application/json',
+          },
+          body:JSON.stringify({
+              email,
+              employeeNumber
+          }),
+
+      })
+      return response;
+  },
 }
