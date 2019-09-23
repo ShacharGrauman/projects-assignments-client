@@ -1,36 +1,62 @@
 import React from 'react';
+import { api } from '../../mock-data/api';
 
 
-export default class Roles extends React.Component{
+export default class Roles extends React.Component {
+
+    constructor() {
+        super();
+        this.state = {
+            roles: []
+        }
+    }
 
 
-    render(){
-            return (
-                <>
+    async componentDidMount() {
+        api.getRoles
+
+        const roles = await api.getRolesWithPermissions();
+        this.setState({ roles });
+        console.log(this.state.roles);
+    }
+
+    render() {
+        return (
+            <>
                 <div className="m-3">
                     <div className="text-center">
                         <h5>Section Roles</h5>
                     </div>
 
-                        <div className="row justify-content-center">
-                            <div className="col-lg-2 col-sm-2 mt-2">
-                                <div className="nav flex-column nav-pills text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                    <a className="nav-link active" id="v-pills-admin-tab" data-toggle="pill" href="#v-pills-admin" role="tab" aria-controls="v-pills-admin" aria-selected="true">Admin</a>
+                    <div className="row justify-content-center">
+                        <div className="col-lg-2 col-sm-2 mt-2">
+                            <div className="nav flex-column nav-pills text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                {this.state.roles.map(role => <a className="nav-link" id={`v-pills-${role.role.id}-tab`} data-toggle="pill" href={`#v-pills-${role.role.id}`} role="tab" aria-controls={`v-pills-${role.role.id}`} aria-selected="false">{role.role.name}</a>)}
+                                {/* <a className="nav-link active" id="v-pills-admin-tab" data-toggle="pill" href="#v-pills-admin" role="tab" aria-controls="v-pills-admin" aria-selected="true">Admin</a>
                                     <a className="nav-link" id="v-pills-employee-tab" data-toggle="pill" href="#v-pills-employee" role="tab" aria-controls="v-pills-employee" aria-selected="false">Employee</a>
                                     <a className="nav-link" id="v-pills-manager-tab" data-toggle="pill" href="#v-pills-manager" role="tab" aria-controls="v-pills-manager" aria-selected="false">Manager</a>
                                     <a className="nav-link" id="v-pills-hrManager-tab" data-toggle="pill" href="#v-pills-hrManager" role="tab" aria-controls="v-pills-manager" aria-selected="false">HR Manager</a>
-                                    <a className="nav-link" id="v-pills-intern-tab" data-toggle="pill" href="#v-pills-intern" role="tab" aria-controls="v-pills-manager" aria-selected="false">Intern</a>
-                                </div>
+                                    <a className="nav-link" id="v-pills-intern-tab" data-toggle="pill" href="#v-pills-intern" role="tab" aria-controls="v-pills-manager" aria-selected="false">Intern</a> */}
                             </div>
-                            <div className="col-lg-6 col-sm-10 px-4">
-                                <div className="tab-content" id="v-pills-tabContent">
-                                    <div className="mt-3 tab-pane fade show active" 
-                                            id="v-pills-admin" 
-                                            role="tabpanel" 
-                                            aria-labelledby="v-pills-admin-tab">
-                                        "An Administrator provides office and administrative support to either a team or individual. This role is vital for the smooth-running of a business. Duties may include fielding telephone calls, receiving and directing visitors, word processing, creating spreadsheets and presentations, and filing."
-                                    </div>
-                                    <div 
+                        </div>
+                        <div className="col-lg-6 col-sm-10 px-4">
+                            <div className="tab-content" id="v-pills-tabContent">
+                                {
+                                    this.state.roles.map(role => <div className="mt-3 tab-pane fade"
+                                        id={`v-pills-${role.role.id}`}
+                                        role="tabpanel"
+                                        aria-labelledby={`v-pills-${role.role.id}-tab`}>{role.role.description}
+                                        
+                                        <h5 className="mt-3">Role permissions:</h5>
+                                        <ul className="list-group">
+                                            {role.permissions.map(permission=>
+                                                <li className="list-group-item">{permission.name}</li>
+                                                )}
+                                        </ul>
+                                    </div>)
+                                }
+
+                                {/* <div 
                                             className="mt-3 tab-pane fade" 
                                             id="v-pills-employee" 
                                             role="tabpanel" 
@@ -57,12 +83,12 @@ export default class Roles extends React.Component{
                                             role="tabpanel" 
                                             aria-labelledby="v-pills-intern-tab">
                                         "an advanced student or graduate usually in a professional field (such as medicine or teaching) gaining supervised practical experience (as in a hospital or classroom)"
-                                    </div>
-                                </div>
+                                    </div> */}
                             </div>
                         </div>
                     </div>
-                </>
+                </div>
+            </>
         )
     }
 }

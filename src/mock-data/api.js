@@ -11,6 +11,11 @@ export const api = {
         return roles.json();
         }
     ,
+    getRolesWithPermissions:async () =>{ 
+        const roles = await fetch('http://localhost:8080/api/roles')
+        return roles.json();
+        }
+    ,
     getCountries :async () =>{ 
         const countries = await fetch('http://localhost:8080/api/employee/countries')
         return countries.json();
