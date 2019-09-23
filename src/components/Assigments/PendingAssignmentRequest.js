@@ -36,11 +36,11 @@ export default class AssignmentRequets extends React.Component {
   }
   render() {
     return (
-      <div className="col justify-content-md-center">
+      <div className="col justify-content-md-center mt4">
         <table
           className="table"
           style={{
-            width: "85%",
+            width: "90%",
             marginLeft: "100px",
             marginTop: "20px",
             border: "1px solid black",
@@ -61,28 +61,28 @@ export default class AssignmentRequets extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.PendingRequests.map((Assign, i) => {
+            {this.state.PendingRequests.map((assign, i) => {
               return (
                 <tr key={i}>
                   <td>{i}</td>
-                  <td>{Assign.id}</td>
-                  <td>{Assign.projectName}</td>
-                  <td>{Assign.employeeName}</td>
-                  <td>{Assign.startDate}</td>
-                  <td>{Assign.endDate}</td>
-                  <td>{Assign.status}</td>
-                  <td>{Assign.fromManagerName}</td>
+                  <td>{assign.id}</td>
+                  <td>{assign.projectName}</td>
+                  <td>{assign.employeeName}</td>
+                  <td>{assign.startDate}</td>
+                  <td>{assign.endDate}</td>
+                  <td>{assign.status}</td>
+                  <td>{assign.fromManagerName}</td>
 
                   <td>
                     <button
-                      onClick={e => this.sendPendingAssignment(1, Assign.id)}
+                      onClick={e => this.sendPendingAssignment(1, assign.id)}
                       className="btn btn-success mr-2"
                     >
                       {" "}
                       Accept
                     </button>
                     <button
-                      onClick={e => this.sendPendingAssignment(0, Assign.id)}
+                      onClick={e => this.sendPendingAssignment(0, assign.id)}
                       className="btn btn-danger"
                     >
                       {" "}

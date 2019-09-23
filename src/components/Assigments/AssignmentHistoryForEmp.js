@@ -1,6 +1,7 @@
 import React from "react";
 // import { AssignHistoryForEmp } from "../data/AssignHistoryForEmp";
 import { Link } from "react-router-dom";
+import Api from "./Api";
 export default class AssignHisToryTable extends React.Component {
   constructor() {
     super();
@@ -9,25 +10,18 @@ export default class AssignHisToryTable extends React.Component {
       MyEmp: {}
     };
   }
-  componentDidMount() {
+  async componentDidMount() {
+    console.log(this.props.match)
     const { name, id } = this.props.match.params;
+    this.setState({
+      MyEmp: { id: id, name: name }
+    });
 
-    setTimeout(() => {
-      fetch(
-        `http://localhost:8080/api/assignments?employeeId=${id}&pageNumber=1&limit=10`
-      )
-        .then(response => response.json())
-        .then(History => {
-          this.setState({
-            EmpHistory: History,
-            MyEmp: { id: id, name: name }
-          });
-        });
-    }, 0);
+    const EmpHistory = await Api.employeeAssignmentsHistory(id);
+    this.setState({ EmpHistory });
   }
 
   render() {
-    console.log(this.state.MyEmp);
     return (
       <div className="col justify-content-md-center">
         <div className="row" style={{ width: "300x" }}>

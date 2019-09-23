@@ -1,9 +1,9 @@
 import axios from "axios";
 const url = "http://localhost:8080/api/";
-const pageNumberLimit = "pageNumber=1&limit=5";
+const pageNumberLimit = "pageNumber=1&limit=20";
 class Api {
   async getProjects() {
-    const projects = await axios.get(`${url}projects/manager/1`);
+    const projects = await axios.get(`${url}projects/manager/2`);
     return projects.data;
   }
   async getProjectsByProjectName(projectName) {
@@ -24,7 +24,7 @@ class Api {
   }
   async getPendingAssignments(projectID) {
     const employees = await axios.get(
-      `${url}assignments/request/1?pageNumber=1&limit=10`
+      `${url}assignments/request/2?${pageNumberLimit}`
     );
     return employees.data;
   }
@@ -37,8 +37,13 @@ class Api {
     // console.log(assign)
     return assign.status === 200;
   }
+  async employeeAssignmentsHistory(empID) {
+    const history = await axios.get(`${url}/assignments/${empID}/?${pageNumberLimit}`);
+    return history.data;
+  }
+
   async getMyTeam() {
-    const employees = await axios.get(`${url}team/1/?&pageNumber=1&limit=10`);
+    const employees = await axios.get(`${url}team/2/?${pageNumberLimit}`);
     return employees.data;
   }
   async addNewAssignment(employeeID,projectID,requestFromManagerID,requestToManagerID) {

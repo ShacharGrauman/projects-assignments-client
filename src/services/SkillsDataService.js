@@ -14,9 +14,9 @@ class SkillsDataService {
   sendPostRequest(
     opration,
     method,
-    { id, employeeId, skillId, skillName, level, skillType, date }
+    { id, employeeId, skillId, skillName, level, skillType, date, type }
   ) {
-    method({ id, employeeId, skillId, skillName, level, skillType, date })
+    method({ id, employeeId, skillId, skillName, level, skillType, date, type })
       .then(resp => {
         if (resp.data) {
           toast.success(`${opration} successful`);
@@ -72,7 +72,7 @@ class SkillsDataService {
   }
 
   addNewSkill({ employeeId, skillId, skillName, level, type }) {
-    console.log(employeeId, skillId, skillName, level, type);
+    console.log("empID" + employeeId, "sID" + skillId, skillName, level, type);
     if (skillId) {
       return axios.post(`${API_URL}/skills/`, {
         skillId,
