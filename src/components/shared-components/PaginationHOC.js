@@ -9,35 +9,30 @@
 
     function PaginationHOC(Table) {
         return class extends React.Component{
-            constructor(){
-                super();
+            constructor(props){
+                super(props);
+                console.log("state hoc", props);
                 this.state={
                     currentTab: 1,
-                    rowsPerPage:20,
                     dataValues:[],
-                    numberOfTabs:1,
-                    userCount:1
+                    numberOfTabs:Math.floor(this.props.userCount/this.props.rowsPerPage) + 1,
                 }
 
                 let url='';
-
-                this.paginationConfig = this.paginationConfig.bind(this)
-                this.switchPage = this.switchPage.bind(this)
+                this.createPaginationBar = this.createPaginationBar.bind(this);
+                this.paginationConfig = this.paginationConfig.bind(this);
+                this.switchPage = this.switchPage.bind(this);
             }
 
 
-            async paginationConfig(state){
+            paginationConfig(state){
                 this.url=state.url;
             }
 
 
             componentDidMount(){
-                this.setState({
-                   userCount:this.props.userCount
-                }, this.setState({
-                    numberOfTabs:Math.floor(this.state.userCount/this.state.rowsPerPage)+1
-                }, ()=>this.switchPage(1,this.state.rowsPerPage)))
                 
+                this.switchPage(1,this.props.rowsPerPage);
             }
 
 
@@ -51,17 +46,21 @@
             }
 
             createPaginationBar (){
-                let _tabs =[]
-                for(let i =1 ; i<this.state.numberOfTabs+2 ; i++){
-                    _tabs.push(<li onClick={()=>this.switchPage(i,this.state.rowsPerPage)} 
-                                    style={this.state.currentTab === i ? styles.currentTab : null}
-                                    className="page-item"><a style={styles.styleAnchor} className="page-link">{i}</a></li>)
+                let _tabs = [];
+                console.log(this.state.numberOfTabs)
+                for(let i =1 ; i<this.state.numberOfTabs+1 ; i++){
+                        _tabs.push(<li onClick={()=>this.switchPage(i,this.props.rowsPerPage)} 
+                                            style={this.state.currentTab === i ? styles.currentTab : null}
+                                            className="page-item">
+                                        <a style={styles.styleAnchor} className="page-link">{i}</a>
+                                    </li>
+                                );
                 }
                 return _tabs;
             }
 
             render(){
-                return(
+                return (
                     <>
                         <Table paginationConfig={this.paginationConfig} dataValues={this.state.dataValues}></Table>
                         <div className="d-flex justify-content-center mt-4 col-md-12">
@@ -69,15 +68,15 @@
                                 <ul className="pagination">
                                     <li onClick={()=>this.switchPage(this.state.currentTab-1,this.state.rowsPerPage)}
                                         className="page-item"
-                                        style={this.state.currentTab===1? styles.disableTab:null}><a style={styles.styleAnchor} className="page-link">Previous</a></li>
+                                        style={this.state.currentTab===1? styles.disableTab:null}><a style={styles.styleAnchor} className="page-link">Previous</a>
+                                    </li>
                                     {this.createPaginationBar()}
                                     <li onClick={()=>this.switchPage(this.state.currentTab+1,this.state.rowsPerPage)}
-                                        className="page-item"
-                                        style={this.state.currentTab===this.state.numberOfTabs+1? styles.disableTab:null}><a style={styles.styleAnchor} className="page-link">Next</a></li>
-                                    
-
+                                            className="page-item"
+                                            style={this.state.currentTab===this.state.numberOfTabs? styles.disableTab:null}>
+                                        <a style={styles.styleAnchor} className="page-link">Next</a>
+                                    </li>
                                 </ul>
-
                             </nav>
                         </div>
                     </>

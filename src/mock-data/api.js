@@ -48,9 +48,8 @@ export const api = {
         return users;
     },
 
-    getCount: (prop) => {
-        return fetch(`http://localhost:8080/api/employee/${prop}`)
-
+    getCount: async (prop) => {
+        return await fetch(`http://localhost:8080/api/employee/${prop}`)
             .then(res => res.json());
     },
 
