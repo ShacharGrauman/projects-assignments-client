@@ -25,7 +25,7 @@ class Audit extends React.Component {
     constructor() {
         super();
         this.state = {
-            startDate: new Date(),
+            startDate: new Date('1-1-1970'),
             endDate: new Date(),
             actions: [],
             employeeNumber:{value:'', errors:[], validations:{}}
@@ -48,28 +48,24 @@ class Audit extends React.Component {
     }
     onChange() { (date) => this.setState({ date }) }
 
-    componentDidMount() {
+    async componentDidMount() {
 
            
-        this.props.paginationConfig({
-            url:'http://localhost:8080/api/audit/',
-            rowsPerPage:10,
-            rowsPerPage:50,
-        })  
-
-
+        // this.props.paginationConfig({
+        //     url:'http://localhost:8080/api/audit/',
+        //     rowsPerPage:10,
+        //     rowsPerPage:50,
+        // })  
 
         // this.props.paginationConfig({
         //     url:'',
         //     rowsPerPage:50,
         // })
 
-        // fetch('http://localhost:8080/api/audit')
-        // .then(response => response.json())
-        // .then(audit => this.setState({
-        //    actions:audit
-        //     })
-        // );
+        api.getUserAuditByNumber();
+
+        const actions = await api.getUserAuditByNumber();
+        this.setState({actions})
     }
 
 
@@ -85,8 +81,13 @@ class Audit extends React.Component {
 
     async searchAudit(e){
         e.preventDefault()
-        const actions = await api.auditSearchByEmployeeNumber(this.state.employeeNumber.value);
-        this.setState({actions},()=> console.log(this.state.actions))
+
+        if(this.state.employeeNumber.value===''){
+            this.componentDidMount()
+        }else{
+            const actions = await api.auditSearchByEmployeeNumber(this.state.employeeNumber.value);
+            this.setState({actions})
+        }
         
     }
 
@@ -177,8 +178,7 @@ class Audit extends React.Component {
 
                 {/* A component to build the table */}
                 <div className=" d-flex justify-content-center mt-3" style={{ height: 'auto' }}>
-                    <table className="table table-sm col-lg-8 table-hover text-center"
-                        style={{ cursor: "pointer" }}>
+                    <table className="table table-sm col-lg-8 table-hover text-center">
                         <thead className="thead" id="userAuditRow">
                             <tr>
                                 <th scope="col">Employee No.</th>
@@ -189,9 +189,9 @@ class Audit extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.props.dataValues.map(action => {
+                            {this.state.actions.map((action,i) => {
                                 return (
-                                    <tr key={action.audit.employeeNumber}>
+                                    <tr key={i}>
                                         <td>{action.audit.employeeNumber}</td>
                                         <td>{action.firstname + ' ' + action.lastname}</td>
                                         <td>{action.audit.dateTime}</td>
@@ -215,4 +215,4 @@ class Audit extends React.Component {
 
 
 
-export default PaginationHOC(Audit)
+export default Audit

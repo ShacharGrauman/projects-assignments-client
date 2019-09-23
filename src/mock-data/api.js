@@ -166,6 +166,10 @@ export const api = {
         const result = await fetch(`http://localhost:8080/api/audit/number?number=${id}`)
         return result.json();
     },
+    getUserAuditByNumber: async()=>{
+        const result = await fetch(`http://localhost:8080/api/audit`)
+        return result.json();
+    },
     deactivateUser: async (id) =>{
         const deletedUser = await fetch(`http://localhost:8080/api/employee/id?id=${id}`,{
             method: 'DELETE',
