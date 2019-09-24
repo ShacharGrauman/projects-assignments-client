@@ -210,7 +210,6 @@ export const api = {
     },
   
     resetPassword: async function({email, employeeNumber}){
-        console.log(email, employeeNumber)
       const response = await fetch(`http://localhost:8080/api/resetPassword/`,{
           method: 'POST',
           headers:{
@@ -224,10 +223,20 @@ export const api = {
       })
       return response;
   },
-
-
+  sendEmail:async function({email, name, messageBody, messageTitle}){
+    const sendEmailResult = await fetch(`http://localhost:8080/api/sendEmail`,{
+      mode:'no-cors',
+            body:JSON.stringify({
+                toEmail:email,
+                firstName:name,
+                subject:messageTitle,
+                text:messageBody
+            }),            
+        })
+        return sendEmailResult;
+   },
   addRole:async function(role){
-      console.log(role)
+    console.log(role)
     const addRoleRes = await fetch(`http://localhost:8080/api/roles`,{
             method: 'POST',
             headers:{
@@ -241,6 +250,5 @@ export const api = {
             
         })
         return addRoleRes;
-
-},
+   },
 }

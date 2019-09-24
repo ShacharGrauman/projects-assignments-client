@@ -4,8 +4,8 @@ import InputErrors from '../shared-components/InputErrors'
 
 export default class UserProfileFooter extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             message_title:'',
             message_body:'', 
@@ -27,9 +27,11 @@ export default class UserProfileFooter extends React.Component {
     render() {
         return (
             <>
+            {!this.props.isDeactivated&&
+            <div>
                 <div className="card position-relative d-flex flex-row bd-highlight p-2 mb-2" style={{ bottom: "0" }}>
                     {
-                        this.props.isLocked ?
+                        this.props.isLocked?
                             <button className="btn btn-info ml-auto mr-2" onClick={this.props.unlockUser}>Activate</button>
                             :
                             <>
@@ -113,6 +115,7 @@ export default class UserProfileFooter extends React.Component {
                                 <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
                                 <button type="button" 
                                 className="btn btn-success" 
+                                data-dismiss="modal"
                                 onClick={this.sendEmail}
                                 disabled={!this.state.message_body}>Send Message</button>
                             </div>
@@ -120,8 +123,8 @@ export default class UserProfileFooter extends React.Component {
                     </div>
                 </div>
 
-
-
+                </div>
+                }
             </>
         )
     }
