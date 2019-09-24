@@ -218,7 +218,6 @@ export const api = {
 
 
   addRole:async function(role){
-      console.log(role)
     const addRoleRes = await fetch(`http://localhost:8080/api/roles`,{
             method: 'POST',
             headers:{
@@ -233,5 +232,10 @@ export const api = {
         })
         return addRoleRes;
 
-},
+    },
+    getAllPermissions :async () =>{ 
+    const permissions = await fetch('http://localhost:8080/api/roles/permissions')
+    return permissions.json();
+    }
+,
 }
