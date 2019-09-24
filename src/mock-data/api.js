@@ -256,7 +256,6 @@ export const api = {
    },
 
 
-    },
     getAllPermissions :async () =>{ 
     const permissions = await fetch('http://localhost:8080/api/roles/permissions')
     return permissions.json();
