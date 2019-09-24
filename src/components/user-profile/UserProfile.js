@@ -268,6 +268,7 @@ export default class UserProfile extends React.Component {
                             <UserProfileFooter editMode={!this.state.profileMode.edit}
                                 name={`${this.state.userData.details.firstName.value} ${this.state.userData.details.lastName.value}`}
                                 isLocked={this.state.status.locked}
+                                isDeactivated={this.state.status.deactivated}
                                 unlockUser={this.unlockUser}
                                 addUserForm={this.state.profileMode.addUserForm}
                                 printRoles={this.printRoles}

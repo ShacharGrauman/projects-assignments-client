@@ -27,6 +27,9 @@ export default class UserProfileFooter extends React.Component {
     render() {
         return (
             <>
+            {!this.props.isDeactivated &&
+                <div>
+            
                 <div className="card position-relative d-flex flex-row bd-highlight p-2 mb-2" style={{ bottom: "0" }}>
                     {
                         this.props.isLocked ?
@@ -121,7 +124,8 @@ export default class UserProfileFooter extends React.Component {
                 </div>
 
 
-
+                </div>
+                }
             </>
         )
     }
