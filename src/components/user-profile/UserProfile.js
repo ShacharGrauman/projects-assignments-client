@@ -6,6 +6,7 @@ import UserProfileFooter from './UserProfileFooter';
 
 import { DataProvider } from '../common/Provider/DataProvider'
 import { api } from '../../mock-data/api'
+import { toast } from 'react-toastify';
 
 
 
@@ -156,9 +157,9 @@ export default class UserProfile extends React.Component {
         api.addUser(this.state.userData)
             .then(res => {
                 if (res.ok)
-                    console.log('OK!!')
+                   toast.success('User Successfully added')
                 else {
-                    console.log('Error Adding the user')
+                    toast.error('unable to add the user')
                 }
             })
             .catch(err => console.error(err));
@@ -168,9 +169,9 @@ export default class UserProfile extends React.Component {
         api.updateUserDetails(this.state.userData)
             .then(res => {
                 if (res.ok)
-                    console.log('OK!!')
+                    toast.success(`User ${this.state.firstName+' '+this.state.lastName } Successfully updated`)
                 else {
-                    console.log('Error Updating the user')
+                    toast.error(`Unable to update user ${this.state.firstName+' '+this.state.lastName }`)
                 }
             })
             .catch(err => console.error(err));
@@ -234,7 +235,11 @@ export default class UserProfile extends React.Component {
     }
 
     sendEmail(title, body) {
-        console.log('sending email to email: ' + this.state.userData.details.email.value)
+        const res = api.sendEmail({email:this.state.userData.details.email.value,
+                        name:this.state.userData.details.firstName.value,
+                        messageBody:body,messageTitle:title})
+            console.log(res)
+        toast.success('mail successfully sent')
     }
 
     render() {
@@ -266,6 +271,7 @@ export default class UserProfile extends React.Component {
                             <UserProfileFooter editMode={!this.state.profileMode.edit}
                                 name={`${this.state.userData.details.firstName.value} ${this.state.userData.details.lastName.value}`}
                                 isLocked={this.state.status.locked}
+                                isDeactivated={this.state.status.deactivated}
                                 unlockUser={this.unlockUser}
                                 addUserForm={this.state.profileMode.addUserForm}
                                 printRoles={this.printRoles}

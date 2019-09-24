@@ -4,11 +4,14 @@ import SkillsOverViewTab from "./SkillsOverViewTab";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import AddSkill from "./AddSkill";
+import Loading from "../shared-components/Loading";
 
 const skills = "skills";
 const productSkills = "productSkills";
 const technicalSkills = "technicalSkills";
 const skillsHistory = "skillsHistory";
+
+const LoadingComponent = Loading(SkillsOverViewTab);
 
 class MyOwnSkills extends Component {
   constructor() {
@@ -19,7 +22,8 @@ class MyOwnSkills extends Component {
       [productSkills]: [],
       [skills]: [],
       [technicalSkills]: [],
-      skillsHistory: []
+      skillsHistory: [],
+      loading: true
     };
 
     this.container = {};
@@ -166,7 +170,8 @@ class MyOwnSkills extends Component {
               </ul>
 
               <div className="tab-content ml-1" id="myTabContent">
-                <SkillsOverViewTab
+                <LoadingComponent
+                  isLoading={this.state.loading}
                   type={this.state.currentTab}
                   skills={this.state[this.state.currentTab]}
                   data={this.state.skillsHistory}
@@ -178,6 +183,7 @@ class MyOwnSkills extends Component {
               <div className="float-right float-top">
                 <button
                   className="btn btn-primary btn-sm"
+                  disabled={this.state.loading}
                   onClick={this.toggleAddSkill}
                 >
                   Add New Skill

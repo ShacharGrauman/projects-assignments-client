@@ -7,6 +7,8 @@ import {DataContext} from '../common/Provider/DataProvider'
 import {toast} from 'react-toastify'
 import InputErrors from '../shared-components/InputErrors'
 
+import {api} from '../../mock-data/api'
+
 export default class AddDepartment extends Component {
     constructor(props) {
         super(props);
@@ -56,9 +58,17 @@ export default class AddDepartment extends Component {
 
         if (!errors) {
             const finalResult = {
-                deprtment: this.state.department,
+                department: this.state.department,
             }
-            toast.success("Adding new department successed")
+            const result = api.addDepartment(finalResult)
+            result.then(res=>{
+                if(res.ok){
+                    toast.success("Adding new department succeeded")
+                }
+                else{
+                    toast.error('Failed to add department')
+                }
+            })
         }
         else {
             toast.error("Please fill the missing")
@@ -69,7 +79,7 @@ export default class AddDepartment extends Component {
         return (<>
         <div className="d-flex  justify-content-around">
             <div>
-            <h4 className="alert-heading text-center mx-auto mb-3">Department</h4>
+            <h5 className="alert-heading text-center mx-auto mb-3">Department</h5>
                 <form onSubmit={this.submit}>
                     <div className="">
                     
@@ -87,15 +97,17 @@ export default class AddDepartment extends Component {
                                         id="department"
                                         name="department"
                                         defaultValue={this.state.department.value}
-                                        onBlur={this.inputChange}
+                                        onChange={this.inputChange}
                                     ></input>
                                 </div>
                                 <InputErrors errors={this.state.department.errors} />
                             </div>
                         </div>
                         <div className="mx-auto d-flex justify-content-between">
-                            <button type="button" className="m-2 btn btn-danger">Cancel</button>
-                            <button type="submit" className="m-2 btn btn-success">Add</button>
+                            <button 
+                            type="submit" 
+                            className="m-2 btn btn-success btn-block"
+                            disabled={this.state.department.value===""}>Add</button>
                         </div>
                     </div>
                 </form>
@@ -104,7 +116,7 @@ export default class AddDepartment extends Component {
                 <ul className="list-group">
                     <DataProvider>
                         <DataContext.Consumer>
-                            {({departments})=>departments.map(department=> <li class="list-group-item">{department.name}</li>)}
+                            {({departments})=>departments.map((department,i)=> <li key={i} className="list-group-item">{department.name}</li>)}
                         </DataContext.Consumer>
                     </DataProvider>
 

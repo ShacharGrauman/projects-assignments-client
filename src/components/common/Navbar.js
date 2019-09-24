@@ -1,13 +1,15 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHome, faUserCircle,faClipboardList,faUserLock,faCog,faLightbulb,faStar,faClipboardCheck,faListAlt,faPlus,faStarHalfAlt} from '@fortawesome/free-solid-svg-icons'
+import logo from "../../../assets/amdocs.png";
 
-
-const NavbarWidth='240px';
+const NavbarWidth='360px';
 
 const styleNavbar ={
   position:'fixed',
   width:NavbarWidth,
-  backgroundColor:'rgb(210,210,210)',
+  backgroundColor:'#f8f9fa',
   transition:'transform 0.228s ease-in',
   zIndex:'100',
   top:'0',
@@ -34,68 +36,83 @@ export default class Navbar extends React.Component {
     return (<>
     
       <div>
-        <h3 style={{position:'absolute', cursor:'pointer', top:'15px'}} className="m-3" onClick={this.toggleNavbar} >&#9776;</h3>
+        
+        <h3 style={{position:'fixed', cursor:'pointer', top:'15px'}} className="m-3 mt-4" onClick={this.toggleNavbar} >&#9776;</h3>
 
-        <div className="p-3" style={{transform:this.state.open?`translateX(0)`:`translateX(-${NavbarWidth})`, ...styleNavbar}}>
-          <button type="button" className="close " onClick={this.toggleNavbar}>
+        <div className="shadow" style={{ transform:this.state.open?`translateX(0)`:`translateX(-${NavbarWidth})`, ...styleNavbar}}>
+        <Link to="/">
+            <img src={logo} className="m-3" style={{ height: "25px" }} />
+          </Link>
+          <button type="button" className="close m-3 mb-5" onClick={this.toggleNavbar}>
               <span aria-hidden="true">&times;</span>
           </button>
 
 
 
-          <ul className="navbar-nav m-4">
-            <li className="nav-item mb-2 active">
-              <Link className="nav-link" to="/">
-                Home <span className="sr-only">(current)</span>
+          <ul className="list-group list-group-flush mt-4" >
+            <li className="list-group-item list-group-item-action" style={{backgroundColor:'#f8f9fa'}} >
+              <Link className="nav-link text-body" to="/">
+              <FontAwesomeIcon icon={faHome} className="mr-2"/>
+                 Home <span className="sr-only">(current)</span>
               </Link>
             </li>
-            <li className="nav-item mb-2" onClick={this.toggleNavbar}>
-              <Link className="nav-link" to="/users-list">
+            <li className="list-group-item list-group-item-action" onClick={this.toggleNavbar} style={{backgroundColor:'#f8f9fa'}}>
+              <Link className="nav-link text-body" to="/users-list">
+              <FontAwesomeIcon icon={faUserCircle} className="mr-2"/>
                 Users
               </Link>
             </li>
-            <li className="nav-item mb-2" onClick={this.toggleNavbar}>
-              <Link className="nav-link" to="/audit">
+            <li className="list-group-item list-group-item-action" onClick={this.toggleNavbar} style={{backgroundColor:'#f8f9fa'}}>
+              <Link className="nav-link text-body" to="/audit">
+              <FontAwesomeIcon icon={faClipboardList} className="mr-2"/>
                 Audit
               </Link>
             </li>
-            <li className="nav-item mb-2" onClick={this.toggleNavbar}>
-              <Link className="nav-link" to="/roles">
+            <li className="list-group-item list-group-item-action" onClick={this.toggleNavbar} style={{backgroundColor:'#f8f9fa'}}>
+              <Link className="nav-link text-body" to="/roles">
+              <FontAwesomeIcon icon={faUserLock} className="mr-2"/>
                 Roles
               </Link>
             </li>
-            <li className="nav-item mb-2" onClick={this.toggleNavbar}>
-              <Link className="nav-link" to="/settings">
+            <li className="list-group-item list-group-item-action" onClick={this.toggleNavbar} style={{backgroundColor:'#f8f9fa'}}>
+              <Link className="nav-link text-body" to="/settings/add/roles">
+              <FontAwesomeIcon icon={faCog} className="mr-2"/>
                 Settings
               </Link>
             </li>
-            <li className="nav-item mb-2" onClick={this.toggleNavbar}>
-              <Link className="nav-link" to="/projects">
+            <li className="list-group-item list-group-item-action" onClick={this.toggleNavbar} style={{backgroundColor:'#f8f9fa'}}>
+              <Link className="nav-link text-body" to="/projects">
+              <FontAwesomeIcon icon={faLightbulb} className="mr-2"/>
                 My Projects
               </Link>
             </li>
-            <li className="nav-item mb-2" onClick={this.toggleNavbar}>
-              <Link className="nav-link" to="/my-skills/3">
+            <li className="list-group-item list-group-item-action" onClick={this.toggleNavbar} style={{backgroundColor:'#f8f9fa'}}>
+              <Link className="nav-link text-body" to="/my-skills/3">
+              <FontAwesomeIcon icon={faStar} className="mr-2"/>
                 My Skills
               </Link>
             </li>
-            <li className="nav-item mb-2" onClick={this.toggleNavbar}>
-              <Link className="nav-link" to="/pending-assignment-request">
+            <li className="list-group-item list-group-item-action" onClick={this.toggleNavbar} style={{backgroundColor:'#f8f9fa'}}>
+              <Link className="nav-link text-body" to="/pending-assignment-request">
+              <FontAwesomeIcon icon={faListAlt} className="mr-2"/>
                 Pending Assignment Request
               </Link>
             </li>
-            <li className="nav-item mb-2" onClick={this.toggleNavbar}>
-              <Link className="nav-link" to="/add-new-project">
+            <li className="list-group-item list-group-item-action" onClick={this.toggleNavbar} style={{backgroundColor:'#f8f9fa'}}>
+              <Link className="nav-link text-body" to="/add-new-project">
+              <FontAwesomeIcon icon={faPlus} className="mr-2"/>
                 Add New Project
               </Link>
             </li>
-            <li className="nav-item mb-2" onClick={this.toggleNavbar}>
-              <Link className="nav-link" to="/done-assignments">
+            <li className="list-group-item list-group-item-action" onClick={this.toggleNavbar}style={{backgroundColor:'#f8f9fa'}}>
+              <Link className="nav-link text-body" to="/done-assignments">
+              <FontAwesomeIcon icon={faClipboardCheck} className="mr-2"/>
                 Done Assigments
               </Link>
             </li>
-            <li className="nav-item mb-2"  onClick={this.toggleNavbar}>
-              <Link className="nav-link" to="/pendingSkills/1">
+            <li className="list-group-item list-group-item-action"  onClick={this.toggleNavbar}style={{backgroundColor:'#f8f9fa'}}>
+              <Link className="nav-link text-body" to="/pendingSkills/1">
+              <FontAwesomeIcon icon={faStarHalfAlt} className="mr-2"/>
                 Pending Skills
               </Link>
             </li>

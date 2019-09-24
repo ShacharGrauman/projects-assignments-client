@@ -1,8 +1,15 @@
 import React from 'react';
 import UsersTableRow from './UsersTableRow';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-
 import {api} from '../../mock-data/api';
+import InputErrors from './InputErrors';
+import DataProvider, { DataContext } from '../common/Provider/DataProvider';
+import {dropDownData} from '../../mock-data/Data'
+import DropDownsOptions from './DropDownsOptions';
+import axios from 'axios';
+import PaginationHOC from '../shared-components/PaginationHOC'
+
+
 
 const AdvancedSearchStyle = {
     cursor : "pointer",
@@ -14,50 +21,72 @@ const AdvancedSearchOptionsStyle = {
     display : "none"
 }
 
-export default class UsersTable extends React.Component{
+class UsersTable extends React.Component{
     constructor(){
         super();
         this.state ={
-            users : [],
-            id : {value : 0, validations : {required : true, pattern : /^\d+$/}},
-            employeeNumber : {value : '', validations : {required : true, minLength : 1, pattern : /^\d+$/}},
-            firstName : {value : '', validations : {required : true, minLength : 2, pattern : /\d/gi}},
-            lastName : {value : '', validations : {required : true, minLength : 2, pattern : /\d/gi}},
-            roles : {value : '', validations : {required : true, minLength : 2}},
-            department : {value : '', validations : {required : true, minLength : 2}},
-            workSite : {value : '', validations : {required : true, minLength : 2, pattern : /\d/gi}},
-            status : {value : '', validations : {required : true, minLength : 2}},
-            errors: []
+            number : {value : '', errors: [], validations : {pattern : /^[a-zA-Z0-9]+$/}},
+            name : {value : '', errors: [], validations : {pattern : /^[a-zA-Z ]+$/}},
+            roles : {value : '', errors: [], validations : ''},
+            departments : {value : '', errors: [], validations :''},
+            worksites : {value : '', errors: [], validations :''},
+            countries : {value : '', errors: [], validations :''},
         }
-        this.searchHandler = this.searchHandler.bind(this)   
+        this.searchHandler = this.searchHandler.bind(this);
+        this.inputChange = this.inputChange.bind(this);
     }
 
-    async componentDidMount(){
-        const users = await api.getUsersList();
-        this.setState({users});
+    componentDidMount(){
+        this.props.paginationConfig({
+            url:'http://localhost:8080/api/employee/'
+        })  
     }
 
     showAdvancedSearch(){ 
         const advancedSearchOptions = document.querySelector('#advancedSearchOptions');
-
         if(advancedSearchOptions.style.display == "flex"){
-            advancedSearchOptions.style.display = "none";
-            
+            advancedSearchOptions.style.display = "none";   
         }
         else{
             advancedSearchOptions.style.display = "flex";
         }   
     }
 
-    searchHandler(e){
+    async searchHandler(e){
         e.preventDefault();
-        console.log(e);
-        // fetch('/', {
-        //     method: 'post',
-        //     body: {
-        //         "first_name": this.refs.fullName.value
-        //     }
-        // });
+
+        console.log(this.state);
+
+        const result= axios.post("url",{
+
+        }).then(res => res);
+
+    }
+
+    async inputChange({ target: {name, value}}){
+        const {validations} = this.state[name], 
+            Errors = [];
+        if(name === "name"){
+            if(validations.pattern){
+                if(!validations.pattern.test(value)){
+                    Errors.push(`${name} must contain only letters`);
+                }
+            }
+        }
+        if(name === "number" && value){
+            if(validations.pattern)
+                if(!validations.pattern.test(value)){
+                    Errors.push(`${name} must contain only letters and numbers`);
+                }
+        }
+
+        await this.setState({
+            [name]: {
+                ...this.state[name],
+                value : value, 
+                errors : Errors 
+            }
+        });  
     }
 
     render(){
@@ -67,62 +96,39 @@ export default class UsersTable extends React.Component{
                     <form onSubmit={this.searchHandler}>
                         <div className="form-row input-group lg-10 m-auto">
                             <input type="text" ref="id" className="form-control" 
-                                    placeholder="Search by ID" aria-label="Search by Emp. Number" aria-describedby="button-addon2" 
-                                    id="userID"
+                                    placeholder="Search by Employee Number" aria-label="Search by Emp. Number" aria-describedby="button-addon2" 
+                                    name="number"
+                                    onChange={this.inputChange}
                                     />
                             <input type="text" ref="fullName" className="form-control" 
                                     placeholder="Search by Name" aria-label="Search by Name" aria-describedby="button-addon2" 
-                                    id="userName"
+                                    name="name"
+                                    onChange={this.inputChange}
                                     />
                             <div className="input-group-append">
                                 <button className="btn btn-outline-success" type="submit" id="button-addon2">Search</button>
                             </div>
                         </div>
+                        <InputErrors errors={this.state["name"].errors}/>
+                        <InputErrors errors={this.state["number"].errors} />
                         <div className="form-row m-auto d-flex">
                             <div className="mt-2">
-                                <a style={AdvancedSearchStyle} className="justify-content-md-center mr-2" onClick={this.showAdvancedSearch}>Advanced Search</a>
+                                <a style={AdvancedSearchStyle} className="justify-content-center mr-2" onClick={this.showAdvancedSearch}>Advanced Search</a>
                             </div>
                             <div  id="advancedSearchOptions" style={AdvancedSearchOptionsStyle}>
-                                <div className="dropdown mr-1 mt-2">
-                                    <button type="button" className="btn btn-secondary dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
-                                        Role
-                                    </button>
-                                    <div className="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-                                        <a className="dropdown-item" href="#">Manager</a>
-                                        <a className="dropdown-item" href="#">Employee</a>
-                                        <a className="dropdown-item" href="#">Admin</a>
-                                    </div>
-                                </div>
-                                <div className="dropdown mr-1 mt-2">
-                                    <button type="button" className="btn btn-secondary dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
-                                        Department
-                                    </button>
-                                    <div className="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-                                        <a className="dropdown-item" href="#">Manager</a>
-                                        <a className="dropdown-item" href="#">Employee</a>
-                                        <a className="dropdown-item" href="#">Admin</a>
-                                    </div>
-                                </div>
-                                <div className="dropdown mr-1 mt-2">
-                                        <button type="button" className="btn btn-secondary dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
-                                            Work Site
-                                        </button>
-                                        <div className="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-                                        <a className="dropdown-item" href="#">Manager</a>
-                                        <a className="dropdown-item" href="#">Employee</a>
-                                        <a className="dropdown-item" href="#">Admin</a>
-                                        </div>
-                                </div>
-                                <div className="dropdown mr-1 mt-2">
-                                        <button type="button" className="btn btn-secondary dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
-                                            Country
-                                        </button>
-                                        <div className="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-                                        <a className="dropdown-item" href="#">Manager</a>
-                                        <a className="dropdown-item" href="#">Employee</a>
-                                        <a className="dropdown-item" href="#">Admin</a>
-                                        </div>
-                                </div>
+                                <DataProvider>
+                                {
+                                    dropDownData.map(data =>
+                                    <DataContext.Consumer>
+                                    {(context) =>
+                                        
+                                        <DropDownsOptions items={context[data.name]}
+                                            name={data.name} onSelect={this.inputChange}
+                                        />
+                                    }
+                                    </DataContext.Consumer>)
+                                }
+                                </DataProvider>
                             </div>
                         </div>
                     </form>
@@ -145,7 +151,7 @@ export default class UsersTable extends React.Component{
                         <tbody>
                             {/* A Component for dynamically filling the table*/}
                             {
-                                this.props.users.map(user =>  
+                                this.props.dataValues.map(user =>  
                                     <UsersTableRow 
                                         key={user["employee"].id}
                                         user={user["employee"]}
@@ -157,26 +163,11 @@ export default class UsersTable extends React.Component{
                     </table>
                 </div>
             
-                <nav aria-label="..." className="d-flex justify-content-center">
-                    <ul className="pagination">
-                        <li className="page-item disabled">
-                        <a className="page-link" href="#" tabIndex="-1" aria-disabled="true">Previous</a>
-                        </li>
-                        <li className="page-item"><a className="page-link" href="#">1</a></li>
-                        <li className="page-item active" aria-current="page">
-                        <a className="page-link" href="#">2 <span className="sr-only">(current)</span></a>
-                        </li>
-                        <li className="page-item"><a className="page-link" href="#">3</a></li>
-                        <li className="page-item">
-                        <a className="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
+            
             </div>
         );
     }
 }
 
-// ReactDom.render(<UsersTable/>,
-//     document.querySelector('#container')
-//     );
+
+export default PaginationHOC(UsersTable)

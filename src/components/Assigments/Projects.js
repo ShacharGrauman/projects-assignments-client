@@ -23,6 +23,7 @@ export default class AssignHistory extends React.Component {
       },
       isLoading:true
     };
+    
     this.setProjectInSession = this.setProjectInSession.bind(this);
     this.getEmpForProject = this.getEmpForProject.bind(this);
     this.getSearchDataByProjectName = this.getSearchDataByProjectName.bind(this);
