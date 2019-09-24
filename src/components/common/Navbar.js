@@ -95,7 +95,7 @@ export default class Navbar extends React.Component {
 
       <div>
 
-        <h3 style={{ position: 'fixed', cursor: 'pointer', top: '15px',  zIndex: '100' }} className="m-3 mt-4" onClick={this.toggleNavbar} >&#9776;</h3>
+        <h3 style={{ position: 'fixed', cursor: 'pointer', top: '25px',  zIndex: '100' }} className="m-3 mt-4" onClick={this.toggleNavbar} >&#9776;</h3>
 
         <div className="shadow" style={{ transform: this.state.open ? `translateX(0)` : `translateX(-${NavbarWidth})`, ...styleNavbar }}>
 

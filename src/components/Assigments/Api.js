@@ -97,7 +97,7 @@ class Api {
     const result = await axios.get(
       `${url}team/name/${empName}?${curentLimit}`
     );
-    console.log(result.data)
+   
     return result.data;
   }
   async getEmployeeBySkill(requiredSkill,requiredLevel){
@@ -109,5 +109,13 @@ class Api {
     })
     return result.data;
   }
+  // fetch("http://localhost:8080//skills/")
+ async getSkills(){
+  const result = await axios.get(
+    `${url}skills`
+  );
+  console.log(result.data)
+  return result.data;
+ }
 }
 export default new Api();

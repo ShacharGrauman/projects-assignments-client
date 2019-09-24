@@ -39,34 +39,30 @@ export default class AddProject extends React.Component {
     this.selectSkillLevel = this.selectSkillLevel.bind(this);
   }
 
-  componentDidMount() {
-    //fetch student data from the server using the student id
-    //*student id should be received from the routing system
-    //After getting the data from the server:
-    //update state!
-    // const data=Api.getSkills()
-
-    fetch("http://localhost:8080/api/skills/")
-      .then(response => response.json())
-      .then(
-        skills =>
-          (this.skills = {
-            technicals: skills.technicalSkills.map(skill => ({
-              id: skill.skillId,
-              name: skill.skillName
-            })),
-            product: skills.productSkills.map(skill => ({
-              id: skill.skillId,
-              name: skill.skillName
-            }))
-          })
-      );
+  async componentDidMount() {
+    const skills= await Api.getSkills();
+    this.skills = {
+      technicals: skills.technicalSkills.map(skill => ({
+        id: skill.skillId,
+        name: skill.skillName
+      })),
+      product: skills.productSkills.map(skill => ({
+        id: skill.skillId,
+        name: skill.skillName
+      }))
+    }
+    
   }
 
   addskill(e) {
     e.preventDefault();
     //  let obj = {id: this.state.skills.find(skill => skill.id == this.state.skill.value),level:this.state.level.value};
 
+    if(this.state.requiredSkills.length===0){
+      toast.info("Choose Pre Required Skills For Project")
+      return;
+    }
+   
     for (var tmp of this.state.requiredSkills) {
       if (this.state.skill.value === tmp.skillr.id) {
         return;
@@ -122,14 +118,13 @@ export default class AddProject extends React.Component {
       }
     }
 
-    if (validations.minLength) {
-      if (value.length < validations.minLength) {
-        errors.push(
-          `${name} should be at least ${validations.minLength} characters`
-        );
-      }
-    }
-    //console.log(this.state[name]);
+    // if (validations.minLength) {
+    //   if (value.length < validations.minLength) {
+    //     errors.push(
+    //       `${name} should be at least ${validations.minLength} characters`
+    //     );
+    //   }
+    // }
     this.setState({
       [name]: {
         ...this.state[name],
@@ -323,7 +318,7 @@ export default class AddProject extends React.Component {
                   >
                     <option value="">Select</option>
                     {this.state.skills.skills.map((skill,i) => (
-                      <option key={index} value={skill.id}>{skill.name}</option>
+                      <option key={i} value={skill.id}>{skill.name}</option>
                     ))}
                   </select>
                 </div>
