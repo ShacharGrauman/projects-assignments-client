@@ -22,7 +22,7 @@ export default class Header extends React.Component {
             // size="2x"
             icon={signOutAlt}
           /> */}
-          <Link to="/login" class="btn btn-outline-danger" >Logout</Link>
+          <Link to="/login" className="btn btn-outline-danger" >Logout</Link>
         </nav>
       </>
     );
