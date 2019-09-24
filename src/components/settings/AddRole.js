@@ -12,19 +12,19 @@ export default class AddRole extends Component {
                 role: { value: '', errors: [], validations: { required: true } },
                 description:{value:'', errors: [] ,validations: { required: false }}
             },
-            selectedPermissions:[{name:'permission1', id:1},{name:'permission2', id:2}],
+            allPermissions : [],
+            selectedPermissions:[],
             non_selectedPermissions:[]
         }
-        const allPermissions = [{name:'permission1', id:1},{name:'permission2', id:2},{name:'permission3', id:3},{name:'permission4', id:4},{name:'permission5', id:5}]
         this.inputChange = this.inputChange.bind(this);
         this.submit = this.submit.bind(this);
         this.togglePermission = this.togglePermission.bind(this)
     }
 
-    componentDidMount(){
-        this.setState({
-            non_selectedPermissions: [{name:'permission1', id:1},{name:'permission2', id:2},{name:'permission3', id:3},{name:'permission4', id:4},{name:'permission5', id:5}]
-        })
+    async componentDidMount(){
+        await api.getAllPermissions()
+        .then(allPermissions=>this.setState({allPermissions},()=>this.setState({non_selectedPermissions:this.state.allPermissions})));
+        
     }
 
     inputChange({ target: { name, value } }) {
@@ -66,13 +66,10 @@ export default class AddRole extends Component {
         })
 
         if (!errors) {
-            const finalResult = {
-                role: this.state.role,
-            }
             const result = api.addRole({name:this.state.inputs.role.value,
                             description:this.state.inputs.description.value,
                             permissions:this.state.selectedPermissions})
-                            console.log(result)
+        
             if (result.Ok){
                 toast.success("Successfully added new Role")
             }
@@ -93,10 +90,11 @@ export default class AddRole extends Component {
             const permissionsToManipulate = [...permissionsSelected.options]
                             .filter(option=> option.selected)
                             .map(selected=>({id:+selected.id, name:selected.innerText}));
+
             this.setState({selectedPermissions:[...this.state.selectedPermissions, ...permissionsToManipulate]},
                 ()=>{
                     this.setState({
-                        non_selectedPermissions:this.allPermissions
+                        non_selectedPermissions:this.state.allPermissions
                                 .filter(el=>!this.state.selectedPermissions.find(({name})=>el.name===name))
                     })
                 })
@@ -112,7 +110,7 @@ export default class AddRole extends Component {
                 selectedPermissions:this.state.selectedPermissions.filter(el=>!permissionsToManipulate.find(({name})=>el.name===name))
             },()=>{
                 this.setState({
-                    non_selectedPermissions:this.allPermissions.filter(el=>!this.state.selected.find(({name})=>el.name===name))
+                    non_selectedPermissions:this.state.allPermissions.filter(el=>!this.state.selected.find(({name})=>el.name===name))
                 })
             })
 
