@@ -258,7 +258,8 @@ export default class UserProfile extends React.Component {
                                 <UserProfileDetails editMode={!this.state.profileMode.edit}
                                     addUserForm={this.state.profileMode.addUserForm}
                                     details={this.state.userData.details}
-                                    handleInputChange={this.handleInputChange} />
+                                    handleInputChange={this.handleInputChange}
+                                    managerId={this.state.userData.details.manager.value} />
 
                                 <UserProfileRoles editMode={!this.state.profileMode.edit}
                                     userRoles={this.state.userData.roles}
