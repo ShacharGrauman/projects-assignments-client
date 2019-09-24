@@ -5,6 +5,12 @@ export default props => {
     return (
       <span className="badge badge-success mr-1">
         {props.name}{" "}
+        {/* return (
+          <sortingByName
+            key={index}
+            name={skill.name}
+          />
+        ); */}
         <span className="badge badge-light" style={{ fontSize: props.level > 3 ? "1em" : "" }}>
           {props.level}
         </span>
