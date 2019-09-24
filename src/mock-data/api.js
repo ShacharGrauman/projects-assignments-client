@@ -161,9 +161,14 @@ export const api = {
         })
         return addedUser;
     },
-    auditSearchByEmployeeNumber: async(id)=>{
-        const result = await fetch(`http://localhost:8080/api/audit/number?number=${id}`)
+    auditSearch: async(startDate, endDate, actionsFilter, employee)=>{
+        const result = await fetch(`http://localhost:8080/api/audit/date?number=${employee}&datefrom=${startDate}&dateto=${endDate}`)
         return result.json();
+    },
+
+    getAuditData: async(page, limit)=>{
+        const audit = await fetch(`http://localhost:8080/api/audit?page=${page}&limit=${limit}`)
+        return audit.json();
     },
     deactivateUser: async (id) =>{
         const deletedUser = await fetch(`http://localhost:8080/api/employee/id?id=${id}`,{
