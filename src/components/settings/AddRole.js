@@ -72,7 +72,8 @@ export default class AddRole extends Component {
         
             if (result.Ok){
                 toast.success("Successfully added new Role")
-            }else{
+            }
+            else{
                 toast.error("Unable to add this role")
             }
         }
