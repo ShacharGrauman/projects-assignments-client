@@ -39,7 +39,7 @@ export default class UsersTable extends React.Component{
             // countries : {value : '', errors: [], validations :''},
             rowsPerPage : this.props.rowsPerPage,
             page : 1,
-            url: 'http://localhost:8080/api/employee',
+            url: 'http://localhost:8080/api/employee?',
             currentTab : 1,
             
         }
@@ -50,7 +50,7 @@ export default class UsersTable extends React.Component{
 
     async componentDidMount(){
         
-        const users = await api.getData(`${this.state.url}?page=${this.state.page}&limit=${this.state.rowsPerPage}`);
+        const users = await api.getData(`${this.state.url}page=${this.state.page}&limit=${this.state.rowsPerPage}`);
         this.setState({users});
     }
     
@@ -183,7 +183,6 @@ export default class UsersTable extends React.Component{
                     <div className="row col justify-content-center">
                         <Pagination usersCount={this.props.userCount}
                                 rowsPerPage={this.state.rowsPerPage}
-                                currentTab={this.state.currentTab}
                                 url={this.state.url}
                                 changeUserList={this.changeUserList}
                                 />
@@ -195,10 +194,3 @@ export default class UsersTable extends React.Component{
         );
     }
 }
-
-
-// export default PaginationHOC(UsersTable)
-
-// ReactDom.render(<UsersTable/>,
-//     document.querySelector('#container')
-//     );

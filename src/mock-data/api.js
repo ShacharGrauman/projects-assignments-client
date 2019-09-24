@@ -193,10 +193,10 @@ export const api = {
 
 
     getData: async function(url) {
-        const users = await fetch(url)
+        const data = await fetch(url)
             .then(response => response.json());
 
-        return users;
+        return data;
     },
   
     addDepartment:async function({department}){

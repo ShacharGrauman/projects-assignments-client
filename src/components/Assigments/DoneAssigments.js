@@ -5,7 +5,9 @@ import {
   faClock,
 } from "@fortawesome/free-solid-svg-icons";
 import Api from "./Api";
+import {api} from '../../mock-data/api'
 import { toast } from "react-toastify";
+import Pagination from "../users-list/Pagination";
 export default class DoneAssigments extends React.Component {
   constructor() {
     super();
@@ -16,14 +18,27 @@ export default class DoneAssigments extends React.Component {
         errors: [],
         validations: { required: true }
       },
-      assigments: []
+      assigments: [],
+      url : 'http://localhost:8080/api/assignments',
+      assignmentsUrl : '',
+      page : 1,
+      rowsPerPage : 7,
+      doneAssigmentsCount : 0
     };
+
+    this.changeUserList = this.changeUserList.bind(this);
     this.search = this.search.bind(this);
     this.inputChange = this.inputChange.bind(this);
   }
+
   async componentDidMount() {
-    const assigments = await Api.getDoneAssignByDate(this.state.fromdate.value);
-    this.setState({ assigments });
+    const assigments = await api.getData(`${this.state.url}/done/2?requestedDate=${this.state.fromdate.value}&page=${this.state.page}&limit=${this.state.rowsPerPage}`);
+    const doneAssigmentsCount = await api.getData(`${this.state.url}/count`);
+    this.setState({ 
+        assigments,
+        assignmentsUrl : `${this.state.url}/done/2?requestedDate=${this.state.fromdate.value}&`,
+        doneAssigmentsCount : doneAssigmentsCount
+      }, ()=> console.log(this.state.assignmentsUrl));
   }
 
   async search() {
@@ -34,10 +49,10 @@ export default class DoneAssigments extends React.Component {
       );
       if(assigments.length!=0){
         this.setState({ assigments });
-        toast.success(`Found ${assigments.length} Recoreds `)
+        toast.success(`Found ${assigments.length} Records `)
       }
       else{
-          toast.error("There is No Done Assigment For Requested Date")
+          toast.error("There is No Done Assignment For Requested Date")
       }
       
     } catch (error) {}
@@ -57,6 +72,12 @@ export default class DoneAssigments extends React.Component {
 
     this.setState({ fromdate: { ...this.state.fromdate, value } });
   }
+
+  changeUserList(result){
+    this.setState({
+      assigments : result
+    })
+}
 
   render() {
     return (
@@ -133,6 +154,13 @@ export default class DoneAssigments extends React.Component {
             })}
           </tbody>
         </table>
+        <div className="row col justify-content-center">
+          <Pagination usersCount={this.state.doneAssigmentsCount}
+                  rowsPerPage={this.state.rowsPerPage}
+                  url={this.state.assignmentsUrl}
+                  changeUserList={this.changeUserList}
+          />
+        </div>
       </div>
     );
   }

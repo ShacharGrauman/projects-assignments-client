@@ -252,33 +252,7 @@ export default class MyTeamTable extends React.Component {
           </button>
         </div>
 
-
-          {/*
-          <button
-            className="btn btn-outline-info"
-            type="button"
-            data-toggle="collapse"
-            aria-expanded="true"
-            aria-controls="collapseOne"
-            onClick={this.toggleDiv}
-            onClick={this.showEmployeeNameSearch}
-          >
-<<<<<<< HEAD
-            Advanced search...
-          </button>
-        </div>
-        <div
-          className="d-flex justify-content-center align-items-center"
-          style={{ marginBottom: "50px" }}
-        >
-          <MyTeamDetailsTable
-            project={this.state.project}
-            employees={this.state.employeesSearch}
-            onAssign={this.assign}
-=======
-          Search by employee name
-          </button>*/}
-
+          {/*Search by employee name*/}
 
           <a style={SearchByNameStyle} className="justify-content-md-center ml-4 mt-4" onClick={this.showEmployeeNameSearch}> Search by employee name </a>
           </div>
@@ -317,7 +291,6 @@ export default class MyTeamTable extends React.Component {
             project={this.state.project}
             employees={this.state.employeesSearch}
             onAssign={this.assign}            
->>>>>>> master
           />
         </div>
       </>

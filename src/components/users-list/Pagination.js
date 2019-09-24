@@ -20,7 +20,7 @@ export default class Pagination extends React.Component{
 
     async switchPage(pageNumber, limit){
         //api.getDATA ///////////////////////////////////
-        const url = this.props.url + `?page=${pageNumber}&limit=${limit}`;
+        const url = this.props.url + `page=${pageNumber}&limit=${limit}`;
         const result = await api.getData(url);
         await this.setState({
            currentTab:pageNumber

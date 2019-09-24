@@ -1,8 +1,7 @@
 import axios from "axios";
-import { toast } from "react-toastify";
+
 const url = "http://localhost:8080/api/";
-const pageNumberLimit = "pageNumber=1&limit=20";
-const curentLimit = "currentPage=1&limit=20";
+const currentLimit = "page=1&limit=20";
 class Api {
   async getProjects() {
     const projects = await axios.get(`${url}projects/manager/2`);
@@ -10,7 +9,7 @@ class Api {
   }
   async getProjectsByProjectName(projectName) {
     const projects = await axios.get(
-      `${url}projects/name/${projectName}?${curentLimit}`
+      `${url}projects/name/${projectName}?${currentLimit}`
     );
     return projects.data;
   }
@@ -22,13 +21,13 @@ class Api {
   }
   async getEmpForProjects(projectID) {
     const employees = await axios.get(
-      `${url}team/project/${projectID}?${curentLimit}`
+      `${url}team/project/${projectID}?${currentLimit}`
     );
     return employees.data;
   }
   async getPendingAssignments(projectID) {
     const pending = await axios.get(
-      `${url}assignments/request/2?${curentLimit}`
+      `${url}assignments/request/2?${currentLimit}`
     );
     return pending.data;
   }
@@ -43,13 +42,13 @@ class Api {
   }
   async employeeAssignmentsHistory(empID) {
     const history = await axios.get(
-      `${url}/assignments/${empID}?${curentLimit}`
+      `${url}/assignments/${empID}?${currentLimit}`
     );
     return history.data;
   }
 
   async getMyTeam() {
-    const employees = await axios.get(`${url}team/2/?${curentLimit}`);
+    const employees = await axios.get(`${url}team/2/?${currentLimit}`);
     return employees.data;
   }
   async addNewAssignment(
@@ -88,7 +87,7 @@ class Api {
   }
   async getDoneAssignByDate(date) {
     const result = await axios.get(
-      `${url}assignments/status/2?requestedDate=${date}&${curentLimit}`
+      `${url}assignments/status/2?requestedDate=${date}&currentPage=1&limit=20`
     );
     return result.data;
   }
