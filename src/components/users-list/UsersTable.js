@@ -6,8 +6,7 @@ import InputErrors from './InputErrors';
 import DataProvider, { DataContext } from '../common/Provider/DataProvider';
 import {dropDownData} from '../../mock-data/Data'
 import DropDownsOptions from './DropDownsOptions';
-
-
+import axios from 'axios';
 import PaginationHOC from '../shared-components/PaginationHOC'
 
 
@@ -26,29 +25,21 @@ class UsersTable extends React.Component{
     constructor(){
         super();
         this.state ={
-            users : [],
-            number : {value : '', errors: [], validations : {required : false, pattern : /^[a-zA-Z0-9]+$/}},
-            name : {value : '', errors: [], validations : {required : false, pattern : /^[a-zA-Z]+$/}},
-            rolesDropdown : '',
-            departmentsDropdown : '',
-            workSitesDropdown : '',
-            countryDropDown : '',
+            number : {value : '', errors: [], validations : {pattern : /^[a-zA-Z0-9]+$/}},
+            name : {value : '', errors: [], validations : {pattern : /^[a-zA-Z ]+$/}},
+            roles : {value : '', errors: [], validations : ''},
+            departments : {value : '', errors: [], validations :''},
+            worksites : {value : '', errors: [], validations :''},
+            countries : {value : '', errors: [], validations :''},
         }
         this.searchHandler = this.searchHandler.bind(this);
         this.inputChange = this.inputChange.bind(this);
     }
 
-    async componentDidMount(){
-        
+    componentDidMount(){
         this.props.paginationConfig({
-            url:'http://localhost:8080/api/employee/',
-            rowsPerPage:10,
-            rowsPerPage:50,
+            url:'http://localhost:8080/api/employee/'
         })  
-
-
-        const users = await api.getUsersList();
-        this.setState({users});
     }
 
     showAdvancedSearch(){ 
@@ -61,47 +52,39 @@ class UsersTable extends React.Component{
         }   
     }
 
-    searchHandler(e){
+    async searchHandler(e){
         e.preventDefault();
-        this.inputChange(e);
-        // if(!e.target.name === undefined){
-        //     fetch('/', {
-        //         method: 'post',
-        //         body: {
-        //             "name": this.state["name"].value,
-        //             "employeeNumber": this.state["employeeNumber"].value
-        //         }
-        //     });
-        // }
+
+        console.log(this.state);
+
+        const result= axios.post("url",{
+
+        }).then(res => res);
+
     }
 
-    inputChange(e){
-        const nameErrors = [],
-            numberErrors = [];
-        if(e.target.name.value){
-            if(this.state["name"].validations.pattern){
-                if(!this.state["name"].validations.pattern.test(e.target.name.value)){
-                    nameErrors.push(`${e.target.name.name} must contain only letters`);
+    async inputChange({ target: {name, value}}){
+        const {validations} = this.state[name], 
+            Errors = [];
+        if(name === "name"){
+            if(validations.pattern){
+                if(!validations.pattern.test(value)){
+                    Errors.push(`${name} must contain only letters`);
                 }
             }
         }
-        if(e.target.number.value){
-            if(this.state["number"].validations.pattern)
-            if(!this.state["number"].validations.pattern.test(e.target.number.value)){
-                numberErrors.push(`${e.target.number.name} must contain only letters and numbers`);
-            }
+        if(name === "number" && value){
+            if(validations.pattern)
+                if(!validations.pattern.test(value)){
+                    Errors.push(`${name} must contain only letters and numbers`);
+                }
         }
 
-        this.setState({
-            name: {
-                ...this.state["name"],
-                value : e.target.name.value, 
-                errors : nameErrors 
-            },
-            number: {
-                ...this.state["number"],
-                value : e.target.number.value, 
-                errors : numberErrors 
+        await this.setState({
+            [name]: {
+                ...this.state[name],
+                value : value, 
+                errors : Errors 
             }
         });  
     }
@@ -115,10 +98,12 @@ class UsersTable extends React.Component{
                             <input type="text" ref="id" className="form-control" 
                                     placeholder="Search by Employee Number" aria-label="Search by Emp. Number" aria-describedby="button-addon2" 
                                     name="number"
+                                    onChange={this.inputChange}
                                     />
                             <input type="text" ref="fullName" className="form-control" 
                                     placeholder="Search by Name" aria-label="Search by Name" aria-describedby="button-addon2" 
                                     name="name"
+                                    onChange={this.inputChange}
                                     />
                             <div className="input-group-append">
                                 <button className="btn btn-outline-success" type="submit" id="button-addon2">Search</button>
@@ -137,8 +122,8 @@ class UsersTable extends React.Component{
                                     <DataContext.Consumer>
                                     {(context) =>
                                         
-                                        <DropDownsOptions context={context[data.name]}
-                                            name={data.name}
+                                        <DropDownsOptions items={context[data.name]}
+                                            name={data.name} onSelect={this.inputChange}
                                         />
                                     }
                                     </DataContext.Consumer>)
@@ -186,7 +171,3 @@ class UsersTable extends React.Component{
 
 
 export default PaginationHOC(UsersTable)
-
-// ReactDom.render(<UsersTable/>,
-//     document.querySelector('#container')
-//     );

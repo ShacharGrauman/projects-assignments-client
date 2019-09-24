@@ -38,7 +38,7 @@ export default () => (
           <Route path="/audit" component={Audit} />
           <Route path="/roles" component={Roles} />
           <Route path="/settings" component={Settings} />
-          <Route path="/my-team/:projectName" component={MyTeamTable} />
+          <Route path="/my-team/:project" component={MyTeamTable} />
           <Route path="/done-assignments/" component={DoneAssignments} />
           <Route path="/add-new-project/" component={AddNewProject} />
           <Route

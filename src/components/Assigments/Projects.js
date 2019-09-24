@@ -18,8 +18,10 @@ export default class AssignHistory extends React.Component {
       searchBar: {
         value: "",
         errors: [],
-        validations: { required: true, minLength: 1 }
-      }
+        validations: { required: true, minLength: 1 },
+        isLoading:true
+      },
+      isLoading:true
     };
     
     this.setProjectInSession = this.setProjectInSession.bind(this);
@@ -32,8 +34,14 @@ export default class AssignHistory extends React.Component {
   }
   async componentDidMount() {
     const projectsData = await Api.getProjects();
-    this.setState({projectsData});
+    setTimeout(() => {
+      this.setState({
+        isLoading: false
+      });
+    }, 1000);
+    this.setState({projectsData,isLoading: false});
   }
+
 
   async getSearchDataByProjectName() {
     const projectsData = await Api.getProjectsByProjectName(this.state.searchBar.value);
@@ -92,12 +100,12 @@ export default class AssignHistory extends React.Component {
   render() {
     // console.log(this.state.projectsData[2].technicalSkill)
     return (
+      this.state.isLoading ? <h1>hello</h1> : 
       <>
         <div className="col justify-content-md-center">
           <div className="d-flex justify-content-center align-items-center mb-2"><h1>Projects </h1></div>
           <div className="d-flex justify-content-center align-items-center mb-2">
            
-            
             <input
               className="form-control mr-sm-2 w-25 "
               type="search"
@@ -148,11 +156,11 @@ export default class AssignHistory extends React.Component {
                         </button>
                       </div>
                       <div className="col">
-                        <h3> {project.name}</h3>
+                        <h5> {project.name}</h5>
                       </div>
                       <div className="col">
                         {" "}
-                        <h3>ID: {project.id}</h3>
+                        {/* <h3>ID: {project.id}</h3> */}
                       </div>
                       <div className="col">
                         {" "}

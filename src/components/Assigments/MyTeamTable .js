@@ -106,6 +106,17 @@ export default class MyTeamTable extends React.Component {
       });
     }
   }
+  showAdvancedSearch() {
+    const advancedSearchOptions = document.querySelector(
+      "#advancedSearchOptions"
+    );
+
+    if (advancedSearchOptions.style.display == "flex") {
+      advancedSearchOptions.style.display = "none";
+    } else {
+      advancedSearchOptions.style.display = "flex";
+    }
+  }
 
   filterListByEmpName(e) {
     e.preventDefault();
@@ -242,6 +253,7 @@ export default class MyTeamTable extends React.Component {
                 <FontAwesomeIcon icon={faSearch} />
               </button>
             </div>
+
           </div>
         </form>
         <form className="d-flex justify-content-center align-items-center mb-4 mt-3">
