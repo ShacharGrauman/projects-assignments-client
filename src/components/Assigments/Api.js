@@ -94,7 +94,7 @@ class Api {
   
   async getSearchEmployee(empName) {
     const result = await axios.get(
-      `${url}team/name/${empName}?${curentLimit}`
+      `${url}team/name/${empName}?${currentLimit}`
     );
     console.log(result.data)
     return result.data;

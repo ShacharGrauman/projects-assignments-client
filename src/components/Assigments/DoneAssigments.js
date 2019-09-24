@@ -22,8 +22,8 @@ export default class DoneAssigments extends React.Component {
       url : 'http://localhost:8080/api/assignments',
       assignmentsUrl : '',
       page : 1,
-      rowsPerPage : 7,
-      doneAssigmentsCount : 0
+      doneAssigmentsCount : 0,
+      rowsPerPage : 10
     };
 
     this.changeUserList = this.changeUserList.bind(this);
@@ -154,7 +154,6 @@ export default class DoneAssigments extends React.Component {
         </table>
         <div className="row col justify-content-center">
           <Pagination usersCount={this.state.doneAssigmentsCount}
-                  rowsPerPage={this.state.rowsPerPage}
                   url={this.state.assignmentsUrl}
                   changeUserList={this.changeUserList}
           />
