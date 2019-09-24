@@ -11,6 +11,11 @@ export const api = {
         return roles.json();
         }
     ,
+    getRolesWithPermissions:async () =>{ 
+        const roles = await fetch('http://localhost:8080/api/roles')
+        return roles.json();
+        }
+    ,
     getCountries :async () =>{ 
         const countries = await fetch('http://localhost:8080/api/employee/countries')
         return countries.json();
@@ -41,16 +46,19 @@ export const api = {
         return {departments, worksites, countries, roles, managers}
     }
     ,
-    getUsersList: async function() {
-        const users = await fetch('http://localhost:8080/api/employee?page=2&limit=10')
+    getUsersList: async function(page, limit) {
+        const users = await fetch(`http://localhost:8080/api/employee?page=${page}&limit=${limit}`)
             .then(response => response.json());
 
         return users;
     },
 
-    getCount: (prop) => {
-        return fetch(`http://localhost:8080/api/employee/${prop}`)
-
+    getCount: async (prop) => {
+        return await fetch(`http://localhost:8080/api/employee/${prop}`)
+            .then(res => res.json());
+    },
+    getAuditCount: () => {
+        return fetch(`http://localhost:8080/api/audit/count`)
             .then(res => res.json());
     },
 
@@ -162,9 +170,14 @@ export const api = {
         })
         return addedUser;
     },
-    auditSearchByEmployeeNumber: async(id)=>{
-        const result = await fetch(`http://localhost:8080/api/audit/number?number=${id}`)
+    auditSearch: async(startDate, endDate, actionsFilter, employee)=>{
+        const result = await fetch(`http://localhost:8080/api/audit/date?number=${employee}&datefrom=${startDate}&dateto=${endDate}`)
         return result.json();
+    },
+
+    getAuditData: async(page, limit)=>{
+        const audit = await fetch(`http://localhost:8080/api/audit?page=${page}&limit=${limit}`)
+        return audit.json();
     },
     deactivateUser: async (id) =>{
         const deletedUser = await fetch(`http://localhost:8080/api/employee/id?id=${id}`,{
@@ -187,7 +200,6 @@ export const api = {
     },
   
     addDepartment:async function({department}){
-        console.log(department)
         const departmentResult = await fetch(`http://localhost:8080/api/department`,{
                 method: 'POST',
                 headers:{
@@ -202,7 +214,6 @@ export const api = {
     },
   
     resetPassword: async function({email, employeeNumber}){
-        console.log(email, employeeNumber)
       const response = await fetch(`http://localhost:8080/api/resetPassword/`,{
           method: 'POST',
           headers:{
@@ -216,4 +227,57 @@ export const api = {
       })
       return response;
   },
+  sendEmail:async function({email, name, messageBody, messageTitle}){
+    const sendEmailResult = await fetch(`http://localhost:8080/api/sendEmail`,{
+      mode:'no-cors',
+            body:JSON.stringify({
+                toEmail:email,
+                firstName:name,
+                subject:messageTitle,
+                text:messageBody
+            }),            
+        })
+        return sendEmailResult;
+   },
+  addRole:async function(role){
+    const addRoleRes = await fetch(`http://localhost:8080/api/roles`,{
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify({
+                name:role.name,
+                description:role.description,
+                permissions:role.permissions
+            }),
+            
+        })
+        return addRoleRes;
+   },
+
+
+    },
+    getAllPermissions :async () =>{ 
+    const permissions = await fetch('http://localhost:8080/api/roles/permissions')
+    return permissions.json();
+    }
+,
+
+   addworksite:async function({country, city, worksite}){
+       console.log(worksite)
+    const addRoleRes = await fetch(`http://localhost:8080/api/worksite`,{
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify({
+                name:worksite,
+                country,
+                city
+            }),
+            
+        })
+        return addRoleRes;
+   },
+
 }

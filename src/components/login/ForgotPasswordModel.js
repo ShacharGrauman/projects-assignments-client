@@ -73,7 +73,7 @@ export default class ForgotPasswordModal extends React.Component {
             const passwordResetRes=api.resetPassword(finalResult);
             console.log(passwordResetRes)
 
-            toast.success("Password was successfuly reset");
+            toast.success("A new password was sents to your mail");
         }
         else{
             toast.error("Please insert valid credentials")

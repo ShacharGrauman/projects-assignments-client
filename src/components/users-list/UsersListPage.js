@@ -13,43 +13,18 @@ class UsersListPage extends React.Component{
                 rolesCount : 1,
                 departmentsCount : 1,
                 workSitesCount : 1,
-                usersCount :1,
+                usersCount : 1,
             },
             rowsPerPage:10
         }
+
+        this.componentDidMount()
+        this.getUsersCount = this.getUsersCount.bind(this)
     }
 
 
     async componentDidMount(){
        
-
-
-        // let temp = [];
-        // api.getUsersList().then(users=> {
-        //     this.setState({users});
-        // }).catch(err=>alert(err));
-
-        // api.getCount('WorkSites').then(workSites => {
-        //     this.setState({workSitesCount : workSites.length})
-        // }).catch(err => alert(err));
-        
-        // api.getCount('roles').then(roles => {
-        //     this.setState({rolesCount : roles.length})
-        // }).catch(err => alert(err));
-
-        // api.getCount('departments').then(departments => {
-        //     this.setState({departmentsCount : departments.length})
-        // }).catch(err => alert(err));
-
-
-        // this.setState({
-        //     ...this.state,
-        //     dataLengths : [this.state.usersCount, 
-        //         this.state.workSitesCount, 
-        //         this.state.rolesCount, 
-        //         this.state.departmentsCount]
-        // }, ()=>console.log(this.state.departmentsCount));
-
         await Promise.all([
             api.getCount('countRoles'),
             api.getCount('countDepartments'),
@@ -62,6 +37,11 @@ class UsersListPage extends React.Component{
                 workSitesCount,
                 usersCount
             }}));
+    }
+
+     async getUsersCount(){
+         const result = await api.getCount('countEmployees')
+        return result
     }
 
 
