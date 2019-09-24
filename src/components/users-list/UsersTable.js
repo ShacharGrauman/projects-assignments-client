@@ -7,9 +7,8 @@ import DataProvider, { DataContext } from '../common/Provider/DataProvider';
 import {dropDownData} from '../../mock-data/Data'
 import DropDownsOptions from './DropDownsOptions';
 import axios from 'axios';
-import PaginationHOC from '../shared-components/PaginationHOC'
 
-
+import Pagination from './Pagination'
 
 const AdvancedSearchStyle = {
     cursor : "pointer",
@@ -21,26 +20,40 @@ const AdvancedSearchOptionsStyle = {
     display : "none"
 }
 
-class UsersTable extends React.Component{
-    constructor(){
-        super();
+export default class UsersTable extends React.Component{
+    constructor(props){
+        super(props);
         this.state ={
-            number : {value : '', errors: [], validations : {pattern : /^[a-zA-Z0-9]+$/}},
-            name : {value : '', errors: [], validations : {pattern : /^[a-zA-Z ]+$/}},
-            roles : {value : '', errors: [], validations : ''},
-            departments : {value : '', errors: [], validations :''},
-            worksites : {value : '', errors: [], validations :''},
-            countries : {value : '', errors: [], validations :''},
+            users : [],
+            number : {value : '', errors: [], validations : {required : false, pattern : /^[a-zA-Z0-9]+$/}},
+            name : {value : '', errors: [], validations : {required : false, pattern : /^[a-zA-Z ]+$/}},
+            rolesDropdown : '',
+            departmentsDropdown : '',
+            workSitesDropdown : '',
+            countryDropDown : '',
+            // number : {value : '', errors: [], validations : {pattern : /^[a-zA-Z0-9]+$/}},
+            // name : {value : '', errors: [], validations : {pattern : /^[a-zA-Z ]+$/}},
+            // roles : {value : '', errors: [], validations : ''},
+            // departments : {value : '', errors: [], validations :''},
+            // worksites : {value : '', errors: [], validations :''},
+            // countries : {value : '', errors: [], validations :''},
+            rowsPerPage : this.props.rowsPerPage,
+            page : 1,
+            url: 'http://localhost:8080/api/employee',
+            currentTab : 1,
+            
         }
         this.searchHandler = this.searchHandler.bind(this);
         this.inputChange = this.inputChange.bind(this);
+        this.changeUserList = this.changeUserList.bind(this);
     }
 
-    componentDidMount(){
-        this.props.paginationConfig({
-            url:'http://localhost:8080/api/employee/'
-        })  
+    async componentDidMount(){
+        
+        const users = await api.getData(`${this.state.url}?page=${this.state.page}&limit=${this.state.rowsPerPage}`);
+        this.setState({users});
     }
+    
 
     showAdvancedSearch(){ 
         const advancedSearchOptions = document.querySelector('#advancedSearchOptions');
@@ -66,7 +79,7 @@ class UsersTable extends React.Component{
     async inputChange({ target: {name, value}}){
         const {validations} = this.state[name], 
             Errors = [];
-        if(name === "name"){
+        if(name === "name" && value){
             if(validations.pattern){
                 if(!validations.pattern.test(value)){
                     Errors.push(`${name} must contain only letters`);
@@ -87,6 +100,12 @@ class UsersTable extends React.Component{
                 errors : Errors 
             }
         });  
+    }
+
+    changeUserList(result){
+        this.setState({
+            users : result
+        })
     }
 
     render(){
@@ -119,7 +138,7 @@ class UsersTable extends React.Component{
                                 <DataProvider>
                                 {
                                     dropDownData.map(data =>
-                                    <DataContext.Consumer>
+                                    <DataContext.Consumer key={data.name}>
                                     {(context) =>
                                         
                                         <DropDownsOptions items={context[data.name]}
@@ -151,7 +170,7 @@ class UsersTable extends React.Component{
                         <tbody>
                             {/* A Component for dynamically filling the table*/}
                             {
-                                this.props.dataValues.map(user =>  
+                                this.state.users.map(user =>  
                                     <UsersTableRow 
                                         key={user["employee"].id}
                                         user={user["employee"]}
@@ -161,6 +180,14 @@ class UsersTable extends React.Component{
                             }  
                         </tbody>
                     </table>
+                    <div className="row col justify-content-center">
+                        <Pagination usersCount={this.props.userCount}
+                                rowsPerPage={this.state.rowsPerPage}
+                                currentTab={this.state.currentTab}
+                                url={this.state.url}
+                                changeUserList={this.changeUserList}
+                                />
+                    </div>
                 </div>
             
             
@@ -170,4 +197,8 @@ class UsersTable extends React.Component{
 }
 
 
-export default PaginationHOC(UsersTable)
+// export default PaginationHOC(UsersTable)
+
+// ReactDom.render(<UsersTable/>,
+//     document.querySelector('#container')
+//     );
