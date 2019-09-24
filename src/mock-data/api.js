@@ -251,4 +251,26 @@ export const api = {
         })
         return addRoleRes;
    },
+    getAllPermissions :async () =>{ 
+    const permissions = await fetch('http://localhost:8080/api/roles/permissions')
+    return permissions.json();
+    }
+,
+
+   addworksite:async function({country, city, worksite}){
+       console.log(worksite)
+    const addRoleRes = await fetch(`http://localhost:8080/api/worksite`,{
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify({
+                name:worksite,
+                country,
+                city
+            }),
+            
+        })
+        return addRoleRes;
+   },
 }
