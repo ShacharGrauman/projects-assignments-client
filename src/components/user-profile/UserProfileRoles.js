@@ -19,12 +19,12 @@ export default class UserProfileRoles extends React.Component{
          this.setState({allRoles});
     }
 
-    toggleRole(element){
+    toggleRole(event){
         let rolesList=[];
-        if(element.target.getAttribute('id')==='btn_add'){
+        if(event.target.getAttribute('id')==='btn_add'){
             rolesList = document.getElementById('allRoles')
             
-        }else if(element.target.getAttribute('id')==='btn_remove'){
+        }else if(event.target.getAttribute('id')==='btn_remove'){
             rolesList = document.getElementById('userRoles')
             
         }

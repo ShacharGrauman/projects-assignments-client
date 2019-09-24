@@ -10,11 +10,11 @@ export default class UsersStatus extends React.Component{
 
     render(){
         return(
-                <div className="row mb-2 d-flex align-items-stretch justify-content-between">
+                <div className="row mb-2 d-flex align-items-stretch justify-content-between" key={"UsersStatus"}>
                     {
                         MockDataStatus.map(data => 
                         <>
-                            <div className="col-sm-3 w-100">
+                            <div className="col-sm-3 w-100" key={data.titleName}>
                                 <div className="card text-center my-1 p-2 shadow" style={{backgroundColor : "rgb(220,220,220)"}}>
                                     <div className="card-body p-1">
                                         <FontAwesomeIcon 

@@ -4,11 +4,12 @@ const DropDownsOptions = (props) => {
     return (
         <>
             <div className="dropdown mr-1 mt-2">
-                <select className="btn btn-secondary dropdown-toggle" name="roles" >
-                    <option value="">{props.name}</option>
+                <select className="btn btn-secondary dropdown-toggle" name={props.name}
+                    onChange={props.onSelect} >
+                    <option value="" key={props.name}>{props.name}</option>
                     {
-                        props.context.map(item =>
-                            <option value={item.id}>{item.name}</option>
+                        props.items.map(item =>
+                            <option value={item.id} key={item.name}>{item.name}</option>
                         )
                     }
                 </select>

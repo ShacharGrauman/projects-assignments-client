@@ -3,6 +3,9 @@ import Nav from 'react-bootstrap/Nav'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 export default class SettingsNavbar extends React.Component{
+
+
+
     render(){
         return(<>
         <div className="my-4">
@@ -17,7 +20,7 @@ export default class SettingsNavbar extends React.Component{
                     <Link to="/settings/add/worksite">Worksite</Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Link to="/settings/add/project">Project</Link>
+                    <Link to="/settings/add-new-project">Project</Link>
                 </Nav.Item>
             </Nav>
         </div>

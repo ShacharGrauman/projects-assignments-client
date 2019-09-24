@@ -1,5 +1,6 @@
 import React from 'react';
 import {DataContext} from '../common/Provider/DataProvider'
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import InputErrors from '../shared-components/InputErrors'
 
 export default class UserProfileDetails extends React.Component{
@@ -8,7 +9,10 @@ export default class UserProfileDetails extends React.Component{
         super(props)
     }
 
+
     render(){
+
+        let {departments} = this.context;
         return(<>
 
                           
@@ -42,12 +46,12 @@ export default class UserProfileDetails extends React.Component{
                                     onChange={this.props.handleInputChange} 
                                     defaultValue={this.props.details.managerName.value}
                                     name="managerName"
-                                    list="managers"></input>
+                                    list="managers"/> {!this.props.addUserForm &&<a href={`/user-profile/${this.props.managerId}`}>Link</a>}
                                 <datalist id="managers">
                                 <DataContext.Consumer>
                                         {({managers})=>managers.map((mgr)=>{
                                             let name =`${mgr.firstName}  ${mgr.lastName}`
-                                             return <option key={mgr.id} value={name}/>})}
+                                             return <option key={mgr.id} value={mgr.id} label={name}/>})}
                                     </DataContext.Consumer>
                                 </datalist>
                                 <InputErrors errors = {this.props.details.managerName.errors}/>
@@ -95,10 +99,8 @@ export default class UserProfileDetails extends React.Component{
                                     defaultValue={this.props.details.department.value}
                                     name="department"
                                     list="department"></input>
-                                <datalist id="department">
-                                    <DataContext.Consumer>
-                                        {({departments})=>departments.map((dep, i)=> <option key={i} value={dep.name}/>)}
-                                    </DataContext.Consumer>
+                                <datalist id="department" >
+                                        {departments.map((dep, i)=> <option key={i} value={dep.name}/>)}
                                 </datalist>
                                 <InputErrors errors = {this.props.details.department.errors}/>
                             </div>
@@ -133,3 +135,5 @@ export default class UserProfileDetails extends React.Component{
         </>)
     }
 }
+
+UserProfileDetails.contextType=DataContext

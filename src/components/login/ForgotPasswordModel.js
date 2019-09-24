@@ -73,7 +73,7 @@ export default class ForgotPasswordModal extends React.Component {
             const passwordResetRes=api.resetPassword(finalResult);
             console.log(passwordResetRes)
 
-            toast.success("Password was successfuly reset");
+            toast.success("A new password was sents to your mail");
         }
         else{
             toast.error("Please insert valid credentials")
@@ -130,7 +130,7 @@ export default class ForgotPasswordModal extends React.Component {
                             <InputErrors errors={this.state.employeeNumber.errors} />
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" onClick={this.ForgotPasswordSubmit} className="btn btn-primary">Reset Password</button>
+                                <button type="button" onClick={this.ForgotPasswordSubmit} className="btn btn-primary" data-dismiss="modal">Reset Password</button>
                             </div>
                         </div>
                     </div>

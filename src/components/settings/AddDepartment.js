@@ -60,8 +60,15 @@ export default class AddDepartment extends Component {
             const finalResult = {
                 department: this.state.department,
             }
-            api.addDepartment(finalResult)
-            toast.success("Adding new department succeeded")
+            const result = api.addDepartment(finalResult)
+            result.then(res=>{
+                if(res.ok){
+                    toast.success("Adding new department succeeded")
+                }
+                else{
+                    toast.error('Failed to add department')
+                }
+            })
         }
         else {
             toast.error("Please fill the missing")
@@ -72,7 +79,7 @@ export default class AddDepartment extends Component {
         return (<>
         <div className="d-flex  justify-content-around">
             <div>
-            <h4 className="alert-heading text-center mx-auto mb-3">Department</h4>
+            <h5 className="alert-heading text-center mx-auto mb-3">Department</h5>
                 <form onSubmit={this.submit}>
                     <div className="">
                     

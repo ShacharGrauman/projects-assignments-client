@@ -4,11 +4,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-import PaginationHOC from '../shared-components/PaginationHOC'
 
 
 import {api} from '../../mock-data/api'
 
+
+const styleTab={fontSize:'30px', pointerEvents:'none' , opacity:'0.8'}
+const disableClick={pointerEvents:'none', opacity:'0.8'}
 
 const AdvancedSearchStyle = {
     cursor: "pointer",
@@ -25,70 +27,70 @@ class Audit extends React.Component {
     constructor() {
         super();
         this.state = {
-            startDate: new Date(),
-            endDate: new Date(),
+            startDate: '',
+            endDate: '',
+            employee:0,
+            actionsFilter:'',
             actions: [],
-            employeeNumber:{value:'', errors:[], validations:{}}
+            pagination:{
+                numberOfPages:7,
+                rowsPerPage:10,
+                currentPage:1
+            }
+
         };
 
         this.searchAudit = this.searchAudit.bind(this)
-        this.inputChange = this.inputChange.bind(this)
+        this.handleInputChange = this.handleInputChange.bind(this)
+        this.switchPage = this.switchPage.bind(this)
 
-        this.handleChange = date => { /////////////////?!?!
-            this.setState({
-                startDate: date,
-            });
+        this.handleChange = date => {
+            this.setState({startDate: date});
         };
 
-        this.handleChange2 = date => {/////////////////////////?!?!?!
-            this.setState({
-                endDate: date,
-            });
+        this.handleChange2 = date => {
+            this.setState({endDate: date});
         };
     }
     onChange() { (date) => this.setState({ date }) }
 
     componentDidMount() {
-
-           
-        this.props.paginationConfig({
-            url:'http://localhost:8080/api/audit/',
-            rowsPerPage:10,
-            rowsPerPage:50,
-        })  
-
-
-
-        // this.props.paginationConfig({
-        //     url:'',
-        //     rowsPerPage:50,
-        // })
-
-        // fetch('http://localhost:8080/api/audit')
-        // .then(response => response.json())
-        // .then(audit => this.setState({
-        //    actions:audit
-        //     })
-        // );
+        api.getAuditCount()
+        .then(res=>this.setState(
+            {pagination:{
+                ...this.state.pagination,
+                numberOfPages:Math.ceil(res/this.state.pagination.rowsPerPage)+1
+            }}
+            )
+        )
+        this.switchPage(1)
     }
 
+    switchPage(pageNumber){
+        api.getAuditData(pageNumber,this.state.pagination.rowsPerPage)
+        .then(actions=>this.setState({actions, pagination:{...this.state.pagination, currentPage:pageNumber}}));
+    }
 
-    inputChange ({ target: { name, value } }){
-        this.setState({
-            [name]: {
-                ...this.state[name],
-                value: value,
-                // errors
-            }
-        });
+    handleInputChange({target:{name,value}}){
+        this.setState({[name]:value})
     }
 
     async searchAudit(e){
         e.preventDefault()
-        const actions = await api.auditSearchByEmployeeNumber(this.state.employeeNumber.value);
-        this.setState({actions},()=> console.log(this.state.actions))
+        const {startDate, endDate, actionsFilter, employee}=this.state
+        const fromDate= startDate? `${startDate.getUTCFullYear()}-${startDate.getUTCMonth()}-${startDate.getUTCDate()}`:''
+        const toDate=endDate? `${endDate.getUTCFullYear()}-${endDate.getUTCMonth()}-${endDate.getUTCDate()}`:''
         
+        //if all search fields are empty, run the componentDidMount again
+        !startDate&& !endDate&& !actionsFilter&& !employee ?
+            this.componentDidMount()
+            : //if filters are applied, fetch the data from the backend
+            await api.auditSearch(fromDate, toDate, actionsFilter, employee)
+                .then(actions=>this.setState({actions}, ()=>console.log(actions)));
+            
     }
+        
+    
 
     showAdvancedSearch() {
         const advancedSearchOptions = document.querySelector('#advancedSearchOptions');
@@ -101,8 +103,21 @@ class Audit extends React.Component {
             advancedSearchOptions.style.display = "flex";
         }
     }
+
+
+    
     
     render() {
+
+        let tabs=[]
+        for(let i = 1 ; i < this.state.pagination.numberOfPages ;i++){
+            tabs.push(<li key={i} 
+                                className="page-item" 
+                                style={this.state.pagination.currentPage===i? styleTab:null}
+                                onClick={()=>this.switchPage(i)}>
+                        <a className="page-link" href="#">{i}</a>
+                    </li>)
+        }
         return (
             <>
                 <div className="mt-4">
@@ -113,10 +128,10 @@ class Audit extends React.Component {
 
                 <div className=" m-auto mt-5 col-10">
                     <form>
-                        <div className="form-row m-auto d-flex align-items-center" >
                             <div >
                                 <a style={AdvancedSearchStyle} className="justify-content-md-center mr-2" onClick={this.showAdvancedSearch}>Search</a>
                             </div>
+                        <div className="form-row m-auto d-flex align-items-center" >
                             <div id="advancedSearchOptions" style={AdvancedSearchOptionsStyle}>
                                 <div className="row align-items-end ml-3">
                                     <div className="col-lg-3 col-sm-6 col-xs-12  p-0" >
@@ -127,7 +142,6 @@ class Audit extends React.Component {
                                             dateFormat='dd/MM/yyyy'
                                             selected={this.state.startDate}
                                             onChange={this.handleChange}
-                                        // defaultValue={this.state.startDate.value} 
                                         />
                                     </div>
                                     <div className="col-lg-3 col-sm-6 col-xs-12 p-0">
@@ -145,18 +159,18 @@ class Audit extends React.Component {
                                         <h6 className="mb-0">Emp. No:</h6>
                                         <input
                                             style={{ width: 'auto' }}
-                                            type="text"
+                                            type="number"
                                             className="form-control "
                                             placeholder="Search by Employee No."
-                                            defaultValue={this.state.employeeNumber.value}
-                                            name="employeeNumber"
-                                            onBlur={this.inputChange} />
+                                            defaultValue={this.state.employee.value}
+                                            onChange={this.handleInputChange}
+                                            name="employee"/>
                                     </div>
 
                                     <div className="col-lg-3 col-sm-6 col-xs-12 p-0" >
                                         <h6 className="mb-0">Activity:</h6>
                                         <div className="form-check-inline m-0 align-items-end">
-                                            <select className="form-control " style={{ cursor: "pointer", width: 'auto', minWidth: '220px' }}>
+                                            <select onChange={this.handleInputChange} name="actionsFilter" className="form-control " style={{ cursor: "pointer", width: 'auto', minWidth: '220px' }}>
                                                 <option value="all actions">All Activities</option>
                                                 <option value="Login">Login</option>
                                                 <option value="Login Failure">Login Failure</option>
@@ -177,8 +191,7 @@ class Audit extends React.Component {
 
                 {/* A component to build the table */}
                 <div className=" d-flex justify-content-center mt-3" style={{ height: 'auto' }}>
-                    <table className="table table-sm col-lg-8 table-hover text-center"
-                        style={{ cursor: "pointer" }}>
+                    <table className="table table-sm col-lg-8 table-hover text-center">
                         <thead className="thead" id="userAuditRow">
                             <tr>
                                 <th scope="col">Employee No.</th>
@@ -189,9 +202,9 @@ class Audit extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.props.dataValues.map(action => {
+                            {this.state.actions.map((action,i) => {
                                 return (
-                                    <tr key={action.audit.employeeNumber}>
+                                    <tr key={i}>
                                         <td>{action.audit.employeeNumber}</td>
                                         <td>{action.firstname + ' ' + action.lastname}</td>
                                         <td>{action.audit.dateTime}</td>
@@ -202,7 +215,17 @@ class Audit extends React.Component {
                             })}
                         </tbody>
                     </table>
+
+
+
                 </div>
+                    <nav aria-label="Search results pages">
+                        <ul className="pagination justify-content-center">
+                            <li style={this.state.pagination.currentPage==1?disableClick:null} onClick={()=>this.switchPage(this.state.pagination.currentPage-1)} className="page-item"><a className="page-link" href="#">Previous</a></li>
+                            {tabs}
+                            <li style={this.state.pagination.currentPage==this.state.pagination.numberOfPages-1?disableClick:null} onClick={()=>this.switchPage(this.state.pagination.currentPage+1)} className="page-item"><a className="page-link" href="#">Next</a></li>
+                        </ul>
+                    </nav>
 
               
 
@@ -215,4 +238,4 @@ class Audit extends React.Component {
 
 
 
-export default PaginationHOC(Audit)
+export default Audit
