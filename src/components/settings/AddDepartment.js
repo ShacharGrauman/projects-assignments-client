@@ -79,7 +79,7 @@ export default class AddDepartment extends Component {
         return (<>
         <div className="d-flex  justify-content-around">
             <div>
-            <h4 className="alert-heading text-center mx-auto mb-3">Department</h4>
+            <h5 className="alert-heading text-center mx-auto mb-3">Department</h5>
                 <form onSubmit={this.submit}>
                     <div className="">
                     

@@ -75,7 +75,7 @@ export default class Navbar extends React.Component {
               </Link>
             </li>
             <li className="list-group-item list-group-item-action" onClick={this.toggleNavbar} style={{backgroundColor:'#f8f9fa'}}>
-              <Link className="nav-link text-body" to="/settings">
+              <Link className="nav-link text-body" to="/settings/add/roles">
               <FontAwesomeIcon icon={faCog} className="mr-2"/>
                 Settings
               </Link>

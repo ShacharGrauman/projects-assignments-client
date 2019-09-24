@@ -20,7 +20,7 @@ export default class SettingsNavbar extends React.Component{
                     <Link to="/settings/add/worksite">Worksite</Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Link to="/settings/add/project">Project</Link>
+                    <Link to="/settings/add-new-project">Project</Link>
                 </Nav.Item>
             </Nav>
         </div>
