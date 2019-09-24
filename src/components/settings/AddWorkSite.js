@@ -104,7 +104,7 @@ export class AddWorkSite extends Component {
         return (
             <>
                     <div className=" mt-2">
-                        <h3 className="text-center">Work Site</h3>
+                        <h5 className="text-center">Work Site</h5>
                     </div>
                 <div className="d-flex justify-content-around">
 

@@ -12,13 +12,8 @@ export default class MyTeamDetailsTable extends React.Component {
           <table
             className="table"
             style={{
-              overflowY: "scroll",
-              height: "400px",
               display: "block",
-              width: "70%",
-              margin: "10px",
-              border: "1px solid black",
-              textAlign: "center"
+              border: "1px solid black"
             }}
           >
             <thead className="thead-dark">
