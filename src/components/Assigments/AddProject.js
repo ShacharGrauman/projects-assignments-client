@@ -10,7 +10,7 @@ import {
 import InputErrors from "./InputError";
 import { toast } from 'react-toastify';
 import SkillColor from './SkillColor';
-import Api import from './Api';
+import Api  from './Api';
 export default class AddProject extends React.Component {
   constructor() {
     super();
@@ -156,35 +156,48 @@ export default class AddProject extends React.Component {
     });
   }
 
-  submit(e) {
+  async submit(e) {
     e.preventDefault();
     if (!this.state.skill.value) return;
     if (!this.state.level.value) return;
     if (!this.state.skillType.value) return;
     if (!this.state.date.value) return;
     if (!this.state.description.value) return;
+
+   
+
+   //if(!this.state.date.value){
+   // toast.success("insert Date")
+  //}
+
+    //if(!this.state.description.value){
+    //  toast.success("insert Description")
+   // }
+   // if(this.state.requiredSkills.length == 0){
+   //   toast.success("insert Skills")
+   // }
+   
     
     let index = 0;
     const values = {
-      id:1,
       name: this.state.projectname.value,
       description: this.state.description.value,
       startDate: this.state.date.value,
-      technicalSkill:[this.state.requiredSkills.filter(skill=>skill.type=='t').map((skill)=>({
+      technicalSkill:this.state.requiredSkills.filter(skill=>skill.type=='t').map((skill)=>({
         id:skill.skillr.id,
         name:skill.skillr.name,
         level:skill.level
-      }))],
-      productSkill:[this.state.requiredSkills.filter(skill=>skill.type=='p').map((skill)=>({
+      })),
+      productSkill:this.state.requiredSkills.filter(skill=>skill.type=='p').map((skill)=>({
         id:skill.skillr.id,
         name:skill.skillr.name,
         level:skill.level
-      }))],
+      })),
       }
 
-      const projectResponse= Api.addNewProject(value)
+      const projectResponse= await  Api.addNewProject(values)
       if(projectResponse){
-        toast.sucsses("Project Added ..")
+        toast.success("Project Added ..")
       }
 
       

@@ -57,12 +57,11 @@ class Api {
   }
 
   async addNewProject(value) {
-    const {id,name,description,startDate,technicalSkill,productSkill}=value
+    const {name,description,startDate,technicalSkill,productSkill}=value
     // console.log(assignID)
-    const newAssign = await axios.post(
+    const newProject = await axios.post(
       `${url}projects`,
       {
-        id: id,
         name: name,
         description: description,
         startDate: startDate,
@@ -71,7 +70,7 @@ class Api {
       }
     );
     
-    return newAssign.status === 200;
+    return newProject.status === 200;
   }
 
 
