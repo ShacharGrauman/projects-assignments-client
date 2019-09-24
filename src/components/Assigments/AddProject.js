@@ -193,10 +193,9 @@ export default class AddProject extends React.Component {
       if (projectResponse.status === 200) {
         toast.success("Project Added Successfully");
       }
-     
     } catch (error) {
-      // console.log(error.response.data.errorMessage);
-      if (error.response.data.status === "BAD_REQUEST") {
+      console.log(error)
+      if (error.response.data.status == "BAD_REQUEST") {
         toast.error(error.response.data.errorMessage);
       }
     }
