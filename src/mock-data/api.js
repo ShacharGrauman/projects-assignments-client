@@ -11,6 +11,11 @@ export const api = {
         return roles.json();
         }
     ,
+    getRolesWithPermissions:async () =>{ 
+        const roles = await fetch('http://localhost:8080/api/roles')
+        return roles.json();
+        }
+    ,
     getCountries :async () =>{ 
         const countries = await fetch('http://localhost:8080/api/employee/countries')
         return countries.json();
@@ -48,9 +53,8 @@ export const api = {
         return users;
     },
 
-    getCount: (prop) => {
-        return fetch(`http://localhost:8080/api/employee/${prop}`)
-
+    getCount: async (prop) => {
+        return await fetch(`http://localhost:8080/api/employee/${prop}`)
             .then(res => res.json());
     },
 
@@ -162,9 +166,14 @@ export const api = {
         })
         return addedUser;
     },
-    auditSearchByEmployeeNumber: async(id)=>{
-        const result = await fetch(`http://localhost:8080/api/audit/number?number=${id}`)
+    auditSearch: async(startDate, endDate, actionsFilter, employee)=>{
+        const result = await fetch(`http://localhost:8080/api/audit/date?number=${employee}&datefrom=${startDate}&dateto=${endDate}`)
         return result.json();
+    },
+
+    getAuditData: async(page, limit)=>{
+        const audit = await fetch(`http://localhost:8080/api/audit?page=${page}&limit=${limit}`)
+        return audit.json();
     },
     deactivateUser: async (id) =>{
         const deletedUser = await fetch(`http://localhost:8080/api/employee/id?id=${id}`,{
@@ -214,24 +223,32 @@ export const api = {
       })
       return response;
   },
-
   sendEmail:async function({email, name, messageBody, messageTitle}){
     const sendEmailResult = await fetch(`http://localhost:8080/api/sendEmail`,{
-            method: 'POST',
-            headers:{
-                'Content-Type': 'application/json',
-            },
-            mode:'no-cors',
+      mode:'no-cors',
             body:JSON.stringify({
                 toEmail:email,
                 firstName:name,
                 subject:messageTitle,
                 text:messageBody
+            }),            
+        })
+        return sendEmailResult;
+   },
+  addRole:async function(role){
+    console.log(role)
+    const addRoleRes = await fetch(`http://localhost:8080/api/roles`,{
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify({
+                name:role.name,
+                description:role.description,
+                permissions:role.permissions
             }),
             
         })
-        return sendEmailResult;
-
-},
-  
+        return addRoleRes;
+   },
 }
