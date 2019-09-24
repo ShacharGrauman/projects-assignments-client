@@ -52,6 +52,7 @@ export default class DoneAssigments extends React.Component {
         toast.success(`Found ${assigments.length} Records `)
       }
       else{
+          this.setState({ assigments:[] });
           toast.error("There is No Done Assignment For Requested Date")
       }
       
@@ -81,11 +82,8 @@ export default class DoneAssigments extends React.Component {
 
   render() {
     return (
-      <div
-        className="alert alert-info col-10 "
-        style={{ marginLeft: "100px" }}
-        role="alert"
-      >
+      
+      <div className="card  my-1 p-2 shadow m-12 mt4 mb4" role="alert">
         <h4 className="alert-heading text-center  ">Done Assigments</h4>
 
         <hr></hr>

@@ -16,15 +16,16 @@ export default class AddProject extends React.Component {
     super();
     this.state = {
       projectname: {
+        name:"projectname",
         value: "",
         errors: [],
         validations: { required: true, minLength: 2 }
       },
-      description: { value: "", errors: [], validations: { required: true } },
-      date: { value: "", errors: [], validations: { required: true } },
-      skillType: { value: "0", errors: [], validations: { required: true } },
-      level: { value: "", errors: [], validations: { required: true } },
-      skill: { value: "", errors: [], validations: { required: true } }, //chose skill
+      description: { value: "",name:"description",errors: [], validations: { required: true } },
+      date: { value: "", name:"date", errors: [], validations: { required: true } },
+      skillType: { value: "0", name:"skillType",errors: [], validations: { required: true } },
+      level: { value: "", errors: [],name:"level", validations: { required: true } },
+      skill: { value: "", errors: [], name:"skill",validations: { required: true } }, //chose skill
       skills: { type: "", skills: [] },
       requiredSkills: []
     };
@@ -111,6 +112,7 @@ export default class AddProject extends React.Component {
   }
 
   inputChange({ target: { name, value } }) {
+    console.log(name)
     const { validations } = this.state[name];
     const errors = [];
 
@@ -139,24 +141,36 @@ export default class AddProject extends React.Component {
     });
   }
 
+
+
   async submit(e) {
     e.preventDefault();
+    
+    this.inputChange({target:{name:this.state.projectname.name,value:this.state.projectname.value}})
+    this.inputChange({target:{name:this.state.date.name,value:this.state.date.value}})
+    this.inputChange({target:{name:this.state.description.name,value:this.state.description.value}})
+    this.inputChange({target:{name:this.state.skill.name,value:this.state.skill.value}})
+    this.inputChange({target:{name:this.state.level.name,value:this.state.level.value}})
     if (!this.state.projectname.value) {
       // toast.error("No Project Name Provided ");
       return;
     }
+
     if (!this.state.date.value) {
       // toast.error("Choose Start Date ");
       return;
     }
+
     if (!this.state.description.value) {
       // toast.error("No Description Provided ");
       return;
     }
+  
     if (this.state.requiredSkills.length === 0) {
       // toast.error("No Skills Selected");
       return;
     }
+
     if (!this.state.skill.value) {
       // toast.error("Choose Skill");
       return;
@@ -388,7 +402,7 @@ export default class AddProject extends React.Component {
                   );
                 })
               ) : (
-                <div className="col-md-12">No Selected Skills Yet</div>
+                <div className="col-md-12"> <font color="red">No Selected Skills Yet </font></div>
               )}
             </div>
             <div className="col-md-12 mt-1">

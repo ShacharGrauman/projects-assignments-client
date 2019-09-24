@@ -22,6 +22,10 @@ import PendingSkills from "../components/pendingSkills/PendingSkills";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "../components/common/Header";
+import EmployeeHome from "../components/home-page/employee";
+import ManagerHome from "../components/home-page/manager";
+
+
 export default () => (
   <BrowserRouter>
     <div>
@@ -41,6 +45,10 @@ export default () => (
           <Route path="/my-team/:project" component={MyTeamTable} />
           <Route path="/done-assignments/" component={DoneAssignments} />
           <Route path="/add-new-project/" component={AddNewProject} />
+          <Route path="/employee/" component={EmployeeHome} />
+          <Route path="/manager/" component={ManagerHome} />
+
+
           <Route
             path="/pending-assignment-request/"
             component={AssignmentRequets}
