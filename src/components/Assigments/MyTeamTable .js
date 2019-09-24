@@ -263,19 +263,6 @@ export default class MyTeamTable extends React.Component {
             onClick={this.toggleDiv}
             onClick={this.showEmployeeNameSearch}
           >
-<<<<<<< HEAD
-            Advanced search...
-          </button>
-        </div>
-        <div
-          className="d-flex justify-content-center align-items-center"
-          style={{ marginBottom: "50px" }}
-        >
-          <MyTeamDetailsTable
-            project={this.state.project}
-            employees={this.state.employeesSearch}
-            onAssign={this.assign}
-=======
           Search by employee name
           </button>*/}
 
@@ -317,7 +304,6 @@ export default class MyTeamTable extends React.Component {
             project={this.state.project}
             employees={this.state.employeesSearch}
             onAssign={this.assign}            
->>>>>>> master
           />
         </div>
       </>

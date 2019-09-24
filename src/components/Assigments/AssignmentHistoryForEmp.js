@@ -7,12 +7,15 @@ export default class AssignHisToryTable extends React.Component {
     super();
     this.state = {
       EmpHistory: [],
-      MyEmp: {}
+      MyEmp: {},
+      HomePage:false
     };
   }
   async componentDidMount() {
     console.log(this.props.match)
     const { name, id } = this.props.match.params;
+    if(this.props.match.params.homePage!=null)
+      this.setState({HomePage:true})
     this.setState({
       MyEmp: { id: id, name: name }
     });
@@ -33,9 +36,9 @@ export default class AssignHisToryTable extends React.Component {
               <div class="card-header">{this.state.MyEmp.name} </div>
               <div class="card-body">
                 
-                <Link to="/Projects" className="btn btn-outline-info">
-                  Back
-                </Link>
+                {
+                  this.state.HomePage? <></>:<Link to="/Projects" className="btn btn-outline-info">Back</Link>
+                }
                 <button className="btn btn-outline-info ml-3">
                   Profile Details
                 </button>
