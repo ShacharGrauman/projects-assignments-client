@@ -55,7 +55,7 @@ class Audit extends React.Component {
     onChange() { (date) => this.setState({ date }) }
 
     componentDidMount() {
-        api.getCount('countEmployees')
+        api.getAuditCount()
         .then(res=>this.setState(
             {pagination:{
                 ...this.state.pagination,
