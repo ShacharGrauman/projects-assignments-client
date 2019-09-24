@@ -66,10 +66,18 @@ export default class MyTeamTable extends React.Component {
 
   filterList(e) {
     e.preventDefault(); //in order to prevent refresh default event for any submit button in a form
-
+   
     const requiredSkill = this.state.search.toLowerCase();
     const requiredLevel = this.state.selectedLevel;
 
+    if (!requiredSkill) {
+          this.setState({
+            employeesSearch: this.state.employees,
+            selectedLevel:"0"
+          });
+          return;
+        }
+ 
     //* search by skill level *//
     //* if the search bar is empty, then we show the whole team *//
 
@@ -79,7 +87,7 @@ export default class MyTeamTable extends React.Component {
 
         for (const skill of skills) {
           if (
-            skill.level == requiredLevel &&
+            skill.level >= requiredLevel &&
             skill.name.toLowerCase() == requiredSkill
           ) {
             return true;
@@ -105,17 +113,7 @@ export default class MyTeamTable extends React.Component {
         employeesSearch: filteredSkill //* second round search, we search in the whole table not the one that has been updated after the first search *//
       });
     }
-  }
-  showAdvancedSearch() {
-    const advancedSearchOptions = document.querySelector(
-      "#advancedSearchOptions"
-    );
-
-    if (advancedSearchOptions.style.display == "flex") {
-      advancedSearchOptions.style.display = "none";
-    } else {
-      advancedSearchOptions.style.display = "flex";
-    }
+    
   }
 
   filterListByEmpName(e) {
@@ -143,8 +141,7 @@ export default class MyTeamTable extends React.Component {
       //hiding div
       employeeNameSearch.style.display = "none";
     } else {
-      //console.log(this.state.search.value);
-      //<input class="col-md-11 " type="text" placeholder="Search by Skill Name" aria-label="Search">:value = ""
+        
       employeeNameSearch.style.display = "flex"; //showing div
     }
   }
@@ -174,7 +171,7 @@ export default class MyTeamTable extends React.Component {
             </p>
 
             <p>
-              {" "}
+        
               Technical Skills:
               {this.state.project.technicalSkill &&
                 this.state.project.technicalSkill.map((skill, index) => {
@@ -186,11 +183,11 @@ export default class MyTeamTable extends React.Component {
                       type={"Tech"}
                     />
                   );
-                })}{" "}
+                })}
             </p>
 
             <p>
-              {" "}
+            
               Product Skills:
               {this.state.project.productSkill &&
                 this.state.project.productSkill.map((skill, index) => {
@@ -227,7 +224,8 @@ export default class MyTeamTable extends React.Component {
             <div className="">
               <h6 className="">Skill Level :</h6>
               <div className="form-check-inline m-0 align-items-end">
-                <select
+                <select 
+                  value={this.state.selectedLevel}
                   className="form-control"
                   onChange={e =>
                     this.setState({ selectedLevel: e.target.value })

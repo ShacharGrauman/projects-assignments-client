@@ -52,6 +52,12 @@ class Api {
     const employees = await axios.get(`${url}team/2/?${curentLimit}`);
     return employees.data;
   }
+  async searchSkills(skill,level) {
+    // const employees = await axios.post(`${url}team/?${curentLimit}`,{
+    //   id:
+    // })
+    return employees.data;
+  }
   async addNewAssignment(
     employeeID,
     projectID,
