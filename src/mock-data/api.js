@@ -46,8 +46,8 @@ export const api = {
         return {departments, worksites, countries, roles, managers}
     }
     ,
-    getUsersList: async function(page, limit) {
-        const users = await fetch(`http://localhost:8080/api/employee?page=${page}&limit=${limit}`)
+    getUsersList: async function() {
+        const users = await fetch('http://localhost:8080/api/employee?page=2&limit=10')
             .then(response => response.json());
 
         return users;
@@ -55,10 +55,6 @@ export const api = {
 
     getCount: async (prop) => {
         return await fetch(`http://localhost:8080/api/employee/${prop}`)
-            .then(res => res.json());
-    },
-    getAuditCount: () => {
-        return fetch(`http://localhost:8080/api/audit/count`)
             .then(res => res.json());
     },
 
@@ -240,6 +236,7 @@ export const api = {
         return sendEmailResult;
    },
   addRole:async function(role){
+    console.log(role)
     const addRoleRes = await fetch(`http://localhost:8080/api/roles`,{
             method: 'POST',
             headers:{
@@ -254,8 +251,6 @@ export const api = {
         })
         return addRoleRes;
    },
-
-
     getAllPermissions :async () =>{ 
     const permissions = await fetch('http://localhost:8080/api/roles/permissions')
     return permissions.json();
@@ -278,5 +273,4 @@ export const api = {
         })
         return addRoleRes;
    },
-
 }
