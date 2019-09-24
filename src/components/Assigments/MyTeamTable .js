@@ -41,7 +41,6 @@ export default class MyTeamTable extends React.Component {
 
 
   async componentDidMount() {
-
     const data = JSON.parse(sessionStorage.getItem("Project"));
 
     const employees = await Api.getMyTeam();
@@ -108,6 +107,17 @@ export default class MyTeamTable extends React.Component {
     this.setState({
       employeesSearch: filtered
     });
+  }
+  showAdvancedSearch() {
+    const advancedSearchOptions = document.querySelector(
+      "#advancedSearchOptions"
+    );
+
+    if (advancedSearchOptions.style.display == "flex") {
+      advancedSearchOptions.style.display = "none";
+    } else {
+      advancedSearchOptions.style.display = "flex";
+    }
   }
 
 
@@ -201,10 +211,6 @@ export default class MyTeamTable extends React.Component {
             </Link>
           </div>
         </div>
-        {/* </div> */}
-
-        {/* <div className="col md-3"></div>
-        </div> */}
 
         <form>
        
@@ -257,6 +263,19 @@ export default class MyTeamTable extends React.Component {
             onClick={this.toggleDiv}
             onClick={this.showEmployeeNameSearch}
           >
+<<<<<<< HEAD
+            Advanced search...
+          </button>
+        </div>
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{ marginBottom: "50px" }}
+        >
+          <MyTeamDetailsTable
+            project={this.state.project}
+            employees={this.state.employeesSearch}
+            onAssign={this.assign}
+=======
           Search by employee name
           </button>*/}
 
@@ -298,6 +317,7 @@ export default class MyTeamTable extends React.Component {
             project={this.state.project}
             employees={this.state.employeesSearch}
             onAssign={this.assign}            
+>>>>>>> master
           />
         </div>
       </>

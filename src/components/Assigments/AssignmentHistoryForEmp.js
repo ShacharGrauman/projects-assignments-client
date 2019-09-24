@@ -23,15 +23,16 @@ export default class AssignHisToryTable extends React.Component {
 
   render() {
     return (
+      
       <div className="col justify-content-md-center">
         <div className="row" style={{ width: "300x" }}>
           <div className="col md-3"></div>
 
           <div className="col md-6">
             <div class="card">
-              <div class="card-header">Assignments History </div>
+              <div class="card-header">{this.state.MyEmp.name} </div>
               <div class="card-body">
-                <h5 class="card-title">{this.state.MyEmp.name}</h5>
+                
                 <Link to="/Projects" className="btn btn-outline-info">
                   Back
                 </Link>
@@ -58,7 +59,6 @@ export default class AssignHisToryTable extends React.Component {
           <thead className="thead-dark">
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Assignment ID</th>
               <th scope="col">Project Name</th>
               <th scope="col">Start Date</th>
               <th scope="col">End Date</th>
@@ -68,17 +68,16 @@ export default class AssignHisToryTable extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.EmpHistory.map((Assign, i) => {
+            {this.state.EmpHistory.map((assign, i) => {
               return (
                 <tr>
                   <td>{i}</td>
-                  <td>{Assign.projectID}</td>
-                  <td>{Assign.projectName}</td>
-                  <td>{Assign.startDate}</td>
-                  <td>{Assign.endDate}</td>
-                  <td>{Assign.status}</td>
-                  <td>{Assign.requestFromManagerID}</td>
-                  <td>{Assign.requestToManagerID}</td>
+                  <td>{assign.projectName}</td>
+                  <td>{assign.startDate}</td>
+                  <td>{assign.endDate}</td>
+                  <td>{assign.status}</td>
+                  <td>{assign.fromManagerName}</td>
+                  <td>{assign.toManagerName}</td>
                 </tr>
               );
             })}
