@@ -25,9 +25,7 @@ class SkillsDataService {
       .catch(error => {
         if (error.response) {
           if (error.response.status !== 404) {
-            toast.error(
-              `${opration} failed  ${error.response.data.errorMessage}`
-            );
+            toast.error(`${opration} failed  ${error.response.data.message}`);
           }
         } else {
           toast.error(`${opration} failed ${error.message}`);
@@ -62,9 +60,7 @@ class SkillsDataService {
       .catch(error => {
         if (error.response) {
           if (error.response.status !== 404) {
-            toast.error(
-              `failed to fetch Data ${error.response.data.errorMessage}`
-            );
+            toast.error(`failed to fetch Data ${error.response.data.message}`);
           }
         } else {
           toast.error(`failed to fetch Data ${error.message}`);
