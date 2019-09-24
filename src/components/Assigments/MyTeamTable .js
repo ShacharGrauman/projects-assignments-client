@@ -5,6 +5,14 @@ import { Link } from "react-router-dom";
 import SkillBadge from "./SkillBadge";
 import MyTeamDetailsTable from "./MyTeamDetailsTable";
 import Api from "./Api";
+const AdvancedSearchStyle = {
+  cursor: "pointer",
+  color: "blue",
+  textDecoration: "underline"
+};
+const AdvancedSearchOptionsStyle = {
+  display: "none"
+};
 
 export default class MyTeamTable extends React.Component {
   constructor() {
@@ -21,15 +29,11 @@ export default class MyTeamTable extends React.Component {
   }
 
   async componentDidMount() {
-   
+    const data = JSON.parse(sessionStorage.getItem("Project"));
+
     const employees = await Api.getMyTeam();
     this.setState({ employees, employeesSearch: employees });
-    this.setState({ project: JSON.parse(sessionStorage.getItem("Project")) });
-    // this.setState({project})
-    // console.log(this.state.project);
-    const test=this.props.match
-    console.log(test);
-   
+    this.setState({ project: data });
   }
 
   async assign(
@@ -82,6 +86,17 @@ export default class MyTeamTable extends React.Component {
       employeesSearch: filtered
     });
   }
+  showAdvancedSearch() {
+    const advancedSearchOptions = document.querySelector(
+      "#advancedSearchOptions"
+    );
+
+    if (advancedSearchOptions.style.display == "flex") {
+      advancedSearchOptions.style.display = "none";
+    } else {
+      advancedSearchOptions.style.display = "flex";
+    }
+  }
 
   render() {
     return (
@@ -97,42 +112,48 @@ export default class MyTeamTable extends React.Component {
             border: "1px solid black"
           }}
         >
-          <h2 className="card-header">
-            <center>Project information</center>{" "}
+          <h2 className="card-header text-center">
+            <strong>{this.state.project.name}</strong>
           </h2>
           <div className="card-body">
-            <h4 className="card-title">
-              Project Name : {this.state.project.name}
-            </h4>
-            <p className="card-text">Project ID : {this.state.project.id}</p>
-            <p className="card-text">
-              Start Date : {this.state.project.startDate}
+            <p className="card-text text-center">
+              <strong>Start Date : {this.state.project.startDate}</strong>
             </p>
             <p className="card-text">
               Description : {this.state.project.description}
             </p>
 
-            {/* <p> Technical Skills:
-            {this.state.project.technicalSkills.map((skill, index) => {
-                        return (
-                          <SkillBadge
-                            key={index}
-                            name={skill.name}
-                            level={skill.level}
-                            type={"Tech"}
-                          />
-                        );
-                      })} </p> */}
+            <p> Technical Skills: 
+            {this.state.project.technicalSkill && this.state.project.technicalSkill.map((skill, index) => {
+              return (
+                <SkillBadge
+                key={index}
+                name={skill.name}
+                level={skill.level}
+                type={"Tech"}
+                />
+                );
+              })} </p>
 
-            <Link to="/Projects" className="btn btn-outline-info">
+          <p> Product Skills:  
+            {this.state.project.productSkill && this.state.project.productSkill.map((skill, index) => {
+              return (
+                <SkillBadge
+                key={index}
+                name={skill.name}
+                level={skill.level}
+                type={"Pro"}
+                />
+                );
+              })} </p>
+
+
+
+            <Link to="/Projects" className="float-right">
               Back to projects
             </Link>
           </div>
         </div>
-        {/* </div> */}
-
-        {/* <div className="col md-3"></div>
-        </div> */}
 
         <div className="d-flex justify-content-center align-items-center  mt-3">
           <input
@@ -161,13 +182,14 @@ export default class MyTeamTable extends React.Component {
             Advanced search...
           </button>
         </div>
-        <div className="d-flex justify-content-center align-items-center"
-        style={{marginBottom:"50px"}}>
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{ marginBottom: "50px" }}
+        >
           <MyTeamDetailsTable
             project={this.state.project}
             employees={this.state.employeesSearch}
             onAssign={this.assign}
-            
           />
         </div>
       </>

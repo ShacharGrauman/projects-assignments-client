@@ -105,7 +105,6 @@ export default class AssignHistory extends React.Component {
           <div className="d-flex justify-content-center align-items-center mb-2"><h1>Projects </h1></div>
           <div className="d-flex justify-content-center align-items-center mb-2">
            
-            
             <input
               className="form-control mr-sm-2 w-25 "
               type="search"

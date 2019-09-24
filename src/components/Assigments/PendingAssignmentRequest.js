@@ -20,7 +20,7 @@ export default class AssignmentRequets extends React.Component {
         this.setState({
           isLoading: false
         });
-      }, 1000);
+      }, 500);
       this.setState({ PendingRequests });
     } catch (error) {
       this.setState({ PendingRequests:[] });
@@ -30,7 +30,7 @@ export default class AssignmentRequets extends React.Component {
     try {
       const chanageStatus = await Api.sendAssignment(status, assignID);
       if (chanageStatus) {
-        toast.success("Assignment Added Succ")
+        toast.success("Assignment Status Updated Successfully")
         try {
           const PendingRequests = await Api.getPendingAssignments();
           this.setState({ PendingRequests });
@@ -40,7 +40,6 @@ export default class AssignmentRequets extends React.Component {
       }
     } catch (error) {
       toast.error(error.message)
-      console.log(error.message);
     }
   }
   render() {

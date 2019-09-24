@@ -3,7 +3,6 @@ import React from "react";
 const SkillColor = props => {
      return ( 
            <div className={`alert alert-${props.type == 't' ? 'success' : 'warning'} alert-dismissible fade show`} role="alert">
-        
                 <strong>{props.name}: {props.level}</strong>
                 <button
                     type="button"
