@@ -284,7 +284,7 @@ export default class AddProject extends React.Component {
                 <InputErrors errors={this.state.description.errors} />
               </div>
             </div>
-            <h6 class="mt-4 mb-0 ">Pre Required Skills For Project</h6>
+            <h6 className="mt-4 mb-0 ">Pre Required Skills For Project</h6>
             <hr></hr>
             <div className="row ">
               <div className="col-md-3 col-lg-3 col-sm-3 ">
@@ -322,8 +322,8 @@ export default class AddProject extends React.Component {
                     onBlur={this.inputChange}
                   >
                     <option value="">Select</option>
-                    {this.state.skills.skills.map(skill => (
-                      <option value={skill.id}>{skill.name}</option>
+                    {this.state.skills.skills.map((skill,i) => (
+                      <option key={index} value={skill.id}>{skill.name}</option>
                     ))}
                   </select>
                 </div>
@@ -375,7 +375,7 @@ export default class AddProject extends React.Component {
               {this.state.requiredSkills.length ? (
                 this.state.requiredSkills.map((el, index) => {
                   return (
-                    <div className="col-md-3">
+                    <div key={index} className="col-md-3">
                       <SkillColor
                         key={el.skillr.id}
                         id={el.skillr.id}

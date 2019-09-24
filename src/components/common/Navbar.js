@@ -108,8 +108,8 @@ export default class Navbar extends React.Component {
 
           <ul className="list-group list-group-flush mt-4" >
             {
-              this.state.navbarMenu.map(menuItem =>
-                <li className="list-group-item list-group-item-action" onClick={this.toggleNavbar} style={{ backgroundColor: '#f8f9fa' }}>
+              this.state.navbarMenu.map((menuItem,index)=>
+                <li key={index} className="list-group-item list-group-item-action" onClick={this.toggleNavbar} style={{ backgroundColor: '#f8f9fa' }}>
                   <Link className="nav-link text-body" to={menuItem.path}>
                     <FontAwesomeIcon icon={menuItem.icon} className="mr-2" />
                     {menuItem.name}
