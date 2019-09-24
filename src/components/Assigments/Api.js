@@ -65,8 +65,8 @@ class Api {
       requestFromManagerID: requestFromManagerID,
       requestToManagerID: requestToManagerID
     });
-    // console.log(newAssign)
-    return newAssign.status === 200;
+    console.log(newAssign)
+    return newAssign;
   }
   async addNewProject(value) {
     const {
@@ -82,14 +82,22 @@ class Api {
         startDate: startDate,
         technicalSkill: technicalSkill,
         productSkill: productSkill
-      }).then(e=>console.log(newProject))
+      })
    
     return newProject;
   }
   async getDoneAssignByDate(date) {
     const result = await axios.get(
-      `${url}assignments/status/2?requestedDate=${date}&${curentLimit}`
+      `${url}assignments/done/2?requestedDate=${date}&${curentLimit}`
     );
+    return result.data;
+  }
+  
+  async getSearchEmployee(empName) {
+    const result = await axios.get(
+      `${url}team/name/${empName}?${curentLimit}`
+    );
+    console.log(result.data)
     return result.data;
   }
 }

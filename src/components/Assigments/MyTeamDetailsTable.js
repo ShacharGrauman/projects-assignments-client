@@ -6,20 +6,12 @@ export default class MyTeamDetailsTable extends React.Component {
   render() {
     return (
       <>
+      {console.log(this.props.employees)}
         <div
           className="d-flex justify-content-center align-items-center mb-4 mt-3"
         >
           <table
             className="table"
-            // style={{
-            //   overflowY: "scroll",
-            //   height: "400px",
-            //   display: "block",
-            //   width: "70%",
-            //   margin: "10px",
-            //   border: "1px solid black",
-            //   textAlign: "center"
-            // }}
             style={{
               display: "block",
               border: "1px solid black"
