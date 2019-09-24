@@ -161,7 +161,6 @@ export default class AddProject extends React.Component {
       // toast.error("Choose Skill Level");
       return;
     }
-
     let index = 0;
     const values = {
       name: this.state.projectname.value,

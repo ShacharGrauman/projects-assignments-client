@@ -110,44 +110,52 @@ export default class AssignHistory extends React.Component {
           <div className="d-flex justify-content-center align-items-center mb-2">
             <h1>Projects </h1>
           </div>
-          <div className="d-flex justify-content-center align-items-center mb-2">
-            <input
-              className="form-control mr-sm-2 w-25 "
-              type="search"
-              placeholder="Search"
-              aria-label="Search By Project Name"
-              // defaultValue={this.state.searchBar.value}
-              // onBlur={e=>this.inputChange}
-              onKeyUp={this.setSearchValue}
-            ></input>
-
-            <button
-              className="btn btn-outline-success my-2 my-sm-0 mr-2"
-              type="submit"
-              onClick={this.getSearchDataByProjectName}
-            >
-              Search Project By Name
-            </button>
-
-            <button
-              className="btn btn-outline-success my-2 my-sm-0"
-              type="submit"
-              onClick={this.getSearchDataByEmployeeName}
-            >
-              Search Employee By Name
-            </button>
+          <div className="row  ">
+            <div className="col-sm-3 col-md-6 col-lg-6">
+              <input
+                className="form-control mr-sm-2 w-75"
+                type="search"
+                placeholder="Search"
+                aria-label="Search By Project Name"
+                // defaultValue={this.state.searchBar.value}
+                // onBlur={e=>this.inputChange}
+                onKeyUp={this.setSearchValue}
+              ></input>
+            </div>
+            <div className=" col-sm-3 col-md-6 col-lg-6">
+              {" "}
+              <button
+                className="btn btn-outline-success my-2 my-sm-0 mr-2"
+                type="submit"
+                onClick={this.getSearchDataByProjectName}
+              >
+                Search Project
+              </button>
+              <button
+                className="btn btn-outline-success my-2 my-sm-0"
+                type="submit"
+                onClick={this.getSearchDataByEmployeeName}
+              >
+                Search Employee
+              </button>
+            </div>
           </div>
+          {/* <div className="d-flex justify-content-center align-items-center mb-2"> */}
           <div className="d-flex justify-content-center align-items-center mb-2">
             {" "}
             <InputErrors errors={this.state.searchBar.errors} />
           </div>
           <div className="accordion" id="accordionExample">
-            {this.state.projectsData.map((project,index) => {
+            {this.state.projectsData.map((project, index) => {
               return (
-                <div className="card" key={index} style={{ overflow: "visible" }}>
+                <div
+                  className="card"
+                  key={index}
+                  style={{ overflow: "visible" }}
+                >
                   <div className="card-header" id="headingOne">
                     <div className="row">
-                      <div className="col">
+                      <div className="col-3 col-md-2 col-sm-2 col-lg-2">
                         <button
                           className="btn btn-outline-info"
                           type="button"
@@ -160,18 +168,13 @@ export default class AssignHistory extends React.Component {
                           Info
                         </button>
                       </div>
-                      <div className="col">
+                      <div className="col-8 col-md-8 col-sm-8 col-lg-8">
                         <h5> {project.name}</h5>
                       </div>
-                      <div className="col">
-                        {" "}
-                        {/* <h3>ID: {project.id}</h3> */}
-                      </div>
-                      <div className="col">
+                      <div className="col-2 col-md-2 col-lg-2 col-sm-2">
                         {" "}
                         <Link
                           to={`./my-team/${project.name}`}
-                          // to={`assign-history/${Emp.id}/${Emp.name}`}
                           className="btn btn-outline-success"
                           onClick={e => this.setProjectInSession(project)}
                         >
@@ -192,7 +195,7 @@ export default class AssignHistory extends React.Component {
                       <div className="row">
                         <div className="col">
                           <h6 style={{ fontWeight: "bold" }}>
-                            Required Technical Skills{" "}
+                             Technical Skills{" "}
                           </h6>
 
                           {project.technicalSkill.map((skill, index) => {
@@ -208,7 +211,7 @@ export default class AssignHistory extends React.Component {
                         </div>
                         <div className="col">
                           <h6 style={{ fontWeight: "bold" }}>
-                            Required Product Skills{" "}
+                             Product Skills{" "}
                           </h6>
                           {project.productSkill.map((skill, index) => {
                             return (
@@ -222,7 +225,7 @@ export default class AssignHistory extends React.Component {
                           })}
                         </div>
                         <div className="col">
-                          <h6 style={{ fontWeight: "bold" }}>Date</h6>
+                          <h6 style={{ fontWeight: "bold" }}>Start Date</h6>
                           {project.startDate}
                         </div>
                         <div className="col">
@@ -252,13 +255,13 @@ export default class AssignHistory extends React.Component {
                                 (emp, i) => {
                                   return (
                                     <>
-                                      <Link
+                                      <label
                                         key={i}
-                                        to={`assign-history/${emp.id}/${emp.name}`}
+                                        // to={`assign-history/${emp.id}/${emp.name}`}
                                         className="dropdown-item"
                                       >
                                         {emp.name}
-                                      </Link>
+                                      </label>
                                       <div
                                         role="separator"
                                         className="dropdown-divider"

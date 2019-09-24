@@ -114,7 +114,6 @@ class Api {
   const result = await axios.get(
     `${url}skills`
   );
-  console.log(result.data)
   return result.data;
  }
 }
