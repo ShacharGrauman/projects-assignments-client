@@ -46,8 +46,8 @@ export const api = {
         return {departments, worksites, countries, roles, managers}
     }
     ,
-    getUsersList: async function() {
-        const users = await fetch('http://localhost:8080/api/employee?page=2&limit=10')
+    getUsersList: async function(page, limit) {
+        const users = await fetch(`http://localhost:8080/api/employee?page=${page}&limit=${limit}`)
             .then(response => response.json());
 
         return users;

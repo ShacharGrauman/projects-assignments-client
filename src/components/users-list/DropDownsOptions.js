@@ -6,10 +6,10 @@ const DropDownsOptions = (props) => {
             <div className="dropdown mr-1 mt-2">
                 <select className="btn btn-secondary dropdown-toggle" name={props.name}
                     onChange={props.onSelect} >
-                    <option value="">{props.name}</option>
+                    <option value="" key={props.name}>{props.name}</option>
                     {
                         props.items.map(item =>
-                            <option value={item.id}>{item.name}</option>
+                            <option value={item.id} key={item.name}>{item.name}</option>
                         )
                     }
                 </select>
