@@ -31,19 +31,26 @@ export const api = {
         return managers.json();
         }
     ,
+    getSkills : async function(){ 
+        const skills = await fetch('http://localhost:8080/api/skills')
+        return skills.json();
+        }
+    ,
     getAllData: async function() {
         const  [departments,
                 worksites,
                 countries,
                 roles,
-                managers]= await Promise.all([
+                managers,
+                skills]= await Promise.all([
                         this.getDepartments(),
                         this.getWorkSites(),
                         this.getCountries(),
                         this.getRoles(),
-                        this.getManagers()
+                        this.getManagers(),
+                        this.getSkills()
                 ])
-        return {departments, worksites, countries, roles, managers}
+        return {departments, worksites, countries, roles, managers, skills}
     }
     ,
     getUsersList: async function() {
