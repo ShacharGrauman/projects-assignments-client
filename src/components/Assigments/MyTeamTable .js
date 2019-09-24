@@ -80,7 +80,7 @@ export default class MyTeamTable extends React.Component {
       }
     } catch (error) {
       if (error.response.data.status == "BAD_REQUEST") {
-        toast.error(error.response.data.errorMessage);
+        toast.error("Project Name Already Exists, Project Name Should Be Unique");
       }
     }
   }
