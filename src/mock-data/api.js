@@ -57,6 +57,10 @@ export const api = {
         return await fetch(`http://localhost:8080/api/employee/${prop}`)
             .then(res => res.json());
     },
+    getAuditCount: () => {
+        return fetch(`http://localhost:8080/api/audit/count`)
+            .then(res => res.json());
+    },
 
     validateLogin: (username, password)=>{
         return fetch('http://localhost:8080/api/login', {
