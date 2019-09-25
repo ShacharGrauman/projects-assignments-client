@@ -38,7 +38,6 @@ class Api {
       `${url}assignments/status?response=${status}`,
       { id: assignID }
     );
-    // console.log(assign)
     return assign.status === 200;
   }
   async employeeAssignmentsHistory(empID) {
@@ -58,14 +57,13 @@ class Api {
     requestFromManagerID,
     requestToManagerID
   ) {
-    // console.log(assignID)
     const newAssign = await axios.post(`${url}assignments`, {
       employeeID: employeeID,
       projectID: projectID,
       requestFromManagerID: requestFromManagerID,
       requestToManagerID: requestToManagerID
     });
-    console.log(newAssign)
+
     return newAssign;
   }
   async addNewProject(value) {
@@ -83,7 +81,6 @@ class Api {
         technicalSkill: technicalSkill,
         productSkill: productSkill
       })
-   
     return newProject;
   }
   async getDoneAssignByDate(date) {
@@ -101,15 +98,14 @@ class Api {
     return result.data;
   }
   async getEmployeeBySkill(requiredSkill,requiredLevel){
-    // console.log(requiredSkill);
-    // console.log(requiredLevel);
+
     const result = await axios.post(`${url}team/skill?${currentLimit}`,{
       name :requiredSkill,
       level:requiredLevel
     })
     return result.data;
   }
-  // fetch("http://localhost:8080//skills/")
+
  async getSkills(){
   const result = await axios.get(
     `${url}skills`
