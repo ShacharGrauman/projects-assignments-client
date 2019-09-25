@@ -112,7 +112,9 @@ export default class AddDepartment extends Component {
                     </div>
                 </form>
             </div>
-            <div>
+
+            </div>
+            <div className="col-9 mx-auto" style={{ maxHeight: '40vh', overflow: 'scroll' }} >
                 <ul className="list-group">
                     <DataProvider>
                         <DataContext.Consumer>
@@ -121,8 +123,6 @@ export default class AddDepartment extends Component {
                     </DataProvider>
 
                 </ul>
-            </div>
-
             </div>
                 
 

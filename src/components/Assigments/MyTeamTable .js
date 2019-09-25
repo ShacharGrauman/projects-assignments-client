@@ -101,49 +101,6 @@ export default class MyTeamTable extends React.Component {
     this.setState({
       employeesSearch
     });
-
-    //   if (!requiredSkill) {
-
-    //     this.setState({
-    //       employeesSearch: this.state.employees,
-    //       selectedLevel: "0"
-    //     });
-    //     return;
-    //   }
-
-    //   if (requiredLevel && requiredSkill) {
-    //     const filteredLevel = this.state.employees.filter(emp => {
-    //       const skills = [...emp.technicalSkills, ...emp.productSkills];
-
-    //       for (const skill of skills) {
-    //         if (
-    //           skill.level >= requiredLevel &&
-    //           skill.name.toLowerCase() == requiredSkill
-    //         ) {
-    //           return true;
-    //         }
-    //       }
-    //       return false;
-    //     });
-    //     this.setState({
-    //       employeesSearch: filteredLevel
-    //     });
-    //   } else if (requiredSkill) {
-    //     const filteredSkill = this.state.employees.filter(emp => {
-    //       const skills = [...emp.technicalSkills, ...emp.productSkills];
-
-    //       for (const skill of skills) {
-    //         if (skill.name.toLowerCase() == requiredSkill) {
-    //           return true;
-    //         }
-    //       }
-    //       return false;
-    //     });
-    //     this.setState({
-    //       employeesSearch: filteredSkill
-    //     });
-    //   }
-    //
   }
 
   async filterListByEmpName(e) {
@@ -319,47 +276,6 @@ export default class MyTeamTable extends React.Component {
           </form>
         )}
 
-        {/*
-          <button
-            className="btn btn-outline-info"
-            type="button"
-            data-toggle="collapse"
-            aria-expanded="true"
-            aria-controls="collapseOne"
-            onClick={this.toggleDiv}
-            onClick={this.showEmployeeNameSearch}
-          >
-          Search by employee name
-          </button>*/}
-
-        {/* <a style={SearchByNameStyle} className="justify-content-md-center ml-4 mt-4" onClick={this.showEmployeeNameSearch}> Search by employee name </a>
-          </div>
-          </form> */}
-        {/* <form
-         className="d-flex justify-content-center align-items-center mb-4 mt-3"
-          > */}
-
-        {/* <div id="employeeNameSearch" style={employeeNameSearchStyle}>
-              <div className="row">                            
-                  <div className="col-md-6 mr-4" >
-                      <h6 className="">Employee Name:</h6>
-                      <input
-                          type="text"
-                          className="form-control mr-4 "
-                          placeholder="Search by Emp. Name"
-                          onKeyUp={e => this.searchEmp = e.target.value }
-                          />
-                  </div>
-                  <div className="col-md-2">
-                      <h6 className="">Search:</h6>
-                    <button onClick={this.filterListByEmpName} className=" btn btn-outline-success mr-5 mx-1" style={{ borderRadius: "50%" }}>
-                                <FontAwesomeIcon icon={faSearch} />
-                            </button>
-                  </div>
-                </div>
-              </div>                     
-        </form>
-        */}
         <div
           className="d-flex justify-content-center align-items-center"
           style={{ marginBottom: "50px" }}
