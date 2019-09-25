@@ -25,12 +25,20 @@ import Header from "../components/common/Header";
 import EmployeeHome from "../components/home-page/employee";
 import ManagerHome from "../components/home-page/manager";
 
+import {DataContext} from '../components/common/Provider/DataProvider'
+
 
 export default () => (
   <BrowserRouter>
     <div>
       <Header />
-      <Navbar />
+      <DataContext.Consumer>
+        {context=>{
+          console.log(context.data.isLogged)
+            return context.data.isLogged?<Navbar /> : ''
+          }}
+      </DataContext.Consumer>
+      
 
       <div className="mx-1 pb-5">
         <Switch>

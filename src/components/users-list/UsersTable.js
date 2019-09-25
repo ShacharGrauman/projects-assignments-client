@@ -50,7 +50,7 @@ export default class UsersTable extends React.Component{
 
     async componentDidMount(){
         
-        const users = await api.getData(`${this.state.url}page=${this.state.page}&limit=${this.props.rowsPerPage}`);
+        const users = await api.getData(`employee?page=${this.state.page}&limit=${this.props.rowsPerPage}`);
         this.setState({users});
     }
     
@@ -141,7 +141,7 @@ export default class UsersTable extends React.Component{
                                     <DataContext.Consumer key={data.name}>
                                     {(context) =>
                                         
-                                        <DropDownsOptions items={context[data.name]}
+                                        <DropDownsOptions items={context.data.data[data.name]}
                                             name={data.name} onSelect={this.inputChange}
                                         />
                                     }

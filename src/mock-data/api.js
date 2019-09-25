@@ -1,35 +1,55 @@
 
+import axios from 'axios';
+
+const send = async (url, data) => {
+    try{
+        const response = await (
+                data ? 
+                    axios.post(`http://localhost:8080/api/${url}`, data,
+                        {withCredentials:true} ) 
+                        : 
+                    axios.get(`http://localhost:8080/api/${url}`,
+                        {withCredentials:true} )
+        );
+        
+        return response.data;
+    }catch(err){
+        return err.response;
+    }
+}
 
 export const api = {
     getDepartments : async function(){ 
-        const departments = await fetch('http://localhost:8080/api/employee/departments')
-        return departments.json();
+
+        return await send('employee/departments');
+
+
+        // const departments = await fetch('http://localhost:8080/api/employee/departments', {
+        //     headers: 
+        // })
+        // return departments.json();
         }
     ,
     getRoles :async () =>{ 
-        const roles = await fetch('http://localhost:8080/api/employee/roles')
-        return roles.json();
+        return await send('employee/roles');
+        
         }
     ,
     getRolesWithPermissions:async () =>{ 
-        const roles = await fetch('http://localhost:8080/api/roles')
-        return roles.json();
-        }
+        return await send('roles');
+    }
     ,
     getCountries :async () =>{ 
-        const countries = await fetch('http://localhost:8080/api/employee/countries')
-        return countries.json();
-        }
+        return await send('employee/countries');
+    }
     ,
     getWorkSites :async () =>{ 
-        const workSites = await fetch('http://localhost:8080/api/employee/worksites')
-        return workSites.json();
-        }
+        return await send('employee/worksites');
+    }
     ,
     getManagers :async () =>{ 
-        const managers = await fetch('http://localhost:8080/api/employee/managers')
-        return managers.json();
-        }
+        return await send('employee/managers');
+    }
     ,
     getAllData: async function() {
         const  [departments,
@@ -47,66 +67,58 @@ export const api = {
     }
     ,
     getUsersList: async function() {
-        const users = await fetch('http://localhost:8080/api/employee?page=2&limit=10')
-            .then(response => response.json());
-
-        return users;
+        return await send('employee?page=2&limit=10');       
     },
 
     getCount: async (prop) => {
-        return await fetch(`http://localhost:8080/api/employee/${prop}`)
-            .then(res => res.json());
+        return await send(`employee/${prop}`);    
     },
 
-    validateLogin: (username, password)=>{
-        return fetch('http://localhost:8080/api/login', {
-            method: 'POST',
-            headers:{
-                'Content-Type': 'application/json',
-            },
-            body:JSON.stringify({
-                username,
-                password
-            }),
-        })
+    validateLogin: async (username,password)=> {
+        return await send('login', {username, password});        
     },
+    
+    // (username, password)=>{
+    //     return fetch('http://localhost:8080/api/login', {
+    //         method: 'POST',
+    //         credentials: 'include',
+    //         headers:{
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body:JSON.stringify({
+    //             username,
+    //             password
+    //         }),
+    //     })
+    // },
     getUserById: async (id)=>{
-        const user = await fetch(`http://localhost:8080/api/employee/id?id=${id}`)
-        return user.json();
+        return await send(`employee/id?id=${id}`);
     },
 
 
     addUser: async ({details,img,roles})=>{
 
-        const addedUser = await fetch(`http://localhost:8080/api/employee/`,{
-            method: 'POST',
-            headers:{
-                'Content-Type': 'application/json',
+        return await send(`employee/`, JSON.stringify({
+            employee:{
+                   number:+details.employeeNumber.value,
+                   firstName:details.firstName.value,
+                   lastName:details.lastName.value,
+                   email:details.email.value,
+                   managerId:+details.manager.value,
+                   department:details.department.value,
+                   worksite:{
+                        id:+details.workSite.value,
+                        country:{
+                             name:details.country.value
+                        },
+                   },
+                   phone:details.phone.value,
+                   loginStatus:false,
+                   locked:false,
+                   deactivated:false
             },
-            body:JSON.stringify({
-                employee:{
-                       number:+details.employeeNumber.value,
-                       firstName:details.firstName.value,
-                       lastName:details.lastName.value,
-                       email:details.email.value,
-                       managerId:+details.manager.value,
-                       department:details.department.value,
-                       worksite:{
-                            id:+details.workSite.value,
-                            country:{
-                                 name:details.country.value
-                            },
-                       },
-                       phone:details.phone.value,
-                       loginStatus:false,
-                       locked:false,
-                       deactivated:false
-                },
-              roles:roles
-            }),
-            
-        })
-        return addedUser;
+          roles:roles
+        }));        
     },
 
     updateUserDetails: async({details,img,roles})=>{
@@ -115,6 +127,7 @@ export const api = {
             headers:{
                 'Content-Type': 'application/json',
             },
+            withCredentials: 'include',
             body:JSON.stringify({
                 employee:{
                        id:+details.id,
@@ -148,6 +161,7 @@ export const api = {
             headers:{
                 'Content-Type': 'application/json',
             },
+            withCredentials: 'include',
             body:JSON.stringify({
                
             }),
@@ -162,17 +176,16 @@ export const api = {
             headers:{
                 'Content-Type': 'application/json',
             },
+            withCredentials: 'include',
         })
         return addedUser;
     },
     auditSearch: async(startDate, endDate, actionsFilter, employee)=>{
-        const result = await fetch(`http://localhost:8080/api/audit/date?number=${employee}&datefrom=${startDate}&dateto=${endDate}`)
-        return result.json();
+        return await send(`audit/date?number=${employee}&datefrom=${startDate}&dateto=${endDate}`);       
     },
 
     getAuditData: async(page, limit)=>{
-        const audit = await fetch(`http://localhost:8080/api/audit?page=${page}&limit=${limit}`)
-        return audit.json();
+        return await send(`audit?page=${page}&limit=${limit}`);
     },
     deactivateUser: async (id) =>{
         const deletedUser = await fetch(`http://localhost:8080/api/employee/id?id=${id}`,{
@@ -180,6 +193,7 @@ export const api = {
             headers:{
                 'Content-Type': 'application/json',
             },
+            withCredentials: 'include',
         })
         return deletedUser;
     },
@@ -188,38 +202,18 @@ export const api = {
 
 
     getData: async function(url) {
-        const data = await fetch(url)
-            .then(response => response.json());
-
-        return data;
+        return await send(url); 
     },
   
     addDepartment:async function({department}){
-        const departmentResult = await fetch(`http://localhost:8080/api/department`,{
-                method: 'POST',
-                headers:{
-                    'Content-Type': 'application/json',
-                },
-                body:JSON.stringify({name:department.value}),
-                
-            })
-            return departmentResult;
-
+        return await send(`department`, JSON.stringify({name:department.value})); 
     },
   
     resetPassword: async function({email, employeeNumber}){
-      const response = await fetch(`http://localhost:8080/api/resetPassword/`,{
-          method: 'POST',
-          headers:{
-              'Content-Type': 'application/json',
-          },
-          body:JSON.stringify({
-              email:email.value,
-              employeeNumber:+employeeNumber.value
-          }),
-
-      })
-      return response;
+        return await send(`resetPassword`, JSON.stringify({
+            email:email.value,
+            employeeNumber:+employeeNumber.value
+        })); 
   },
   sendEmail:async function({email, name, messageBody, messageTitle}){
     const sendEmailResult = await fetch(`http://localhost:8080/api/sendEmail`,{
@@ -234,40 +228,20 @@ export const api = {
         return sendEmailResult;
    },
   addRole:async function(role){
-    console.log(role)
-    const addRoleRes = await fetch(`http://localhost:8080/api/roles`,{
-            method: 'POST',
-            headers:{
-                'Content-Type': 'application/json',
-            },
-            body:JSON.stringify({
-                name:role.name,
-                description:role.description,
-                permissions:role.permissions
-            }),
-            
-        })
-        return addRoleRes;
+        return await send(`roles`, JSON.stringify({
+            name:role.name,
+            description:role.description,
+            permissions:role.permissions
+        })); 
    },
     getAllPermissions :async () =>{ 
-    const permissions = await fetch('http://localhost:8080/api/roles/permissions')
-    return permissions.json();
-    }
-,
-
+        return await send(`roles/permissions`); 
+    },
    addworksite:async function({country, city, worksite}){
-    const addRoleRes = await fetch(`http://localhost:8080/api/worksite`,{
-            method: 'POST',
-            headers:{
-                'Content-Type': 'application/json',
-            },
-            body:JSON.stringify({
-                name:worksite,
-                country,
-                city
-            }),
-            
-        })
-        return addRoleRes;
+    return await send(`worksite`, JSON.stringify({
+        name:worksite,
+        country,
+        city
+    }));     
    },
 }
