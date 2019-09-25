@@ -91,56 +91,16 @@ export default class MyTeamTable extends React.Component {
     const requiredLevel = this.state.selectedLevel;
 
     if (!requiredSkill) {
-      toast.info("Skill Name Required For Search")
+      toast.info("Skill Name Required For Search");
       return;
     }
-    const employeesSearch = await Api.getEmployeeBySkill(requiredSkill,requiredLevel);
+    const employeesSearch = await Api.getEmployeeBySkill(
+      requiredSkill,
+      requiredLevel
+    );
     this.setState({
       employeesSearch
-    })
-
-    //   if (!requiredSkill) {
-
-    //     this.setState({
-    //       employeesSearch: this.state.employees,
-    //       selectedLevel: "0"
-    //     });
-    //     return;
-    //   }
-
-    //   if (requiredLevel && requiredSkill) {
-    //     const filteredLevel = this.state.employees.filter(emp => {
-    //       const skills = [...emp.technicalSkills, ...emp.productSkills];
-
-    //       for (const skill of skills) {
-    //         if (
-    //           skill.level >= requiredLevel &&
-    //           skill.name.toLowerCase() == requiredSkill
-    //         ) {
-    //           return true;
-    //         }
-    //       }
-    //       return false;
-    //     });
-    //     this.setState({
-    //       employeesSearch: filteredLevel
-    //     });
-    //   } else if (requiredSkill) {
-    //     const filteredSkill = this.state.employees.filter(emp => {
-    //       const skills = [...emp.technicalSkills, ...emp.productSkills];
-
-    //       for (const skill of skills) {
-    //         if (skill.name.toLowerCase() == requiredSkill) {
-    //           return true;
-    //         }
-    //       }
-    //       return false;
-    //     });
-    //     this.setState({
-    //       employeesSearch: filteredSkill
-    //     });
-    //   }
-    //
+    });
   }
 
   async filterListByEmpName(e) {
@@ -169,60 +129,59 @@ export default class MyTeamTable extends React.Component {
   render() {
     return (
       <>
-        <div
-          className="card d-flex justify-content-center  mt-3"
-          style={{
-            width: "700px",
-            marginLeft: "450px",
-            marginTop: "20px",
-            border: "1px solid black"
-          }}
-        >
-          <h2 className="card-header text-center">
-            <strong>{this.state.project.name}</strong>
-          </h2>
+        <div className="row justify-content-center">
+          <div
+            className="card col-8 col-md-8 col-sm-8 col-lg-8 mt3"
+            style={{
+              border: "1px solid black"
+            }}
+          >
+            <h2 className="card-header text-center">
+              <strong>{this.state.project.name}</strong>
+            </h2>
 
-          <div className="card-body">
-            <p className="card-text text-center">
-              <strong>Start Date : {this.state.project.startDate}</strong>
-            </p>
-            <p className="card-text">
-              Description : {this.state.project.description}
-            </p>
+            <div className="card-body">
+              <p className="card-text text-center">
+                <strong>Start Date : {this.state.project.startDate}</strong>
+              </p>
+              <p className="card-text">
+                Description : {this.state.project.description}
+              </p>
 
-            <p>
-              Technical Skills:
-              {this.state.project.technicalSkill &&
-                this.state.project.technicalSkill.map((skill, index) => {
-                  return (
-                    <SkillBadge
-                      key={index}
-                      name={skill.name}
-                      level={skill.level}
-                      type={"Tech"}
-                    />
-                  );
-                })}
-            </p>
+              <p>
+                Technical Skills:
+                {this.state.project.technicalSkill &&
+                  this.state.project.technicalSkill.map((skill, index) => {
+                    return (
+                      <SkillBadge
+                        key={index}
+                        name={skill.name}
+                        level={skill.level}
+                        type={"Tech"}
+                      />
+                    );
+                  })}
+              </p>
 
-            <p>
-              Product Skills:
-              {this.state.project.productSkill &&
-                this.state.project.productSkill.map((skill, index) => {
-                  return (
-                    <SkillBadge
-                      key={index}
-                      name={skill.name}
-                      level={skill.level}
-                      type={"Pro"}
-                    />
-                  );
-                })}{" "}
-            </p>
+              <p>
+                Product Skills:
+                {this.state.project.productSkill &&
+                  this.state.project.productSkill.map((skill, index) => {
+                    return (
+                      <SkillBadge
+                        key={index}
+                        name={skill.name}
+                        level={skill.level}
+                        type={"Pro"}
+                      />
+                    );
+                  })}{" "}
+              </p>
 
-            <Link to="/Projects" className="float-right">
-              Back to projects
-            </Link>
+              <Link to="/Projects" className="float-right">
+                Back to projects
+              </Link>
+            </div>
           </div>
         </div>
         {this.state.searchFlag ? (
@@ -317,32 +276,6 @@ export default class MyTeamTable extends React.Component {
           </form>
         )}
 
-         
-          <form
-         className="d-flex justify-content-center align-items-center mb-4 mt-3"
-          >
-            
-          <div id="employeeNameSearch" style={employeeNameSearchStyle}>
-              <div className="row">                            
-                  <div className="col-md-6 mr-4" >
-                      <h6 className="">Employee Name:</h6>
-                      <input
-                          type="text"
-                          className="form-control mr-4 "
-                          placeholder="Search by Emp. Name"
-                          onKeyUp={e => this.searchEmp = e.target.value }
-                          />
-                  </div>
-                  <div className="col-md-2">
-                      <h6 className="">Search:</h6>
-                    <button onClick={this.filterListByEmpName} className=" btn btn-outline-success mr-5 mx-1" style={{ borderRadius: "50%" }}>
-                                <FontAwesomeIcon icon={faSearch} />
-                            </button>
-                  </div>
-                </div>
-              </div>                     
-        </form>
-       
         <div
           className="d-flex justify-content-center align-items-center"
           style={{ marginBottom: "50px" }}
