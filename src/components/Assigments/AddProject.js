@@ -16,15 +16,41 @@ export default class AddProject extends React.Component {
     super();
     this.state = {
       projectname: {
+        name: "projectname",
         value: "",
         errors: [],
         validations: { required: true, minLength: 2 }
       },
-      description: { value: "", errors: [], validations: { required: true } },
-      date: { value: "", errors: [], validations: { required: true } },
-      skillType: { value: "0", errors: [], validations: { required: true } },
-      level: { value: "", errors: [], validations: { required: true } },
-      skill: { value: "", errors: [], validations: { required: true } }, //chose skill
+      description: {
+        value: "",
+        name: "description",
+        errors: [],
+        validations: { required: true }
+      },
+      date: {
+        value: "",
+        name: "date",
+        errors: [],
+        validations: { required: true }
+      },
+      skillType: {
+        value: "0",
+        name: "skillType",
+        errors: [],
+        validations: { required: true }
+      },
+      level: {
+        value: "",
+        errors: [],
+        name: "level",
+        validations: { required: true }
+      },
+      skill: {
+        value: "",
+        errors: [],
+        name: "skill",
+        validations: { required: true }
+      }, //chose skill
       skills: { type: "", skills: [] },
       requiredSkills: []
     };
@@ -39,36 +65,29 @@ export default class AddProject extends React.Component {
     this.selectSkillLevel = this.selectSkillLevel.bind(this);
   }
 
-  componentDidMount() {
-    //fetch student data from the server using the student id
-    //*student id should be received from the routing system
-    //After getting the data from the server:
-    //update state!
-    // const data=Api.getSkills()
-
-    fetch("http://localhost:8080/api/skills/")
-      .then(response => response.json())
-      .then(
-        skills =>
-          (this.skills = {
-            technicals: skills.technicalSkills.map(skill => ({
-              id: skill.skillId,
-              name: skill.skillName
-            })),
-            product: skills.productSkills.map(skill => ({
-              id: skill.skillId,
-              name: skill.skillName
-            }))
-          })
-      );
+  async componentDidMount() {
+    const skills = await Api.getSkills();
+    this.skills = {
+      technicals: skills.technicalSkills.map(skill => ({
+        id: skill.skillId,
+        name: skill.skillName
+      })),
+      product: skills.productSkills.map(skill => ({
+        id: skill.skillId,
+        name: skill.skillName
+      }))
+    };
   }
 
   addskill(e) {
     e.preventDefault();
-    //  let obj = {id: this.state.skills.find(skill => skill.id == this.state.skill.value),level:this.state.level.value};
+
+    // if(this.state.requiredSkills.length===0){
+    //   return;
+    // }
 
     for (var tmp of this.state.requiredSkills) {
-      if (this.state.skill.value === tmp.skillr.id) {
+      if (this.state.skill.value == tmp.skillr.id) {
         return;
       }
     }
@@ -111,6 +130,7 @@ export default class AddProject extends React.Component {
   }
 
   inputChange({ target: { name, value } }) {
+    console.log(name);
     const { validations } = this.state[name];
     const errors = [];
 
@@ -122,14 +142,13 @@ export default class AddProject extends React.Component {
       }
     }
 
-    if (validations.minLength) {
-      if (value.length < validations.minLength) {
-        errors.push(
-          `${name} should be at least ${validations.minLength} characters`
-        );
-      }
-    }
-    //console.log(this.state[name]);
+    // if (validations.minLength) {
+    //   if (value.length < validations.minLength) {
+    //     errors.push(
+    //       `${name} should be at least ${validations.minLength} characters`
+    //     );
+    //   }
+    // }
     this.setState({
       [name]: {
         ...this.state[name],
@@ -141,22 +160,51 @@ export default class AddProject extends React.Component {
 
   async submit(e) {
     e.preventDefault();
+
+    this.inputChange({
+      target: {
+        name: this.state.projectname.name,
+        value: this.state.projectname.value
+      }
+    });
+    this.inputChange({
+      target: { name: this.state.date.name, value: this.state.date.value }
+    });
+    this.inputChange({
+      target: {
+        name: this.state.description.name,
+        value: this.state.description.value
+      }
+    });
+    this.inputChange({
+      target: { name: this.state.skill.name, value: this.state.skill.value }
+    });
+    this.inputChange({
+      target: { name: this.state.level.name, value: this.state.level.value }
+    });
+    // if(this.state.requiredSkills.length===0){
+    //   return;
+    // }
     if (!this.state.projectname.value) {
       // toast.error("No Project Name Provided ");
       return;
     }
+
     if (!this.state.date.value) {
       // toast.error("Choose Start Date ");
       return;
     }
+
     if (!this.state.description.value) {
       // toast.error("No Description Provided ");
       return;
     }
+
     if (this.state.requiredSkills.length === 0) {
       // toast.error("No Skills Selected");
       return;
     }
+
     if (!this.state.skill.value) {
       // toast.error("Choose Skill");
       return;
@@ -166,7 +214,6 @@ export default class AddProject extends React.Component {
       // toast.error("Choose Skill Level");
       return;
     }
-
     let index = 0;
     const values = {
       name: this.state.projectname.value,
@@ -194,7 +241,7 @@ export default class AddProject extends React.Component {
         toast.success("Project Added Successfully");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       if (error.response.data.status == "BAD_REQUEST") {
         toast.error(error.response.data.errorMessage);
       }
@@ -204,203 +251,212 @@ export default class AddProject extends React.Component {
   render() {
     return (
       <>
-        <div className="card  my-1 p-2 shadow m-12 mt4 mb4" role="alert">
-          <h4 className="alert-heading text-center ">Add Project</h4>
-          <hr></hr>
-          <form onSubmit={this.submit}>
-            <div className="row">
-              <div className="col-md-6">
-                <label htmlFor="projectnamename">
-                  <h6>Project Name</h6>
-                </label>
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text" id="basic-addon1">
-                      <FontAwesomeIcon icon={faAtom}></FontAwesomeIcon>
-                    </span>
+        <div className="row justify-content-center">
+          <div className="col-10 col-md-10 col-sm-10 col-lg-10">
+            <div className="card  my-1 p-2 shadow m-12 mt-4 mb-4" role="alert">
+              <h4 className="alert-heading text-center ">Add Project</h4>
+              <hr></hr>
+              <form onSubmit={this.submit}>
+                <div className="row">
+                  <div className="col-md-6">
+                    <label htmlFor="projectName">
+                      <h6>Project Name</h6>
+                    </label>
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text" id="basic-addon1">
+                          <FontAwesomeIcon icon={faAtom}></FontAwesomeIcon>
+                        </span>
+                      </div>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Project name"
+                        aria-label="Projectname"
+                        aria-describedby="basic-addon1"
+                        id="ProjectnameID"
+                        name="projectname"
+                        defaultValue={this.state.projectname.value}
+                        onBlur={this.inputChange}
+                      ></input>
+                    </div>
+                    <InputErrors errors={this.state.projectname.errors} />
                   </div>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Project name"
-                    aria-label="Projectname"
-                    aria-describedby="basic-addon1"
-                    id="ProjectnameID"
-                    name="projectname"
-                    defaultValue={this.state.projectname.value}
-                    onBlur={this.inputChange}
-                  ></input>
-                </div>
-                <InputErrors errors={this.state.projectname.errors} />
-              </div>
-              <div className="col-md-6 ">
-                <label htmlFor="StartDate">
-                  <h6>Start Date</h6>
-                </label>
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text" id="basic-addon1">
-                      <FontAwesomeIcon icon={faClock}></FontAwesomeIcon>
-                    </span>
+                  <div className="col-md-6 ">
+                    <label htmlFor="StartDate">
+                      <h6>Start Date</h6>
+                    </label>
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text" id="basic-addon1">
+                          <FontAwesomeIcon icon={faClock}></FontAwesomeIcon>
+                        </span>
+                      </div>
+                      <input
+                        type="date"
+                        className="form-control"
+                        placeholder="/ / "
+                        aria-label="date"
+                        aria-describedby="basic-addon1"
+                        id="dateID"
+                        name="date"
+                        defaultValue={this.state.date.value}
+                        onBlur={this.inputChange}
+                      ></input>
+                    </div>
+                    <InputErrors errors={this.state.date.errors} />
                   </div>
-                  <input
-                    type="date"
-                    className="form-control"
-                    placeholder="/ / "
-                    aria-label="date"
-                    aria-describedby="basic-addon1"
-                    id="dateID"
-                    name="date"
-                    defaultValue={this.state.date.value}
-                    onBlur={this.inputChange}
-                  ></input>
                 </div>
-                <InputErrors errors={this.state.date.errors} />
-              </div>
-            </div>
-            <div className="row mt-2">
-              <div className="col-md-12 ">
-                <label htmlFor="projectDescription">
-                  <h6>Description</h6>
-                </label>
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text" id="basic-addon1">
-                      <FontAwesomeIcon icon={faAd}></FontAwesomeIcon>
-                    </span>
+                <div className="row mt-2">
+                  <div className="col-md-12 ">
+                    <label htmlFor="projectDescription">
+                      <h6>Description</h6>
+                    </label>
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text" id="basic-addon1">
+                          <FontAwesomeIcon icon={faAd}></FontAwesomeIcon>
+                        </span>
+                      </div>
+                      <textarea
+                        type="text"
+                        className="form-control"
+                        placeholder="Description"
+                        aria-label="Description"
+                        aria-describedby="basic-addon1"
+                        id="projectDescriptionID"
+                        name="description"
+                        defaultValue={this.state.description.value}
+                        onBlur={this.inputChange}
+                      ></textarea>
+                    </div>
+                    <InputErrors errors={this.state.description.errors} />
                   </div>
-                  <textarea
-                    type="text"
-                    className="form-control"
-                    placeholder="Description"
-                    aria-label="Description"
-                    aria-describedby="basic-addon1"
-                    id="projectDescriptionID"
-                    name="description"
-                    defaultValue={this.state.description.value}
-                    onBlur={this.inputChange}
-                  ></textarea>
                 </div>
-                <InputErrors errors={this.state.description.errors} />
-              </div>
-            </div>
-            <h6 class="mt-4 mb-0 ">Pre Required Skills For Project</h6>
-            <hr></hr>
-            <div className="row ">
-              <div className="col-md-3 col-lg-3 col-sm-3 ">
-                <div className="form-group">
-                  <label htmlFor="skilltype">
-                    <h6>Type</h6>
-                  </label>
-                  <select
-                    className="form-control"
-                    id="skillType"
-                    name="skillType"
-                    defaultValue={this.state.skillType.value}
-                    onBlur={this.inputChange}
-                    onChange={this.selectSkillType}
-                  >
-                    <option value="0">Select</option>
-                    <option value="1">Technical</option>
-                    <option value="2">Product</option>
-                  </select>
+                <h6 className="mt-4 mb-0 ">Pre Required Skills For Project</h6>
+                <hr></hr>
+                <div className="row ">
+                  <div className="col-md-3 col-lg-3 col-sm-3 ">
+                    <div className="form-group">
+                      <label htmlFor="skilltype">
+                        <h6>Type</h6>
+                      </label>
+                      <select
+                        className="form-control"
+                        id="skillType"
+                        name="skillType"
+                        defaultValue={this.state.skillType.value}
+                        onBlur={this.inputChange}
+                        onChange={this.selectSkillType}
+                      >
+                        <option value="0">Select</option>
+                        <option value="1">Technical</option>
+                        <option value="2">Product</option>
+                      </select>
+                    </div>
+                    <InputErrors errors={this.state.skillType.errors} />
+                  </div>
+
+                  <div className="col-md-3 col-lg-3 col-sm-3  ">
+                    <div className="form-group">
+                      <label htmlFor="skilltype">
+                        <h6>Skill</h6>
+                      </label>
+
+                      <select
+                        className="form-control"
+                        id="skill"
+                        name="skill"
+                        defaultValue={this.state.skill.value}
+                        onBlur={this.inputChange}
+                      >
+                        <option value="">Select</option>
+                        {this.state.skills.skills.map((skill, i) => (
+                          <option key={i} value={skill.id}>
+                            {skill.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <InputErrors errors={this.state.skill.errors} />
+                  </div>
+
+                  <div className="col-md-3 col-lg-3 col-sm-3 ">
+                    <div className="form-group">
+                      <label htmlFor="skilltype">
+                        <h6>Level</h6>
+                      </label>
+                      <select
+                        className="form-control"
+                        id="levelid"
+                        name="level"
+                        defaultValue={this.state.level.value}
+                        onBlur={this.inputChange}
+                        onChange={this.selectSkillLevel}
+                      >
+                        <option value="">Select</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="3">4</option>
+                        <option value="3">5</option>
+                      </select>
+                    </div>
+                    <InputErrors errors={this.state.level.errors} />
+                  </div>
+
+                  <div className="col-md-3 col-lg-3  col-sm-3 ">
+                    <div>
+                      <label htmlFor="skilltype">
+                        <h6>Action</h6>
+                      </label>
+                      <button
+                        className="btn btn-info btn-block"
+                        onClick={this.addskill}
+                      >
+                        Add
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <InputErrors errors={this.state.skillType.errors} />
-              </div>
-
-              <div className="col-md-3 col-lg-3 col-sm-3  ">
-                <div className="form-group">
-                  <label htmlFor="skilltype">
-                    <h6>Skill</h6>
-                  </label>
-
-                  <select
-                    className="form-control"
-                    id="skill"
-                    name="skill"
-                    defaultValue={this.state.skill.value}
-                    onBlur={this.inputChange}
-                  >
-                    <option value="">Select</option>
-                    {this.state.skills.skills.map(skill => (
-                      <option value={skill.id}>{skill.name}</option>
-                    ))}
-                  </select>
+                <div className="row">
+                  <div className="col-md-12">
+                    <h6>Selected Skills</h6>
+                  </div>
+                  {this.state.requiredSkills.length ? (
+                    this.state.requiredSkills.map((el, index) => {
+                      return (
+                        <div key={index} className="col-md-3">
+                          <SkillColor
+                            key={el.skillr.id}
+                            id={el.skillr.id}
+                            name={el.skillr.name}
+                            level={el.level}
+                            type={el.type}
+                            removeSkill={this.removeSkill}
+                          />
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <div className="col-md-12">
+                      {" "}
+                      <font color="red">No Selected Skills Yet </font>
+                    </div>
+                  )}
                 </div>
-                <InputErrors errors={this.state.skill.errors} />
-              </div>
-
-              <div className="col-md-3 col-lg-3 col-sm-3 ">
-                <div className="form-group">
-                  <label htmlFor="skilltype">
-                    <h6>Level</h6>
-                  </label>
-                  <select
-                    className="form-control"
-                    id="levelid"
-                    name="level"
-                    defaultValue={this.state.level.value}
-                    onBlur={this.inputChange}
-                    onChange={this.selectSkillLevel}
-                  >
-                    <option value="">Select</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="3">4</option>
-                    <option value="3">5</option>
-                  </select>
-                </div>
-                <InputErrors errors={this.state.level.errors} />
-              </div>
-
-              <div className="col-md-3 col-lg-3  col-sm-3 ">
-                <div>
-                  <label htmlFor="skilltype">
-                    <h6>Action</h6>
-                  </label>
+                <div className="col-md-12 mt-1">
                   <button
+                    type="submit"
                     className="btn btn-info btn-block"
-                    onClick={this.addskill}
+                    onClick={this.submit}
                   >
-                    Add
+                    Submit
                   </button>
                 </div>
-              </div>
+              </form>
             </div>
-            <div className="row">
-              <div className="col-md-12">
-                <h6>Selected Skills</h6>
-              </div>
-              {this.state.requiredSkills.length ? (
-                this.state.requiredSkills.map((el, index) => {
-                  return (
-                    <div className="col-md-3">
-                      <SkillColor
-                        key={el.skillr.id}
-                        id={el.skillr.id}
-                        name={el.skillr.name}
-                        level={el.level}
-                        type={el.type}
-                        removeSkill={this.removeSkill}
-                      />
-                    </div>
-                  );
-                })
-              ) : (
-                <div className="col-md-12">No Selected Skills Yet</div>
-              )}
-            </div>
-            <div className="col-md-12 mt-1">
-              <button
-                type="submit"
-                className="btn btn-info btn-block"
-                onClick={this.submit}
-              >
-                Submit
-              </button>
-            </div>
-          </form>
+          </div>
         </div>
       </>
     );

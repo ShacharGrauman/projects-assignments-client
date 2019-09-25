@@ -77,7 +77,6 @@ export const api = {
 
 
     addUser: async ({details,img,roles})=>{
-        console.log(details, roles)
 
         const addedUser = await fetch(`http://localhost:8080/api/employee/`,{
             method: 'POST',
@@ -93,10 +92,10 @@ export const api = {
                        managerId:+details.manager.value,
                        department:details.department.value,
                        worksite:{
-                            id:+details.workSite.value
-                       },
-                       country:{
-                            name:details.country.value
+                            id:+details.workSite.value,
+                            country:{
+                                 name:details.country.value
+                            },
                        },
                        phone:details.phone.value,
                        loginStatus:false,
@@ -189,10 +188,10 @@ export const api = {
 
 
     getData: async function(url) {
-        const users = await fetch(url)
+        const data = await fetch(url)
             .then(response => response.json());
 
-        return users;
+        return data;
     },
   
     addDepartment:async function({department}){
@@ -204,7 +203,6 @@ export const api = {
                 body:JSON.stringify({name:department.value}),
                 
             })
-            console.log(departmentResult)
             return departmentResult;
 
     },
@@ -246,6 +244,27 @@ export const api = {
                 name:role.name,
                 description:role.description,
                 permissions:role.permissions
+            }),
+            
+        })
+        return addRoleRes;
+   },
+    getAllPermissions :async () =>{ 
+    const permissions = await fetch('http://localhost:8080/api/roles/permissions')
+    return permissions.json();
+    }
+,
+
+   addworksite:async function({country, city, worksite}){
+    const addRoleRes = await fetch(`http://localhost:8080/api/worksite`,{
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify({
+                name:worksite,
+                country,
+                city
             }),
             
         })

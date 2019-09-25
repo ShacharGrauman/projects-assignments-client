@@ -6,24 +6,24 @@ export default class MyTeamDetailsTable extends React.Component {
   render() {
     return (
       <>
-      {console.log(this.props.employees)}
         <div
-          className="d-flex justify-content-center align-items-center mb-4 mt-3"
+          className="row justify-content-center"
         >
+          <div className="col-2 col-md-8 col-sm-4 col-lg-8 ">
           <table
-            className="table"
+            className="table "
             style={{
-              display: "block",
+              // display: "block",
               border: "1px solid black"
             }}
           >
             <thead className="thead-dark">
               <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Employee Number</th>
-                <th scope="col">Technical Skills</th>
-                <th scope="col">Product Skills</th>
-                <th scope="col">Actions</th>
+                <th >Name</th>
+                <th >Employee Number</th>
+                <th >Technical Skills</th>
+                <th >Product Skills</th>
+                <th >Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -82,6 +82,8 @@ export default class MyTeamDetailsTable extends React.Component {
               })}
             </tbody>
           </table>
+          </div>
+          
         </div>
       </>
     );
