@@ -8,7 +8,7 @@ const technicalSkills = "technicalSkills";
 
 class SkillsDataService {
   getAllSkills() {
-    return axios.get(`${API_URL}/skills`);
+    return axios.get(`${API_URL}/skills`, { withCredentials: true });
   }
 
   sendPostRequest(
@@ -70,49 +70,70 @@ class SkillsDataService {
   }
 
   retrieveProductSkillsById(id) {
-    return axios.get(`${API_URL}/skills/employeeskills/${id}/PRODUCT`);
+    return axios.get(`${API_URL}/skills/employeeskills/${id}/PRODUCT`, {
+      withCredentials: true
+    });
   }
 
   retrieveTechnicalSkillsById(id) {
-    return axios.get(`${API_URL}/skills/employeeskills/${id}/TECHNICAL`);
+    return axios.get(`${API_URL}/skills/employeeskills/${id}/TECHNICAL`, {
+      withCredentials: true
+    });
   }
 
   retrieveProductSkillsHistoryById(id) {
-    return axios.get(`${API_URL}/skills/approvedskillshistory/${id}/PRODUCT`);
+    return axios.get(`${API_URL}/skills/approvedskillshistory/${id}/PRODUCT`, {
+      withCredentials: true
+    });
   }
 
   retrieveTechnicalSkillsHistoryById(id) {
-    return axios.get(`${API_URL}/skills/approvedskillshistory/${id}/TECHNICAL`);
+    return axios.get(
+      `${API_URL}/skills/approvedskillshistory/${id}/TECHNICAL`,
+      { withCredentials: true }
+    );
   }
 
   addNewSkill({ employeeId, skillId, skillName, level, type }) {
     console.log("empID" + employeeId, "sID" + skillId, skillName, level, type);
     if (skillId) {
-      return axios.post(`${API_URL}/skills/`, {
-        skillId,
-        employeeId,
-        skillName,
-        level
-      });
+      return axios.post(
+        `${API_URL}/skills/`,
+        {
+          skillId,
+          employeeId,
+          skillName,
+          level
+        },
+        { withCredentials: true }
+      );
     } else {
-      return axios.post(`${API_URL}/skills/`, {
-        employeeId,
-        skillName,
-        level,
-        type
-      });
+      return axios.post(
+        `${API_URL}/skills/`,
+        {
+          employeeId,
+          skillName,
+          level,
+          type
+        },
+        { withCredentials: true }
+      );
     }
   }
 
   updateSkillByIdSkill({ id, level }) {
-    return axios.post(`${API_URL}/skills/updatelevel/`, {
-      id,
-      level
-    });
+    return axios.post(
+      `${API_URL}/skills/updatelevel/`,
+      {
+        id,
+        level
+      },
+      { withCredentials: true }
+    );
   }
 
   removeUnapprovedSkillById({ id }) {
-    return axios.delete(`${API_URL}/skills/${id}`);
+    return axios.delete(`${API_URL}/skills/${id}`, { withCredentials: true });
   }
 }
 
