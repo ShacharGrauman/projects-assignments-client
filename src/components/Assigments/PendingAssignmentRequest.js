@@ -101,7 +101,7 @@ export default class AssignmentRequets extends React.Component {
             })}
           </tbody>
         </table>
-        <footer
+        {/* <footer
           aria-label="Page navigation example"
           style={{ marginTop: "50px" }}
         >
@@ -138,7 +138,7 @@ export default class AssignmentRequets extends React.Component {
               </a>
             </li>
           </ul>
-        </footer>
+        </footer> */}
       </div>
     );
   }

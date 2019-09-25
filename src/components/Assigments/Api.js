@@ -2,9 +2,10 @@ import axios from "axios";
 
 const url = "http://localhost:8080/api/";
 const currentLimit = "page=1&limit=20";
+
 class Api {
   async getProjects() {
-    const projects = await axios.get(`${url}projects/manager/2`);
+    const projects = await axios.get(`${url}projects/manager/2?${currentLimit}`);
     return projects.data;
   }
   async getProjectsByProjectName(projectName) {
@@ -15,7 +16,7 @@ class Api {
   }
   async getProjectsByEmployeeName(employeeName) {
     const projects = await axios.get(
-      `${url}projects/user/name/${employeeName}`
+      `${url}projects/user/name/${employeeName}?${currentLimit}`
     );
     return projects.data;
   }
@@ -96,8 +97,25 @@ class Api {
     const result = await axios.get(
       `${url}team/name/${empName}?${currentLimit}`
     );
-    console.log(result.data)
+   
     return result.data;
   }
+  async getEmployeeBySkill(requiredSkill,requiredLevel){
+    // console.log(requiredSkill);
+    // console.log(requiredLevel);
+    const result = await axios.post(`${url}team/skill?${currentLimit}`,{
+      name :requiredSkill,
+      level:requiredLevel
+    })
+    return result.data;
+  }
+  // fetch("http://localhost:8080//skills/")
+ async getSkills(){
+  const result = await axios.get(
+    `${url}skills`
+  );
+  console.log(result.data)
+  return result.data;
+ }
 }
 export default new Api();

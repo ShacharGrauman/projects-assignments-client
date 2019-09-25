@@ -77,7 +77,6 @@ export const api = {
 
 
     addUser: async ({details,img,roles})=>{
-        console.log(details, roles)
 
         const addedUser = await fetch(`http://localhost:8080/api/employee/`,{
             method: 'POST',
@@ -93,10 +92,10 @@ export const api = {
                        managerId:+details.manager.value,
                        department:details.department.value,
                        worksite:{
-                            id:+details.workSite.value
-                       },
-                       country:{
-                            name:details.country.value
+                            id:+details.workSite.value,
+                            country:{
+                                 name:details.country.value
+                            },
                        },
                        phone:details.phone.value,
                        loginStatus:false,
@@ -204,7 +203,6 @@ export const api = {
                 body:JSON.stringify({name:department.value}),
                 
             })
-            console.log(departmentResult)
             return departmentResult;
 
     },
@@ -258,7 +256,6 @@ export const api = {
 ,
 
    addworksite:async function({country, city, worksite}){
-       console.log(worksite)
     const addRoleRes = await fetch(`http://localhost:8080/api/worksite`,{
             method: 'POST',
             headers:{
