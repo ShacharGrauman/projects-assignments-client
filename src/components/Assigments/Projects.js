@@ -101,7 +101,6 @@ export default class AssignHistory extends React.Component {
   }
 
   render() {
-    // console.log(this.state.projectsData[2].technicalSkill)
     return this.state.isLoading ? (
       <h1>hello</h1>
     ) : (

@@ -56,12 +56,10 @@ export default class AddProject extends React.Component {
 
   addskill(e) {
     e.preventDefault();
-    //  let obj = {id: this.state.skills.find(skill => skill.id == this.state.skill.value),level:this.state.level.value};
 
-    if(this.state.requiredSkills.length===0){
-      toast.info("Choose Pre Required Skills For Project")
-      return;
-    }
+    // if(this.state.requiredSkills.length===0){
+    //   return;
+    // }
    
     for (var tmp of this.state.requiredSkills) {
       if (this.state.skill.value === tmp.skillr.id) {
@@ -136,6 +134,9 @@ export default class AddProject extends React.Component {
 
   async submit(e) {
     e.preventDefault();
+    if(this.state.requiredSkills.length===0){
+      return;
+    }
     if (!this.state.projectname.value) {
       // toast.error("No Project Name Provided ");
       return;
@@ -377,7 +378,7 @@ export default class AddProject extends React.Component {
                         level={el.level}
                         type={el.type}
                         removeSkill={this.removeSkill}
-                      />
+                      />      
                     </div>
                   );
                 })
