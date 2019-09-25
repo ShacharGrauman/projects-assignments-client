@@ -1,4 +1,5 @@
 import React from 'react';
+import {DataContext} from '../common/Provider/DataProvider'
 import UserProfileHeader from './UserProfileHeader'
 import UserProfileDetails from './UserProfileDetails'
 import UserProfileRoles from './UserProfileRoles';
@@ -192,10 +193,10 @@ export default class UserProfile extends React.Component {
         }
     }
 
-    handleInputChange({ target: { name, value } }) {
+    handleInputChange({ target: { name, value} }) {
         const { validations } = this.state.userData.details[name];
         const errors = [];
-
+    
         {/** required input validation */ }
         if (validations.required) {
             errors.push(this.handleRequiredValidation(name, value))
@@ -208,7 +209,6 @@ export default class UserProfile extends React.Component {
         if (validations.isPhone) {
             errors.push(this.handlePatternValidation(name, value, validations.pattern))
         }
-
 
         {/** Update the state with the errors if exist*/ }
         this.setState({
@@ -238,11 +238,15 @@ export default class UserProfile extends React.Component {
         const res = api.sendEmail({email:this.state.userData.details.email.value,
                         name:this.state.userData.details.firstName.value,
                         messageBody:body,messageTitle:title})
-            console.log(res)
         toast.success('mail successfully sent')
     }
 
     render() {
+
+        
+        let {departments} = this.context;
+
+
         return (
             <>
                 <div className="container">
@@ -262,7 +266,8 @@ export default class UserProfile extends React.Component {
                                     addUserForm={this.state.profileMode.addUserForm}
                                     details={this.state.userData.details}
                                     handleInputChange={this.handleInputChange}
-                                    managerId={this.state.userData.details.manager.value} />
+                                    managerId={this.state.userData.details.manager.value} 
+                                     />
 
                                 <UserProfileRoles editMode={!this.state.profileMode.edit}
                                     userRoles={this.state.userData.roles}
@@ -294,3 +299,6 @@ export default class UserProfile extends React.Component {
         )
     }
 }
+
+
+UserProfileDetails.contextType=DataContext

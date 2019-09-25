@@ -7,11 +7,31 @@ export default class UserProfileDetails extends React.Component{
 
     constructor(props){
         super(props)
+
+        this.handleInputChange=this.handleInputChange.bind(this)
     }
 
-    render(){
-        return(<>
 
+    async handleInputChange({target:{name,value}}){
+        let dataSet=[]
+        let keyValue=''
+        if(name==='manager'){
+            dataSet = this.context.managers
+            const _number = value.split(',')[1]
+            keyValue = dataSet.find(e=>e.number==_number).id}
+        else if(name === 'workSite'){
+            dataSet = this.context.worksites
+            keyValue = dataSet.find(e=>e.name===value).id
+            await this.props.handleInputChange({target:{name:'country',value:dataSet.find(e=>e.id==keyValue).country.name}})
+        }
+        this.props.handleInputChange({target:{name, value:keyValue}})
+    }
+
+
+    render(){
+
+        let {departments} = this.context;
+        return(<>
                           
                     <div className="card mb-2">
                         <h5 className="text-center mt-3 mb-1">Details</h5>
@@ -40,15 +60,15 @@ export default class UserProfileDetails extends React.Component{
                                     className="form-control input_manager" 
                                     disabled={this.props.editMode}
                                     placeholder="Manager"
-                                    onChange={this.props.handleInputChange} 
+                                    onChange={this.handleInputChange} 
                                     defaultValue={this.props.details.managerName.value}
-                                    name="managerName"
-                                    list="managers"/> <a href={`/user-profile/${this.props.managerId}`}>Link</a>
+                                    name="manager"
+                                    list="managers"/> {!this.props.addUserForm &&<a href={`/user-profile/${this.props.managerId}`}>Link</a>}
                                 <datalist id="managers">
                                 <DataContext.Consumer>
                                         {({managers})=>managers.map((mgr)=>{
-                                            let name =`${mgr.firstName}  ${mgr.lastName}`
-                                             return <option key={mgr.id} value={mgr.id} label={name}/>})}
+                                            let name =`${mgr.firstName} ${mgr.lastName} ,${mgr.number}`
+                                             return <option key={mgr.id} value={name} data-value="heyy"/>})}
                                     </DataContext.Consumer>
                                 </datalist>
                                 <InputErrors errors = {this.props.details.managerName.errors}/>
@@ -96,13 +116,13 @@ export default class UserProfileDetails extends React.Component{
                                     defaultValue={this.props.details.department.value}
                                     name="department"
                                     list="department"></input>
-                                <datalist id="department">
-                                    <DataContext.Consumer>
-                                        {({departments})=>departments.map((dep, i)=> <option key={i} value={dep.name}/>)}
-                                    </DataContext.Consumer>
+                                <datalist id="department" >
+                                        {departments.map((dep, i)=> <option key={i} value={dep.name}/>)}
                                 </datalist>
                                 <InputErrors errors = {this.props.details.department.errors}/>
                             </div>
+
+                            
 
                             <div className="col-lg-3 col-sm-6 mb-2">
                                  <small className="mb-1">Work Site</small>
@@ -111,7 +131,7 @@ export default class UserProfileDetails extends React.Component{
                                     className="form-control worksite" 
                                     disabled={this.props.editMode}
                                     placeholder="Work site"
-                                    onChange={this.props.handleInputChange}
+                                    onChange={this.handleInputChange}
                                     defaultValue={this.props.details.workSite.value}
                                     name="workSite"
                                     list="worksite"></input>
@@ -119,8 +139,7 @@ export default class UserProfileDetails extends React.Component{
                                     <DataContext.Consumer>
                                         {({worksites})=>
                                             worksites.map(worksite=>{
-                                                let textValue = `${worksite.name || worksite.city}`;
-                                                return <option key={worksite.id} value={textValue}>{worksite.country.name }</option>
+                                                return <option key={worksite.id} value={worksite.name}></option>
                                             }
                                         )}
                                     </DataContext.Consumer>
@@ -134,3 +153,5 @@ export default class UserProfileDetails extends React.Component{
         </>)
     }
 }
+
+UserProfileDetails.contextType=DataContext

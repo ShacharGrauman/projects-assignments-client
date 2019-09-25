@@ -31,8 +31,7 @@ export default class MyTeamTable extends React.Component {
       project: [],
       search: "",
       selectedLevel: "0",
-      searchFlag: true,
-      EmployeesByProjectByID: []
+      searchFlag: true
     };
     this.searchEmp = "";
 
@@ -44,11 +43,10 @@ export default class MyTeamTable extends React.Component {
 
   async componentDidMount() {
     const data = JSON.parse(sessionStorage.getItem("Project"));
+
     const employees = await Api.getMyTeam();
     this.setState({ employees, employeesSearch: employees });
     this.setState({ project: data });
-    const EmployeesByProjectByID = await Api.getEmpForProjects(data.id);
-    this.setState({ EmployeesByProjectByID });
   }
 
   async assign(
@@ -71,8 +69,6 @@ export default class MyTeamTable extends React.Component {
           newAssign.data.requestToManagerID
         ) {
           toast.success("Assigment success");
-          const EmployeesByProjectByID = await Api.getEmpForProjects(this.state.project.id);
-          this.setState({ EmployeesByProjectByID });
         }
         if (
           newAssign.data.requestFromManagerID !=
@@ -176,101 +172,65 @@ export default class MyTeamTable extends React.Component {
   render() {
     return (
       <>
-        <div className="row justify-content-center ">
-          <div className="col-8 col-md-8col-lg-8 col-sm-8 mt-3">
-            <div
-              className="card mt-2 "
-              style={{
-                border: "1px solid black"
-              }}
-            >
-              <h2 className="card-header text-center">
-                <strong>{this.state.project.name}</strong>
-              </h2>
+        <div className="row justify-content-center">
+          <div
+            className="card col-8 col-md-8 col-sm-8 col-lg-8 mt3"
+            style={{
+              border: "1px solid black"
+            }}
+          >
+            <h2 className="card-header text-center">
+              <strong>{this.state.project.name}</strong>
+            </h2>
 
-              <div className="card-body">
-                <p className="card-text text-center">
-                  <strong>Start Date : {this.state.project.startDate}</strong>
-                </p>
-                <p className="card-text">
-                  <b>Description</b> : {this.state.project.description}
-                </p>
+            <div className="card-body">
+              <p className="card-text text-center">
+                <strong>Start Date : {this.state.project.startDate}</strong>
+              </p>
+              <p className="card-text">
+                Description : {this.state.project.description}
+              </p>
 
-                <p>
-                  <b>Technical Skills:</b>
-                  {this.state.project.technicalSkill &&
-                    this.state.project.technicalSkill.map((skill, index) => {
-                      return (
-                        <SkillBadge
-                          key={index}
-                          name={skill.name}
-                          level={skill.level}
-                          type={"Tech"}
-                        />
-                      );
-                    })}
-                </p>
+              <p>
+                Technical Skills:
+                {this.state.project.technicalSkill &&
+                  this.state.project.technicalSkill.map((skill, index) => {
+                    return (
+                      <SkillBadge
+                        key={index}
+                        name={skill.name}
+                        level={skill.level}
+                        type={"Tech"}
+                      />
+                    );
+                  })}
+              </p>
 
-                <p>
-                  <b>Product Skills:</b>
-                  {this.state.project.productSkill &&
-                    this.state.project.productSkill.map((skill, index) => {
-                      return (
-                        <SkillBadge
-                          key={index}
-                          name={skill.name}
-                          level={skill.level}
-                          type={"Pro"}
-                        />
-                      );
-                    })}{" "}
-                </p>
-                <h6 style={{ fontWeight: "bold" }}> Employess </h6>
+              <p>
+                Product Skills:
+                {this.state.project.productSkill &&
+                  this.state.project.productSkill.map((skill, index) => {
+                    return (
+                      <SkillBadge
+                        key={index}
+                        name={skill.name}
+                        level={skill.level}
+                        type={"Pro"}
+                      />
+                    );
+                  })}{" "}
+              </p>
 
-                <div className="input-group-prepend">
-                  <button
-                    className="btn btn-outline-secondary dropdown-toggle"
-                    type="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    Employees
-                  </button>
-                  <div
-                    className="dropdown-menu w-20"
-                    style={{ height: "150px", overflow: "scroll" }}
-                  >
-                    {this.state.EmployeesByProjectByID.map((emp, i) => {
-                      return (
-                        <div key={i}>
-                          <Link
-                            to={`assign-history/${emp.id}/${emp.name}`}
-                            className="dropdown-item"
-                          >
-                            {emp.name}
-                          </Link>
-                          <div
-                            role="separator"
-                            className="dropdown-divider"
-                          ></div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-                <Link to="/Projects" className="float-right">
-                  Back to projects
-                </Link>
-              </div>
+              <Link to="/Projects" className="float-right">
+                Back to projects
+              </Link>
             </div>
           </div>
         </div>
-
         {this.state.searchFlag ? (
           <form>
-            <div className="row justify-content-center  mt-3">
-              <div className="col-4 col-md-4 col-lg-4 col-sm-4">
+            <div className="d-flex justify-content-center align-items-center  mt-3">
+              <div className="">
                 <h6 className="">Skill Name </h6>
 
                 <input
@@ -359,6 +319,47 @@ export default class MyTeamTable extends React.Component {
           </form>
         )}
 
+        {/*
+          <button
+            className="btn btn-outline-info"
+            type="button"
+            data-toggle="collapse"
+            aria-expanded="true"
+            aria-controls="collapseOne"
+            onClick={this.toggleDiv}
+            onClick={this.showEmployeeNameSearch}
+          >
+          Search by employee name
+          </button>*/}
+
+        {/* <a style={SearchByNameStyle} className="justify-content-md-center ml-4 mt-4" onClick={this.showEmployeeNameSearch}> Search by employee name </a>
+          </div>
+          </form> */}
+        {/* <form
+         className="d-flex justify-content-center align-items-center mb-4 mt-3"
+          > */}
+
+        {/* <div id="employeeNameSearch" style={employeeNameSearchStyle}>
+              <div className="row">                            
+                  <div className="col-md-6 mr-4" >
+                      <h6 className="">Employee Name:</h6>
+                      <input
+                          type="text"
+                          className="form-control mr-4 "
+                          placeholder="Search by Emp. Name"
+                          onKeyUp={e => this.searchEmp = e.target.value }
+                          />
+                  </div>
+                  <div className="col-md-2">
+                      <h6 className="">Search:</h6>
+                    <button onClick={this.filterListByEmpName} className=" btn btn-outline-success mr-5 mx-1" style={{ borderRadius: "50%" }}>
+                                <FontAwesomeIcon icon={faSearch} />
+                            </button>
+                  </div>
+                </div>
+              </div>                     
+        </form>
+        */}
         <div
           className="d-flex justify-content-center align-items-center"
           style={{ marginBottom: "50px" }}
