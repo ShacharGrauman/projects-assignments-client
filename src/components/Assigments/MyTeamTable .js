@@ -9,17 +9,12 @@ import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-import { DataContext } from "../common/Provider/DataProvider";
-
 const SearchByNameStyle = {
   cursor: "pointer",
   color: "blue",
-  textDecoration: "underline",
-  position: "relative",
-  left: "55%"
-};
-const employeeNameSearchStyle = {
-  display: "none"
+  textDecoration: "underline"
+  // position: "relative",
+  // left: "55%"
 };
 
 export default class MyTeamTable extends React.Component {
@@ -98,7 +93,11 @@ export default class MyTeamTable extends React.Component {
     const requiredLevel = this.state.selectedLevel;
 
     if (!requiredSkill) {
-      toast.info("Skill Name Required For Search");
+      this.setState({
+        employeesSearch: this.state.employees,
+        selectedLevel: "0"
+      });
+      // toast.info("Skill Name Required For Search");
       return;
     }
     const employeesSearch = await Api.getEmployeeBySkill(
@@ -156,35 +155,52 @@ export default class MyTeamTable extends React.Component {
                   <b>Description</b> : {this.state.project.description}
                 </p>
 
-                <p>
-                  <b>Technical Skills :</b>
-                  {this.state.project.technicalSkill &&
-                    this.state.project.technicalSkill.map((skill, index) => {
-                      return (
-                        <SkillBadge
-                          key={index}
-                          name={skill.name}
-                          level={skill.level}
-                          type={"Tech"}
-                        />
-                      );
-                    })}
-                </p>
-                <p>
-                  <b>Product Skills:</b>
-                  {this.state.project.productSkill &&
-                    this.state.project.productSkill.map((skill, index) => {
-                      return (
-                        <SkillBadge
-                          key={index}
-                          name={skill.name}
-                          level={skill.level}
-                          type={"Pro"}
-                        />
-                      );
-                    })}{" "}
-                </p>
-                <h6 style={{ fontWeight: "bold" }}> Employess </h6>
+                <div className="row" style={{ paddingLeft: "inherit" }}>
+                  <div
+                    className="TechSkills"
+                    style={{ textAlign: "left", width: "50%" }}
+                  >
+                    <p className="title">
+                      <b>Technical Skills</b>
+                    </p>
+                    {this.state.project.technicalSkill &&
+                      this.state.project.technicalSkill.map((skill, index) => {
+                        return (
+                          <SkillBadge
+                            key={index}
+                            name={skill.name}
+                            level={skill.level}
+                            type={"Tech"}
+                          />
+                        );
+                      })}
+                  </div>
+
+                  <div
+                    className="ProdSkills "
+                    style={{ textAlign: "left", width: "50%" }}
+                  >
+                    <p className="title">
+                      <b>Product Skills</b>
+                    </p>
+                    {this.state.project.productSkill &&
+                      this.state.project.productSkill.map((skill, index) => {
+                        return (
+                          <SkillBadge
+                            key={index}
+                            name={skill.name}
+                            level={skill.level}
+                            type={"Pro"}
+                          />
+                        );
+                      })}{" "}
+                  </div>
+                </div>
+
+                <h6 style={{ fontWeight: "bold", marginTop: "3%" }}>
+                  {" "}
+                  Employess{" "}
+                </h6>
 
                 <div className="input-group-prepend">
                   <button
@@ -218,6 +234,7 @@ export default class MyTeamTable extends React.Component {
                     })}
                   </div>
                 </div>
+
                 <Link to="/Projects" className="float-right">
                   Back to projects
                 </Link>
@@ -225,26 +242,25 @@ export default class MyTeamTable extends React.Component {
             </div>
           </div>
         </div>
-        {this.state.searchFlag ? (
-          <form>
-    <div className="row justify-content-center  mt-3">
-              <div className="col-4 col-md-4 col-lg-4 col-sm-4">
-                <h6 className="">Skill Name </h6>
+        <div className="justify-content-center col-8 mx-auto">
+          {this.state.searchFlag ? (
+            <form>
+              {/* col-4 col-md-4 col-lg-3 col-sm-4 */}
+              <div className="row justify-content-center mt-3 ">
+                <div className="col-md-6">
+                  <h6 className="">Skill Name </h6>
 
-                <input
-                  className="col-md-11 "
-                  type="text"
-                  placeholder="Search By Skill Name"
-                  aria-label="Search"
-                  onKeyUp={e => this.setState({ search: e.target.value })}
-                />
-                {/* <datalist id="skill">                  
-                  {[...skills.technicalSkills, ...skills.productSkills].map(skill=> <option key={skill.skillId} value={skill.skillName}/>)}
-              </datalist> */}
-              </div>
-              <div className="">
-                <h6 className="">Skill Level</h6>
-                <div className="form-check-inline m-0 align-items-end">
+                  <input
+                    className="w-100"
+                    type="text"
+                    placeholder="By Skill Name"
+                    aria-label="Search"
+                    onKeyUp={e => this.setState({ search: e.target.value })}
+                  />
+                </div>
+                <div className="col-md-2">
+                  <h6 className="">Skill Level</h6>
+                  {/* <div className="form-check-inline m-0 align-items-end"> */}
                   <select
                     value={this.state.selectedLevel}
                     className="form-control"
@@ -259,73 +275,73 @@ export default class MyTeamTable extends React.Component {
                     <option value="4">4</option>
                     <option value="5">5</option>
                   </select>
+                  {/* </div> */}
                 </div>
-              </div>
-              <div className="">
-                <h6 className="ml-4">Search</h6>
-
-                <button
-                  onClick={this.filterList}
-                  className=" ml-4 btn btn-outline-success mx-1"
-                  style={{ borderRadius: "50%" }}
-                >
-                  <FontAwesomeIcon icon={faSearch} />
-                </button>
-              </div>
-            </div>
-            <a
-              style={SearchByNameStyle}
-              className="justify-content-md-center ml-4 mt-4"
-              onClick={this.showEmployeeNameSearch}
-            >
-              Search By Employee Name
-            </a>
-          </form>
-        ) : (
-          <form className="d-flex justify-content-center align-items-center mb-4 mt-3">
-            <div id="employeeNameSearch">
-              <div className="row">
-                <div className="col-md-6 mr-4">
-                  <h6 className="">Employee Name</h6>
-                  <input
-                    aria-label="skill"
-                    type="text"
-                    className="col-md-11"
-                    placeholder="Employee Name"
-                    onKeyUp={e => (this.searchEmp = e.target.value)}
-                  />
-                </div>
-                <div className="col-md-2">
+                <div className="col-md-4">
                   <h6 className="">Search</h6>
+
                   <button
-                    onClick={this.filterListByEmpName}
-                    className=" btn btn-outline-success mr-5 mx-1"
+                    onClick={this.filterList}
+                    className=" btn btn-outline-success"
                     style={{ borderRadius: "50%" }}
                   >
                     <FontAwesomeIcon icon={faSearch} />
                   </button>
+                  <a
+                    style={SearchByNameStyle}
+                    className="ml-3 mt-4"
+                    onClick={this.showEmployeeNameSearch}
+                  >
+                    By Employee Name
+                  </a>
                 </div>
               </div>
-              <a
-                style={SearchByNameStyle}
-                className="justify-content-md-center ml-4 mt-4"
-                onClick={this.showEmployeeNameSearch}
-              >
-                Search By Skills
-              </a>
-            </div>
-          </form>
-        )}
-
+            </form>
+          ) : (
+            <form>
+              <div className="row justify-content-center  mt-3">
+                <div className="col-md-6">
+                  <h6 className="">Employee Name</h6>
+                  <input
+                    aria-label="skill"
+                    type="text"
+                    className="w-100"
+                    placeholder="Employee Name"
+                    onKeyUp={e => (this.searchEmp = e.target.value)}
+                  />
+                </div>
+                <div className="col-md-4">
+                  <h6 className="">Search</h6>
+                  <button
+                    onClick={this.filterListByEmpName}
+                    className=" btn btn-outline-success mr-2 mx-1"
+                    style={{ borderRadius: "50%" }}
+                  >
+                    <FontAwesomeIcon icon={faSearch} />
+                  </button>
+                  <a
+                    style={SearchByNameStyle}
+                    className="justify-content-md-center ml-2 mt-4"
+                    onClick={this.showEmployeeNameSearch}
+                  >
+                    Search By Skills
+                  </a>
+                </div>
+              </div>
+            </form>
+          )}
+        </div>
         <div
-          className="d-flex justify-content-center align-items-center mt-4"
-          style={{ marginBottom: "50px" }}
+          className="row justify-content-center mt-4"
+          // style={{ marginBottom: "50px" }}
         >
-          <MyTeamDetailsTable
-            project={this.state.project}
-            employees={this.state.employeesSearch}
-            onAssign={this.assign}
-          />
+          <div className="col-md-12 ">
+            <MyTeamDetailsTable
+              project={this.state.project}
+              employees={this.state.employeesSearch}
+              onAssign={this.assign}
+            />
+          </div>
         </div>
       </>
     );
