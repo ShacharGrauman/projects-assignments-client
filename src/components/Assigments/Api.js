@@ -44,7 +44,7 @@ class Api {
   }
   async employeeAssignmentsHistory(empID) {
     const history = await axios.get(
-      `${url}/assignments/${empID}?${currentLimit}`, {withCredentials: true}
+      `${url}assignments/${empID}?${currentLimit}`, {withCredentials: true}
     );
     return history.data;
   }

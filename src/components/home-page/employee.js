@@ -9,12 +9,11 @@ import {DataContext} from '../common/Provider/DataProvider';
 class EmployeeHome extends React.Component {
   render() {
 
-    let {id, email} = this.context.data;       
-    console.log('dfjsldkfjlkdsjfldsf', id, email, this.context);
+    let {id} = this.context.data; 
     return (
       <>
-       <MyOwnSkills match={{params:{id}}}></MyOwnSkills>
-       <AssignHisToryTable match={{params:{id,name:email,homePage:true}}}></AssignHisToryTable>
+      <AssignHisToryTable />
+       {/* <MyOwnSkills match={{params:{id}}}></MyOwnSkills> */}
       </>
     );
   }

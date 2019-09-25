@@ -59,7 +59,7 @@ export default () => (
             component={AssignmentRequets}
           />
           <Route
-            path="/assign-history/:id/:name"
+            path="/assign-history"
             component={AssignHisToryTable}
           />
           <Route path="/my-skills/:id" component={MyOwnSkills} />
