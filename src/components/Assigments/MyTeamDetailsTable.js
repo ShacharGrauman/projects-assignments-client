@@ -6,7 +6,6 @@ export default class MyTeamDetailsTable extends React.Component {
   render() {
     return (
       <>
-      {console.log(this.props.employees)}
         <div
           className="d-flex justify-content-center align-items-center mb-4 mt-3"
         >

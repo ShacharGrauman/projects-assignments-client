@@ -2,10 +2,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 const url = "http://localhost:8080/api/";
 const pageNumberLimit = "pageNumber=1&limit=20";
-const curentLimit = "currentPage=1&limit=20";
+const curentLimit = "page=1&limit=20";
 class Api {
   async getProjects() {
-    const projects = await axios.get(`${url}projects/manager/2`);
+    const projects = await axios.get(`${url}projects/manager/2?${curentLimit}`);
     return projects.data;
   }
   async getProjectsByProjectName(projectName) {
@@ -16,7 +16,7 @@ class Api {
   }
   async getProjectsByEmployeeName(employeeName) {
     const projects = await axios.get(
-      `${url}projects/user/name/${employeeName}`
+      `${url}projects/user/name/${employeeName}?${curentLimit}`
     );
     return projects.data;
   }
@@ -98,6 +98,15 @@ class Api {
       `${url}team/name/${empName}?${curentLimit}`
     );
     console.log(result.data)
+    return result.data;
+  }
+  async getEmployeeBySkill(requiredSkill,requiredLevel){
+    // console.log(requiredSkill);
+    // console.log(requiredLevel);
+    const result = await axios.post(`${url}team/skill?${curentLimit}`,{
+      name :requiredSkill,
+      level:requiredLevel
+    })
     return result.data;
   }
 }
