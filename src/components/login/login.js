@@ -89,7 +89,14 @@ export class login extends React.Component {
             const {initAuth} = this.context;
             initAuth(permissions[0], id, email);
 
+            console.log(permissions[0].role.name)
+
+            if(permissions[0].role.name==='admin')
             this.props.history.push('/users-list');
+            else if(permissions[0].role.name==='manager')
+            this.props.history.push('/manager');
+            else if(permissions[0].role.name==='employee')
+            this.props.history.push(`/my-skills/${id}`);
             // }else{
             //                 if(resp.status !== 200){
             //             toast.error(res.message);

@@ -45,9 +45,9 @@ export default class AssignmentRequets extends React.Component {
   render() {
     return (
     this.state.isLoading ? <h1>Hello World!</h1>:
-      <div className="col justify-content-md-center mt4">
+      <div className="justify-content-center mt4">
         <table
-          className="table"
+          className="table mx-auto"
           style={{
             width: "90%",
             marginLeft: "100px",

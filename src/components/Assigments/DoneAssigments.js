@@ -19,7 +19,7 @@ export default class DoneAssigments extends React.Component {
         validations: { required: true }
       },
       assigments: [],
-      url : 'http://localhost:8080/api/assignments',
+      url : 'assignments',
       assignmentsUrl : '',
       page : 1,
       doneAssigmentsCount : 0,

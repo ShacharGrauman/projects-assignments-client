@@ -66,7 +66,7 @@ export default class Navbar extends React.Component {
       },
       {
         icon: faStar,
-        path: '/my-skills/3',
+        path: '/my-skills/0',
         name: 'My Skills',
         role:['employee','manager']
       },
@@ -84,9 +84,15 @@ export default class Navbar extends React.Component {
       },
       {
         icon: faStarHalfAlt,
-        path: '/pendingSkills/1',
+        path: '/pendingSkills/0',
         name: 'Pending Skills',
         role:['manager']
+      },
+      {
+        icon: faStarHalfAlt,
+        path: '/assign-history/',
+        name: 'My Assignments',
+        role:['employee']
       },
     ];
     this.toggleNavbar = this.toggleNavbar.bind(this)
@@ -95,9 +101,6 @@ export default class Navbar extends React.Component {
   toggleNavbar() {
     this.setState({ open: !this.state.open })
   }
-
-
-
   render() {
     return (<>
 
@@ -119,8 +122,6 @@ export default class Navbar extends React.Component {
                 let role = this.context.data.authValues.role;       
 
                 const roleName = role?role.name:''              
-
-              //console.log('navbar...', menuItem.role);
 
               return this.navbarMenu.map((menuItem,index)=> {
                 
