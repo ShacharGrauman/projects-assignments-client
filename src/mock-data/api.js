@@ -1,5 +1,6 @@
 
 import axios from 'axios';
+import { de } from 'date-fns/esm/locale';
 
 const send = async (url, data) => {
     try{
@@ -97,8 +98,8 @@ export const api = {
 
 
     addUser: async ({details,img,roles})=>{
-
-        return await send(`employee/`, JSON.stringify({
+            console.log(details, roles)
+        return await send(`employee/`, {
             employee:{
                    number:+details.employeeNumber.value,
                    firstName:details.firstName.value,
@@ -118,7 +119,7 @@ export const api = {
                    deactivated:false
             },
           roles:roles
-        }));        
+        });        
     },
 
     updateUserDetails: async({details,img,roles})=>{
@@ -205,8 +206,18 @@ export const api = {
         return await send(url); 
     },
   
-    addDepartment:async function({department}){
-        return await send(`department`, JSON.stringify({name:department.value})); 
+    addDepartment:async function(department){
+        const resp = await fetch(`http://localhost:8080/api/department`, {
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body:JSON.stringify(department)
+          }
+         ); 
+        return resp;
+        // return await send(`department`, department); 
     },
   
     resetPassword: async function({email, employeeNumber}){

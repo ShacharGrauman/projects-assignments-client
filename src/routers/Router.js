@@ -24,7 +24,6 @@ import "react-toastify/dist/ReactToastify.css";
 import Header from "../components/common/Header";
 import EmployeeHome from "../components/home-page/employee";
 import ManagerHome from "../components/home-page/manager";
-
 import {DataContext} from '../components/common/Provider/DataProvider'
 
 
@@ -43,7 +42,7 @@ export default () => (
       <div className="mx-1 pb-5">
         <Switch>
           <Route path="/" component={Login} exact />
-       
+          
           <Route path="/users-list/" component={UsersListPage} />
           <Route path="/user-profile/:id" component={UserProfile} />
           <Route path="/user-profile/addUser" component={UserProfile} />
@@ -55,8 +54,6 @@ export default () => (
           <Route path="/add-new-project/" component={AddNewProject} />
           <Route path="/employee/" component={EmployeeHome} />
           <Route path="/manager/" component={ManagerHome} />
-
-
           <Route
             path="/pending-assignment-request/"
             component={AssignmentRequets}

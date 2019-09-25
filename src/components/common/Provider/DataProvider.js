@@ -18,11 +18,10 @@ export class DataProvider extends Component {
             authValues:{},
             isLogged:false
         }
-
         this.initAuth = this.initAuth.bind(this)
     }
 
-    async initAuth(auth){
+    async initAuth(auth, id, email){
         const result = await api.getAllData()
         await this.setState({
             data:{
@@ -34,7 +33,9 @@ export class DataProvider extends Component {
                 skills: result.skills
             },
             authValues:auth,
-            isLogged:true
+            id,
+            email,
+            isLogged:!this.state.isLogged
         });
 
     }
@@ -44,6 +45,13 @@ export class DataProvider extends Component {
 
     async componentDidMount(){
         
+        const [,val2] = document.cookie.split("=")
+            if(val2){
+                const [id, employeeNumber, email, roles] = window.atob(val2).split(';');
+                const permissions = JSON.parse(roles);                
+                
+                this.initAuth(permissions[0], id, email);
+            }
     }
     
     render() {

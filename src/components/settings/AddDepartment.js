@@ -45,7 +45,7 @@ export default class AddDepartment extends Component {
     }
 
 
-    submit(e) {
+    async submit(e) {
         e.preventDefault();
         let errors;
         // Test field of the form for errors
@@ -58,17 +58,16 @@ export default class AddDepartment extends Component {
 
         if (!errors) {
             const finalResult = {
-                department: this.state.department,
+                name: this.state.department.value,
             }
-            const result = api.addDepartment(finalResult)
-            result.then(res=>{
-                if(res.ok){
-                    toast.success("Adding new department succeeded")
-                }
-                else{
-                    toast.error('Failed to add department')
-                }
-            })
+            const result = await api.addDepartment(finalResult)
+           
+            if(result.ok){
+                toast.success("Adding new department succeeded")
+            }
+            else{
+                toast.error('Failed to add department')
+            }
         }
         else {
             toast.error("Please fill the missing")
@@ -118,7 +117,7 @@ export default class AddDepartment extends Component {
                 <ul className="list-group">
                     <DataProvider>
                         <DataContext.Consumer>
-                            {({departments})=>departments.map((department,i)=> <li key={i} className="list-group-item">{department.name}</li>)}
+                            {({data: {data:{departments}}})=>departments.map((department,i)=> <li key={i} className="list-group-item">{department.name}</li>)}
                         </DataContext.Consumer>
                     </DataProvider>
 
