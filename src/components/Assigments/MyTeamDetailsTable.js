@@ -1,29 +1,33 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import Pagination from '../users-list/Pagination'
 import SkillBadge from "./SkillBadge";
+import { noAuto } from "@fortawesome/fontawesome-svg-core";
 
 export default class MyTeamDetailsTable extends React.Component {
   render() {
     return (
       <>
-        <div
-          className="row justify-content-center"
-        >
-          <div className="col-2 col-md-8 col-sm-4 col-lg-8 ">
-          <table
+
+
+        <div className="d-flex justify-content-center align-items-center mb-4 mt-3">
+          <div className="col-2 col-md-8 col-sm-4 col-lg-8 " style={{paddingRight: '50%'}}>
+          <table 
             className="table "
             style={{
-              // display: "block",
-              border: "1px solid black"
+              //justifyContent:'center',
+              margin: "auto",
+              display: "block",
+              border: "1px solid black",
+              width: '1200px'
             }}
           >
             <thead className="thead-dark">
               <tr>
-                <th >Name</th>
-                <th >Employee Number</th>
-                <th >Technical Skills</th>
-                <th >Product Skills</th>
-                <th >Actions</th>
+                <th scope="col" style={{width: '20%'}}>Name</th>
+                <th scope="col" style={{width: '10%'}}>Employee Number</th>
+                <th scope="col" style={{width: '30%'}}>Technical Skills</th>
+                <th scope="col" style={{width: '30%'}}>Product Skills</th>
+                <th scope="col" style={{width: '10%'}}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -82,6 +86,9 @@ export default class MyTeamDetailsTable extends React.Component {
               })}
             </tbody>
           </table>
+          <div>
+            <Pagination />
+          </div>
           </div>
           
         </div>

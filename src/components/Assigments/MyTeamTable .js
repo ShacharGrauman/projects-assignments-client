@@ -98,6 +98,10 @@ export default class MyTeamTable extends React.Component {
     const requiredLevel = this.state.selectedLevel;
 
     if (!requiredSkill) {
+      this.setState({
+        employeesSearch: this.state.employees,
+        selectedLevel:"0"
+      });
       toast.info("Skill Name Required For Search");
       return;
     }
@@ -156,35 +160,39 @@ export default class MyTeamTable extends React.Component {
                   <b>Description</b> : {this.state.project.description}
                 </p>
 
-                <p>
-                  <b>Technical Skills :</b>
-                  {this.state.project.technicalSkill &&
-                    this.state.project.technicalSkill.map((skill, index) => {
-                      return (
-                        <SkillBadge
-                          key={index}
-                          name={skill.name}
-                          level={skill.level}
-                          type={"Tech"}
-                        />
-                      );
-                    })}
-                </p>
-                <p>
-                  <b>Product Skills:</b>
-                  {this.state.project.productSkill &&
-                    this.state.project.productSkill.map((skill, index) => {
-                      return (
-                        <SkillBadge
-                          key={index}
-                          name={skill.name}
-                          level={skill.level}
-                          type={"Pro"}
-                        />
-                      );
-                    })}{" "}
-                </p>
-                <h6 style={{ fontWeight: "bold" }}> Employess </h6>
+                <div className="row" style={{paddingLeft: 'inherit'}}>
+            <div className="TechSkills" style={{textAlign: 'left', width: '50%'}}>
+            <p className="title">Technical Skills:</p>
+            {this.state.project.technicalSkill &&
+              this.state.project.technicalSkill.map((skill, index) => {
+                return (
+                  <SkillBadge
+                    key={index}
+                    name={skill.name}
+                    level={skill.level}
+                    type={"Tech"}
+                  />
+                );
+              })}
+            </div>
+
+            <div className="ProdSkills " style={{textAlign: 'left', width: '50%'}}>
+              <p className="title" >Product Skills:</p>
+              {this.state.project.productSkill &&
+                this.state.project.productSkill.map((skill, index) => {
+                  return (
+                    <SkillBadge
+                      key={index}
+                      name={skill.name}
+                      level={skill.level}
+                      type={"Pro"}
+                    />
+                  );
+                })}{" "}
+            </div>
+          </div>
+                
+                <h6 style={{ fontWeight: "bold", marginTop: "3%"  }}> Employess </h6>
 
                 <div className="input-group-prepend">
                   <button
@@ -218,6 +226,7 @@ export default class MyTeamTable extends React.Component {
                     })}
                   </div>
                 </div>
+                
                 <Link to="/Projects" className="float-right">
                   Back to projects
                 </Link>
@@ -238,9 +247,7 @@ export default class MyTeamTable extends React.Component {
                   aria-label="Search"
                   onKeyUp={e => this.setState({ search: e.target.value })}
                 />
-                {/* <datalist id="skill">                  
-                  {[...skills.technicalSkills, ...skills.productSkills].map(skill=> <option key={skill.skillId} value={skill.skillName}/>)}
-              </datalist> */}
+
               </div>
               <div className="">
                 <h6 className="">Skill Level</h6>
@@ -287,11 +294,12 @@ export default class MyTeamTable extends React.Component {
               <div className="row">
                 <div className="col-md-6 mr-4">
                   <h6 className="">Employee Name</h6>
+                
                   <input
                     aria-label="skill"
                     type="text"
                     className="col-md-11"
-                    placeholder="Employee Name"
+                    placeholder="Search By Employee Name"
                     onKeyUp={e => (this.searchEmp = e.target.value)}
                   />
                 </div>
