@@ -173,7 +173,7 @@ export class AddWorkSite extends Component {
                         <ul className="list-group">
                             <DataProvider>
                                 <DataContext.Consumer>
-                                    {({ worksites }) => worksites.map(worksite => <li className="list-group-item">{worksite.name+ ' ,' + worksite.country.name}</li>)}
+                                    {({ worksites }) => worksites.map((worksite,i) => <li key={i} className="list-group-item">{worksite.name+ ' ,' + worksite.country.name}</li>)}
                                 </DataContext.Consumer>
                             </DataProvider>
                         </ul>

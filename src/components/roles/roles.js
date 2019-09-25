@@ -31,7 +31,7 @@ export default class Roles extends React.Component {
                     <div className="row justify-content-center">
                         <div className="col-lg-2 col-sm-2 mt-2">
                             <div className="nav flex-column nav-pills text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                {this.state.roles.map(role => <a className="nav-link" id={`v-pills-${role.role.id}-tab`} data-toggle="pill" href={`#v-pills-${role.role.id}`} role="tab" aria-controls={`v-pills-${role.role.id}`} aria-selected="false">{role.role.name}</a>)}
+                                {this.state.roles.map((role,i) => <a key={i} className="nav-link" id={`v-pills-${role.role.id}-tab`} data-toggle="pill" href={`#v-pills-${role.role.id}`} role="tab" aria-controls={`v-pills-${role.role.id}`} aria-selected="false">{role.role.name}</a>)}
                                 {/* <a className="nav-link active" id="v-pills-admin-tab" data-toggle="pill" href="#v-pills-admin" role="tab" aria-controls="v-pills-admin" aria-selected="true">Admin</a>
                                     <a className="nav-link" id="v-pills-employee-tab" data-toggle="pill" href="#v-pills-employee" role="tab" aria-controls="v-pills-employee" aria-selected="false">Employee</a>
                                     <a className="nav-link" id="v-pills-manager-tab" data-toggle="pill" href="#v-pills-manager" role="tab" aria-controls="v-pills-manager" aria-selected="false">Manager</a>
@@ -42,15 +42,15 @@ export default class Roles extends React.Component {
                         <div className="col-lg-6 col-sm-10 px-4">
                             <div className="tab-content" id="v-pills-tabContent">
                                 {
-                                    this.state.roles.map(role => <div className="mt-3 tab-pane fade"
+                                    this.state.roles.map((role,i) => <div key={i} className="mt-3 tab-pane fade"
                                         id={`v-pills-${role.role.id}`}
                                         role="tabpanel"
                                         aria-labelledby={`v-pills-${role.role.id}-tab`}>{role.role.description}
                                         
                                         <h5 className="mt-3">Role permissions:</h5>
                                         <ul className="list-group">
-                                            {role.permissions.map(permission=>
-                                                <li className="list-group-item">{permission.name}</li>
+                                            {role.permissions.map((permission,i)=>
+                                                <li key={i} className="list-group-item">{permission.name}</li>
                                                 )}
                                         </ul>
                                     </div>)
