@@ -275,7 +275,6 @@ export default class MyTeamTable extends React.Component {
             </div>
           </form>
         )}
-
         <div
           className="d-flex justify-content-center align-items-center"
           style={{ marginBottom: "50px" }}
