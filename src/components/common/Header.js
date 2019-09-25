@@ -14,17 +14,15 @@ export default class Header extends React.Component {
           <Link to="/">
             <img src={logo} className="" style={{ height: "25px" }} />
           </Link>
-         
-            <FontAwesomeIcon
-                style={{ cursor: "pointer" }}
-                title="Logout"
-                size="2x"
-                icon={signOutAlt}
-              /><Link to="/login">
-              
-              logout
-            </Link>
-          
+
+          {/* <FontAwesomeIcon
+            // className="justify-content-right"
+            // style={{ cursor: "pointer" }}
+            // title="Logout"
+            // size="2x"
+            icon={signOutAlt}
+          /> */}
+          <Link to="/login" className="btn btn-outline-danger" >Logout</Link>
         </nav>
       </>
     );

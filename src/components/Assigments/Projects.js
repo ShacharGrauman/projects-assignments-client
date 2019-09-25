@@ -5,8 +5,7 @@ import { Button, Badge } from "react-bootstrap";
 import { Route, Link, BrowserRouter as Router } from "react-router-dom";
 import SkillBadge from "./SkillBadge";
 import InputErrors from "./InputError";
-import  Api from './Api';
-
+import Api from "./Api";
 
 export default class AssignHistory extends React.Component {
   constructor() {
@@ -19,18 +18,21 @@ export default class AssignHistory extends React.Component {
         value: "",
         errors: [],
         validations: { required: true, minLength: 1 },
-        isLoading:true
+        isLoading: true
       },
-      isLoading:true
+      isLoading: true
     };
-    
+
     this.setProjectInSession = this.setProjectInSession.bind(this);
     this.getEmpForProject = this.getEmpForProject.bind(this);
-    this.getSearchDataByProjectName = this.getSearchDataByProjectName.bind(this);
-    this.getSearchDataByEmployeeName = this.getSearchDataByEmployeeName.bind(this);
+    this.getSearchDataByProjectName = this.getSearchDataByProjectName.bind(
+      this
+    );
+    this.getSearchDataByEmployeeName = this.getSearchDataByEmployeeName.bind(
+      this
+    );
     this.inputChange = this.inputChange.bind(this);
     this.setSearchValue = this.setSearchValue.bind(this);
-
   }
   async componentDidMount() {
     const projectsData = await Api.getProjects();
@@ -39,28 +41,29 @@ export default class AssignHistory extends React.Component {
         isLoading: false
       });
     }, 1000);
-    this.setState({projectsData,isLoading: false});
+    this.setState({ projectsData, isLoading: false });
   }
-
 
   async getSearchDataByProjectName() {
-    const projectsData = await Api.getProjectsByProjectName(this.state.searchBar.value);
-    this.setState({projectsData});
+    const projectsData = await Api.getProjectsByProjectName(
+      this.state.searchBar.value
+    );
+    this.setState({ projectsData });
   }
   async getSearchDataByEmployeeName() {
-    const projectsData = await Api.getProjectsByEmployeeName(this.state.searchBar.value);
-    this.setState({projectsData});
+    const projectsData = await Api.getProjectsByEmployeeName(
+      this.state.searchBar.value
+    );
+    this.setState({ projectsData });
   }
   async getEmpForProject(projectID) {
-    
     const EmployeesByProjectByID = await Api.getEmpForProjects(projectID);
-    this.setState({EmployeesByProjectByID});
-
+    this.setState({ EmployeesByProjectByID });
   }
-  setSearchValue(event){
+  setSearchValue(event) {
     this.setState({
       searchBar: {
-        ...this.state.searchBar, 
+        ...this.state.searchBar,
         value: event.target.value
       }
     });
@@ -99,13 +102,15 @@ export default class AssignHistory extends React.Component {
 
   render() {
     // console.log(this.state.projectsData[2].technicalSkill)
-    return (
-      this.state.isLoading ? <h1>hello</h1> : 
+    return this.state.isLoading ? (
+      <h1>hello</h1>
+    ) : (
       <>
         <div className="col justify-content-md-center">
-          <div className="d-flex justify-content-center align-items-center mb-2"><h1>Projects </h1></div>
           <div className="d-flex justify-content-center align-items-center mb-2">
-           
+            <h1>Projects </h1>
+          </div>
+          <div className="d-flex justify-content-center align-items-center mb-2">
             <input
               className="form-control mr-sm-2 w-25 "
               type="search"
@@ -123,13 +128,13 @@ export default class AssignHistory extends React.Component {
             >
               Search Project By Name
             </button>
-            
+
             <button
               className="btn btn-outline-success my-2 my-sm-0"
               type="submit"
               onClick={this.getSearchDataByEmployeeName}
             >
-              Search Employee By Name 
+              Search Employee By Name
             </button>
           </div>
           <div className="d-flex justify-content-center align-items-center mb-2">
@@ -137,9 +142,9 @@ export default class AssignHistory extends React.Component {
             <InputErrors errors={this.state.searchBar.errors} />
           </div>
           <div className="accordion" id="accordionExample">
-            {this.state.projectsData.map(project => {
+            {this.state.projectsData.map((project,index) => {
               return (
-                <div className="card" style={{overflow:"visible"}}>
+                <div className="card" key={index} style={{ overflow: "visible" }}>
                   <div className="card-header" id="headingOne">
                     <div className="row">
                       <div className="col">
@@ -166,10 +171,9 @@ export default class AssignHistory extends React.Component {
                         {" "}
                         <Link
                           to={`./my-team/${project.name}`}
-                           // to={`assign-history/${Emp.id}/${Emp.name}`}
+                          // to={`assign-history/${Emp.id}/${Emp.name}`}
                           className="btn btn-outline-success"
                           onClick={e => this.setProjectInSession(project)}
-
                         >
                           Assign
                         </Link>
@@ -184,13 +188,13 @@ export default class AssignHistory extends React.Component {
                     aria-labelledby="headingOne"
                     data-parent="#accordionExample"
                   >
-                    <div className="card-body" >
-                      <div className="row" >
+                    <div className="card-body">
+                      <div className="row">
                         <div className="col">
                           <h6 style={{ fontWeight: "bold" }}>
                             Required Technical Skills{" "}
                           </h6>
-                          
+
                           {project.technicalSkill.map((skill, index) => {
                             return (
                               <SkillBadge
@@ -226,11 +230,11 @@ export default class AssignHistory extends React.Component {
                           {project.description}
                         </div>
                       </div>
-                      <div className="row" >
-                        <div className="col-12" >
+                      <div className="row">
+                        <div className="col-12">
                           <h6 style={{ fontWeight: "bold" }}> Employess </h6>
 
-                          <div className="input-group-prepend" >
+                          <div className="input-group-prepend">
                             <button
                               className="btn btn-outline-secondary dropdown-toggle"
                               type="button"
@@ -240,21 +244,29 @@ export default class AssignHistory extends React.Component {
                             >
                               Employees
                             </button>
-                            <div className="dropdown-menu w-20" style={{height:"150px",overflow:"scroll"}}>
-                              {this.state.EmployeesByProjectByID.map(emp => {
-                                return (
-                                  <>
-                                    <Link
-                                      to={`assign-history/${emp.id}/${emp.name}`}
-                                      className="dropdown-item"
-                                      
-                                    >
-                                      {emp.name}
-                                    </Link>
-                                    <div role="separator" className="dropdown-divider"></div>
-                                  </>
-                                );
-                              })}
+                            <div
+                              className="dropdown-menu w-20"
+                              style={{ height: "150px", overflow: "scroll" }}
+                            >
+                              {this.state.EmployeesByProjectByID.map(
+                                (emp, i) => {
+                                  return (
+                                    <>
+                                      <Link
+                                        key={i}
+                                        to={`assign-history/${emp.id}/${emp.name}`}
+                                        className="dropdown-item"
+                                      >
+                                        {emp.name}
+                                      </Link>
+                                      <div
+                                        role="separator"
+                                        className="dropdown-divider"
+                                      ></div>
+                                    </>
+                                  );
+                                }
+                              )}
                             </div>
                           </div>
                         </div>
@@ -266,7 +278,7 @@ export default class AssignHistory extends React.Component {
             })}
           </div>
         </div>
-        <footer
+        {/* <footer
           aria-label="Page navigation example"
           style={{ marginTop: "50px" }}
         >
@@ -275,7 +287,7 @@ export default class AssignHistory extends React.Component {
               <a
                 className="page-link"
                 href="#"
-                tabindex="-1"
+                tabIndex="-1"
                 aria-disabled="true"
               >
                 Previous
@@ -304,7 +316,7 @@ export default class AssignHistory extends React.Component {
             </li>
           </ul>
         </footer>
-        <div style={{ height: "90px" }}></div>
+        <div style={{ height: "90px" }}></div> */}
       </>
     );
   }
