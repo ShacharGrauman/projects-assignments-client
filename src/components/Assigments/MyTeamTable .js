@@ -317,23 +317,7 @@ export default class MyTeamTable extends React.Component {
           </form>
         )}
 
-          {/*
-          <button
-            className="btn btn-outline-info"
-            type="button"
-            data-toggle="collapse"
-            aria-expanded="true"
-            aria-controls="collapseOne"
-            onClick={this.toggleDiv}
-            onClick={this.showEmployeeNameSearch}
-          >
-          Search by employee name
-          </button>*/}
-
-
-          <a style={SearchByNameStyle} className="justify-content-md-center ml-4 mt-4" onClick={this.showEmployeeNameSearch}> Search by employee name </a>
-          </div>
-          </form>
+         
           <form
          className="d-flex justify-content-center align-items-center mb-4 mt-3"
           >
