@@ -130,7 +130,6 @@ export default class AddProject extends React.Component {
   }
 
   inputChange({ target: { name, value } }) {
-    console.log(name);
     const { validations } = this.state[name];
     const errors = [];
 
@@ -236,14 +235,12 @@ export default class AddProject extends React.Component {
     };
     try {
       const projectResponse = await Api.addNewProject(values);
-      console.log(projectResponse);
       if (projectResponse.status === 200) {
         toast.success("Project Added Successfully");
       }
     } catch (error) {
-      console.log(error);
       if (error.response.data.status == "BAD_REQUEST") {
-        toast.error(error.response.data.errorMessage);
+        toast.error("Project Name Already Exists,Name Should Be Unique");
       }
     }
   }
