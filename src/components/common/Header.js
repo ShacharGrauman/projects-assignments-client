@@ -3,7 +3,15 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { signOutAlt } from "@fortawesome/free-solid-svg-icons";
 import logo from "../../../assets/amdocs.png";
+import Api from "../Assigments/Api";
 export default class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.logout = this.logout.bind(this);
+  }
+  async logout() {
+    await Api.logout();
+  }
   render() {
     return (
       <>
@@ -14,15 +22,11 @@ export default class Header extends React.Component {
           <Link to="/">
             <img src={logo} className="" style={{ height: "25px" }} />
           </Link>
-
-          {/* <FontAwesomeIcon
-            // className="justify-content-right"
-            // style={{ cursor: "pointer" }}
-            // title="Logout"
-            // size="2x"
-            icon={signOutAlt}
-          /> */}
-          <Link to="/login" className="btn btn-outline-danger" >Logout</Link>
+          <Link to="/">
+          <button className="btn btn-outline-danger" onClick={this.logout}>
+            Logout
+          </button>
+          </Link>
         </nav>
       </>
     );

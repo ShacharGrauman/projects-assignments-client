@@ -5,7 +5,9 @@ const currentLimit = "page=1&limit=20";
 
 class Api {
   async getProjects() {
-    const projects = await axios.get(`${url}projects/manager/2?${currentLimit}`);
+    const projects = await axios.get(
+      `${url}projects/manager/2?${currentLimit}`
+    );
     return projects.data;
   }
   async getProjectsByProjectName(projectName) {
@@ -74,13 +76,13 @@ class Api {
       technicalSkill,
       productSkill
     } = value;
-    const newProject= await axios.post(`${url}projects`, {
-        name: name,
-        description: description,
-        startDate: startDate,
-        technicalSkill: technicalSkill,
-        productSkill: productSkill
-      })
+    const newProject = await axios.post(`${url}projects`, {
+      name: name,
+      description: description,
+      startDate: startDate,
+      technicalSkill: technicalSkill,
+      productSkill: productSkill
+    });
     return newProject;
   }
   async getDoneAssignByDate(date) {
@@ -89,28 +91,29 @@ class Api {
     );
     return result.data;
   }
-  
+
   async getSearchEmployee(empName) {
     const result = await axios.get(
       `${url}team/name/${empName}?${currentLimit}`
     );
-   
+
     return result.data;
   }
-  async getEmployeeBySkill(requiredSkill,requiredLevel){
-
-    const result = await axios.post(`${url}team/skill?${currentLimit}`,{
-      name :requiredSkill,
-      level:requiredLevel
-    })
+  async getEmployeeBySkill(requiredSkill, requiredLevel) {
+    const result = await axios.post(`${url}team/skill?${currentLimit}`, {
+      name: requiredSkill,
+      level: requiredLevel
+    });
     return result.data;
   }
 
- async getSkills(){
-  const result = await axios.get(
-    `${url}skills`
-  );
-  return result.data;
- }
+  async getSkills() {
+    const result = await axios.get(`${url}skills`);
+    return result.data;
+  }
+  async logout() {
+    const result = await axios.get(`${url}login`);
+    return ;
+  }
 }
 export default new Api();
