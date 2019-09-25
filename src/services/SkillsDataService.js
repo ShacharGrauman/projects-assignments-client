@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const API_URL = `http://localhost:8080/api/`;
+const API_URL = `http://localhost:8080/api`;
 
 const productSkills = "productSkills";
 const technicalSkills = "technicalSkills";

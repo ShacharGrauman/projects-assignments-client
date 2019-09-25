@@ -3,14 +3,23 @@ import { Link } from "react-router-dom";
 import MyOwnSkills from "../skills/MyOwnSkills";
 import AssignHisToryTable from "../Assigments/AssignmentHistoryForEmp";
 
+import {DataContext} from '../common/Provider/DataProvider';
 
-export default class EmployeeHome extends React.Component {
+
+class EmployeeHome extends React.Component {
   render() {
+
+    let {id, email} = this.context.data;       
+    console.log('dfjsldkfjlkdsjfldsf', id, email, this.context);
     return (
       <>
-       <MyOwnSkills match={{params:{id:5}}}></MyOwnSkills>
-       <AssignHisToryTable match={{params:{id:5,name:'Lama Azaizi',homePage:true}}}></AssignHisToryTable>
+       <MyOwnSkills match={{params:{id}}}></MyOwnSkills>
+       <AssignHisToryTable match={{params:{id,name:email,homePage:true}}}></AssignHisToryTable>
       </>
     );
   }
 }
+
+EmployeeHome.contextType = DataContext;
+
+export default EmployeeHome;

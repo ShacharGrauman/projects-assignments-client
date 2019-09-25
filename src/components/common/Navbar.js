@@ -16,8 +16,7 @@ const styleNavbar = {
   transition: 'transform 0.228s ease-in',
   zIndex: '100',
   top: '0',
-  height: '95vh',
-  overflow: 'scroll'
+  height: '95vh'
 }
 
 
@@ -33,58 +32,61 @@ export default class Navbar extends React.Component {
         icon: faHome,
         path: '/',
         name: 'Home',
-        role:'manager'
+        role:['admin','manager','employee']
       },
       {
         icon: faUserCircle,
         path: '/users-list',
         name: 'Users',
-        role:'manager'
+        role:['admin']
       },
       {
         icon: faClipboardList,
         path: '/audit',
-        name: 'Audit'
+        name: 'Audit',
+        role:['admin']
       },
       {
         icon: faUserLock,
         path: '/roles',
-        name: 'Roles'
+        name: 'Roles',
+        role:['admin']
       },
       {
         icon: faCog,
         path: '/settings/add/roles',
-        name: 'Settings'
+        name: 'Settings',
+        role:['admin']
       },
       {
         icon: faLightbulb,
         path: '/projects',
-        name: 'My Projects'
+        name: 'My Projects',
+        role:['manager']
       },
       {
         icon: faStar,
         path: '/my-skills/3',
-        name: 'My Skills'
+        name: 'My Skills',
+        role:['employee','manager']
       },
       {
         icon: faListAlt,
         path: '/pending-assignment-request',
-        name: 'Pending Assignment Request'
-      },
-      {
-        icon: faPlus,
-        path: '/add-new-project',
-        name: 'Add New Project'
+        name: 'Pending Assignment Request',
+        role:['manager']
       },
       {
         icon: faClipboardCheck,
         path: '/done-assignments',
-        name: 'Done Assigments'
+        name: 'Done Assigments',
+        role:['manager']
       },
       {
         icon: faStarHalfAlt,
         path: '/pendingSkills/1',
-        name: 'Pending Skills'
+        name: 'Pending Skills',
+        role:['manager']
       },
     ];
     this.toggleNavbar = this.toggleNavbar.bind(this)
@@ -110,50 +112,31 @@ export default class Navbar extends React.Component {
             <span aria-hidden="true">&times;</span>
           </button>
 
-          
-            {
-              (() => {
-                let role = this.context.data.authValues.role;
-            console.log(role);
-            })()}
-          
-
           <ul className="list-group list-group-flush mt-4" >
             {
-            <DataContext.Consumer>
-             {({data:{authValues:{role}}})=>{
+            
+              (() => {
+                let role = this.context.data.authValues.role;       
 
-                const roleName = role?role.name:''
-
-
-               
+                const roleName = role?role.name:''              
 
               //console.log('navbar...', menuItem.role);
-debugger;
-               this.navbarMenu.map((menuItem,index)=>
-               {
-                 return ( 
-                 <li
+
+              return this.navbarMenu.map((menuItem,index)=> {
+                
+                if (menuItem.role.includes(roleName)){
+                 return (<li
                   key={index} className="list-group-item list-group-item-action" onClick={this.toggleNavbar} style={{ backgroundColor: '#f8f9fa' }}>
                    <Link className="nav-link text-body" to={menuItem.path}>
                      <FontAwesomeIcon icon={menuItem.icon} className="mr-2" />
                      {menuItem.name}
                    </Link>
-                 </li>);
-              }
-              
-
-
-             )
-
-
-
-
-              }
-             }
-              </DataContext.Consumer>
-              
+                 </li>)}
+              })
+            })()
             }
+              
+            
           </ul>
         </div>
       </div>

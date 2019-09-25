@@ -74,7 +74,6 @@ export class login extends React.Component {
             }
         })
         if(!errors){
-            debugger;
             const resp = await api.validateLogin(this.state.email.value, this.state.password.value);
 
             if(resp.status && resp.status != 200){
@@ -82,14 +81,13 @@ export class login extends React.Component {
                 return;
             }
 
-            debugger;
             const [,val2] = document.cookie.split("=")
                 
             const [id, employeeNumber, email, roles] = window.atob(val2).split(';');
             const permissions = JSON.parse(roles);                
 
             const {initAuth} = this.context;
-            initAuth(permissions[0]);
+            initAuth(permissions[0], id, email);
 
             this.props.history.push('/users-list');
             // }else{
