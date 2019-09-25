@@ -5,7 +5,7 @@ import InputErrors from '../shared-components/InputErrors'
 import { DataProvider } from '../common/Provider/DataProvider';
 import { DataContext } from '../common/Provider/DataProvider'
 import { toast } from 'react-toastify'
-import {api} from '../../mock-data/api'
+import { api } from '../../mock-data/api'
 
 
 export class AddWorkSite extends Component {
@@ -17,10 +17,10 @@ export class AddWorkSite extends Component {
             country: { value: '', errors: [], validations: { required: true } },
             city: { value: '', errors: [], validations: { required: true, pattern: /^[A-Za-z . ,'-]+$/ } },
             worksite: { value: '', errors: [], validations: { required: true } },
-            countryList:{
+            countryList: {
                 options: this.options,
                 value: null,
-                validations: { required: false } 
+                validations: { required: false }
             }
         };
         this.changeHandler = this.changeHandler.bind(this);
@@ -28,8 +28,10 @@ export class AddWorkSite extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
     }
     changeHandler(value) {
-        this.setState({ countryList:{...this.state.countryList, value: value},
-             country: { ...this.state.country, value: value.label } });
+        this.setState({
+            countryList: { ...this.state.countryList, value: value },
+            country: { ...this.state.country, value: value.label }
+        });
     }
     handleRequiredValidation(name, value) {
         if (!value) {
@@ -92,10 +94,12 @@ export class AddWorkSite extends Component {
                 worksite: this.state.worksite,
                 city: this.state.city
             }
-            const result = api.addworksite({country:this.state.country.value,
-                                            city:this.state.city.value,
-                                            worksite:this.state.worksite.value})
-            
+            const result = api.addworksite({
+                country: this.state.country.value,
+                city: this.state.city.value,
+                worksite: this.state.worksite.value
+            })
+
             console.log(result)
             if (result.Ok) {
                 toast.success("Successfully added new Work Site")
@@ -118,12 +122,9 @@ export class AddWorkSite extends Component {
                 <div className=" mt-2">
                     <h5 className="text-center">Work Site</h5>
                 </div>
-                <div className="d-flex justify-content-around">
+                <div className="d-flex justify-content-around flex-xs-column col-12 ">
 
-
-
-
-                    <div className="d-flex flex-column align-items-center col-9">
+                    <div className="d-flex flex-column align-items-center ">
 
                         <p>Add new work site:</p>
                         <form onSubmit={this.submit}>
@@ -167,17 +168,17 @@ export class AddWorkSite extends Component {
                             </div>
                         </form>
                     </div>
-                    <div className="col-3">
+                </div>
+                    <div className="col-9 mx-auto mt-3" style={{ maxHeight: '40vh', overflow: 'scroll' }} >
                         <ul className="list-group">
                             <DataProvider>
                                 <DataContext.Consumer>
-                                    {({ worksites }) => worksites.map(worksite => <li className="list-group-item">{worksite.name}</li>)}
+                                    {({ worksites }) => worksites.map(worksite => <li className="list-group-item">{worksite.name+ ' ,' + worksite.country.name}</li>)}
                                 </DataContext.Consumer>
                             </DataProvider>
                         </ul>
                     </div>
 
-                </div>
 
 
             </>
