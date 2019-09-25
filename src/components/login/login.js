@@ -8,6 +8,7 @@ import { faBarcode, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { Link, BrowserRouter } from 'react-router-dom';
 import ForgotPasswordModal from './ForgotPasswordModel'
 import { toast } from 'react-toastify';
+import {DataContext} from '../common/Provider/DataProvider'
 
 export class login extends React.Component {
 
@@ -61,7 +62,7 @@ export class login extends React.Component {
     }
 
 
-    loginSubmit(e) {
+    async loginSubmit(e) {
         e.preventDefault();
         let errors;
         // Test each field of the form for errors
@@ -72,17 +73,31 @@ export class login extends React.Component {
                 errors = true
             }
         })
-
         if(!errors){
-            api.validateLogin(this.state.email.value, this.state.password.value)
-                .then(res=>{
-                if(res.ok)
-                    this.props.history.push('/users-list')
-                else{
-                    toast.error("Invalid username / password");
-                }
-                })
-                .catch(err=>console.error(err));
+            debugger;
+            const resp = await api.validateLogin(this.state.email.value, this.state.password.value);
+
+            if(resp.status && resp.status != 200){
+                toast.error(resp.data.message);
+                return;
+            }
+
+            debugger;
+            const [,val2] = document.cookie.split("=")
+                
+            const [id, employeeNumber, email, roles] = window.atob(val2).split(';');
+            const permissions = JSON.parse(roles);                
+
+            const {initAuth} = this.context;
+            initAuth(permissions[0]);
+
+            this.props.history.push('/users-list');
+            // }else{
+            //                 if(resp.status !== 200){
+            //             toast.error(res.message);
+            //         }
+
+            
       }
       else{
         toast.error('Please insert valid credentials')
@@ -108,7 +123,7 @@ export class login extends React.Component {
                             <img className="position-absolute" src="avatar.jpg" style={{ width: "5rem", top: "-42px", border: "1px solid teal", borderRadius: "50%" }}></img>
                         </div>
                         {/* LOGIN FORM INPUT*/}
-                        <form onSubmit={this.loginSubmit} >
+                        <form >
                             {/* Input Email */}
                             <div className="form-group mb-3">
                                 <label className="mb-0" htmlFor="input__email">Email address</label>
@@ -162,7 +177,7 @@ export class login extends React.Component {
 
                             </div>
                             <div className="d-flex justify-content-end">
-                                <button type="submit" className="mr-2 mb-3 btn btn-info">Login</button>
+                                <button type="button" onClick={this.loginSubmit} className="mr-2 mb-3 btn btn-info">Login</button>
                             </div>
                         </form>
                     </div>
@@ -171,5 +186,7 @@ export class login extends React.Component {
         )
     }
 }
+
+login.contextType=DataContext
 
 export default login

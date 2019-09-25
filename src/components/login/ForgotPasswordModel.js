@@ -93,41 +93,45 @@ export default class ForgotPasswordModal extends React.Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <div className="input-group mb-3">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text" id="basic-addon1">
-                                            <FontAwesomeIcon icon={faUserCircle} ></FontAwesomeIcon>
-                                        </span>
+                                <div>
+                                    <div className="input-group">
+                                        <div className="input-group-prepend">
+                                            <span className="input-group-text" id="basic-addon1">
+                                                <FontAwesomeIcon icon={faUserCircle} ></FontAwesomeIcon>
+                                            </span>
+                                        </div>
+                                        <input
+                                            type="text"
+                                            className="form-control m-0"
+                                            placeholder="Email"
+                                            id="input__email__forgot_password"
+                                            aria-label="email"
+                                            name="email"
+                                            defaultValue={this.state.email.value}
+                                            onBlur={this.handleInputChange} ></input>
                                     </div>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        placeholder="Email"
-                                        id="input__email__forgot_password"
-                                        aria-label="email"
-                                        name="email"
-                                        defaultValue={this.state.email.value}
-                                        onBlur={this.handleInputChange} ></input>
-                                </div>
                                 <InputErrors errors={this.state.email.errors} />
-                                <div className="input-group mb-3">
+                                </div>
+                                <div>
+                                <div className="input-group mt-3">
                                     <div className="input-group-prepend">
                                         <span className="input-group-text" id="basic-addon1">
                                             <FontAwesomeIcon icon={faBarcode} ></FontAwesomeIcon>
                                         </span>
                                     </div>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        placeholder="Employee Number"
-                                        id="input__employeeNumber"
-                                        aria-label="employeeNumber"
-                                        name="employeeNumber"
-                                        defaultValue={this.state.employeeNumber.value}
-                                        onBlur={this.handleInputChange} ></input>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Employee Number"
+                                            id="input__employeeNumber"
+                                            aria-label="employeeNumber"
+                                            name="employeeNumber"
+                                            defaultValue={this.state.employeeNumber.value}
+                                            onBlur={this.handleInputChange} ></input>
+                                    </div>
+                                    <InputErrors errors={this.state.employeeNumber.errors} />
                                 </div>
                             </div>
-                            <InputErrors errors={this.state.employeeNumber.errors} />
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="button" onClick={this.ForgotPasswordSubmit} className="btn btn-primary" data-dismiss="modal">Reset Password</button>
