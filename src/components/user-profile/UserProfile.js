@@ -154,16 +154,14 @@ export default class UserProfile extends React.Component {
         }
     }
 
-    addUser() {
-        api.addUser(this.state.userData)
-            .then(res => {
-                if (res.ok)
-                   toast.success('User Successfully added')
-                else {
-                    toast.error('unable to add the user')
-                }
-            })
-            .catch(err => console.error(err));
+    async addUser() {
+        const response = await api.addUser(this.state.userData);
+
+        if(response.status && response.status != 200){
+            toast.error(response.data.message);
+            return;
+        }
+        toast.success('User Successfully added');            
     }
 
     editUser() {
