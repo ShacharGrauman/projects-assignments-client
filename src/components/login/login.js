@@ -4,7 +4,7 @@ import {api} from '../../mock-data/api'
 
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import { faBarcode, faUserCircle } from '@fortawesome/free-solid-svg-icons'
+import { faBarcode, faUserCircle } from '@fortawesome/fontawesome-free-solid'
 import { Link, BrowserRouter } from 'react-router-dom';
 import ForgotPasswordModal from './ForgotPasswordModel'
 import { toast } from 'react-toastify';
@@ -89,7 +89,6 @@ export class login extends React.Component {
             const {initAuth} = this.context;
             initAuth(permissions[0], id, email);
 
-            console.log(permissions[0].role.name)
 
             if(permissions[0].role.name==='admin')
             this.props.history.push('/users-list');
@@ -135,7 +134,7 @@ export class login extends React.Component {
                                 <div className="input-group mb-1">
                                     <div className="input-group-prepend">
                                         <span className="input-group-text">
-                                            <i className="fas fa-at"></i>
+                                        <FontAwesomeIcon icon={faUserCircle} />
                                         </span>
                                     </div>
                                     <input
@@ -158,7 +157,7 @@ export class login extends React.Component {
                                 <div className="input-group mb-1">
                                     <div className="input-group-prepend">
                                         <span className="input-group-text">
-                                            <i className="fas fa-unlock"></i>
+                                        <FontAwesomeIcon icon={faBarcode} />
                                         </span>
                                     </div>
                                     <input
