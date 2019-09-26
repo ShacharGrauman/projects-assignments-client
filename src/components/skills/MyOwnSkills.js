@@ -5,7 +5,7 @@ import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import AddSkill from "./AddSkill";
 import Loading from "../shared-components/Loading";
-
+import Loading2 from "../common/loading";
 const skills = "skills";
 const productSkills = "productSkills";
 const technicalSkills = "technicalSkills";
@@ -23,7 +23,8 @@ class MyOwnSkills extends Component {
       [skills]: [],
       [technicalSkills]: [],
       skillsHistory: [],
-      loading: true
+      loading: true,
+      flag:true
     };
 
     this.container = {};
@@ -60,6 +61,11 @@ class MyOwnSkills extends Component {
       id,
       skillsHistory
     );
+    setTimeout(() => {
+      this.setState({
+          flag:false
+      })
+  }, 1000);
   }
 
   deleteSkill(id) {
@@ -134,7 +140,8 @@ class MyOwnSkills extends Component {
 
   render() {
     return (
-      <div className="container">
+      this.state.flag ?<Loading2 />  :
+      <div className="container mt-4">
         <div className="col card">
           <div className="card-body" width="inherit">
             <div className="col-12">

@@ -9,7 +9,6 @@ import {DataContext} from '../common/Provider/DataProvider';
 class EmployeeHome extends React.Component {
   render() {
 
-    let {id} = this.context.data; 
     return (
       <>
       <AssignHisToryTable />

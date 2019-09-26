@@ -2,11 +2,10 @@ import React from "react";
 import { DataContext } from "../common/Provider/DataProvider";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import InputErrors from "../shared-components/InputErrors";
-
+import Loading from "../common/loading";
 export default class UserProfileDetails extends React.Component {
   constructor(props) {
     super(props);
-
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
@@ -29,12 +28,17 @@ export default class UserProfileDetails extends React.Component {
     }
     this.props.handleInputChange({ target: { name, value: keyValue } });
   }
+  componentDidMount() {
 
+  }
   render() {
-    let { data:{data:{departments}} } = this.context;
-    console.log(this.context)
-    return (
-      <>
+    let {
+      data: {
+        data: { departments }
+      }
+    } = this.context;
+    return(
+      <div>
         <div className="card mb-2">
           <h5 className="text-center mt-3 mb-1">Details</h5>
 
@@ -84,7 +88,11 @@ export default class UserProfileDetails extends React.Component {
                 />{" "}
                 <datalist id="managers">
                   <DataContext.Consumer>
-                    {({ data:{data:{managers}} }) =>
+                    {({
+                      data: {
+                        data: { managers }
+                      }
+                    }) =>
                       managers.map(mgr => {
                         let name = `${mgr.firstName} ${mgr.lastName} ,${mgr.number}`;
                         return (
@@ -190,7 +198,11 @@ export default class UserProfileDetails extends React.Component {
                 ></input>
                 <datalist id="worksite">
                   <DataContext.Consumer>
-                    {({ data:{data:{worksites}} }) =>
+                    {({
+                      data: {
+                        data: { worksites }
+                      }
+                    }) =>
                       worksites.map(worksite => {
                         return (
                           <option
@@ -207,7 +219,7 @@ export default class UserProfileDetails extends React.Component {
             </div>
           </div>
         </div>
-      </>
+      </div>
     );
   }
 }
