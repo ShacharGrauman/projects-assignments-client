@@ -119,13 +119,13 @@ export default class UsersTable extends React.Component{
                                     name="number"
                                     onChange={this.inputChange}
                                     />
-                            <input type="text" ref="fullName" className="form-control" 
+                            <input type="text" ref="fullName" className="form-control ml-2" 
                                     placeholder="Search by Name" aria-label="Search by Name" aria-describedby="button-addon2" 
                                     name="name"
                                     onChange={this.inputChange}
                                     />
                             <div className="input-group-append">
-                                <button className="btn btn-outline-success" type="submit" id="button-addon2">Search</button>
+                                <button className="btn btn-outline-success ml-2" type="submit" id="button-addon2">Search</button>
                             </div>
                         </div>
                         <InputErrors errors={this.state["name"].errors}/>

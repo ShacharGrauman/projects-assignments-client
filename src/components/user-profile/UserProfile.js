@@ -37,7 +37,8 @@ export default class UserProfile extends React.Component {
                 },
                 roles: [],
                 non_userRoles: [],
-                img: 'x'
+                img: 'x',
+                flag:true,
             }
         }
         const allRoles = [];
@@ -95,6 +96,11 @@ export default class UserProfile extends React.Component {
 
 
         }
+        setTimeout(() => {
+            this.setState({
+                flag:false
+            })
+        }, 1000);
     }
 
     toggleEditMode() {
@@ -246,7 +252,9 @@ export default class UserProfile extends React.Component {
 
 
         return (
+            this.state.flag ?<Loading />  :
             <>
+           
                 <div className="container">
                     <div className="row p-0 m-0">
                         <div className="col-12 mb-2 mr-3 ml-3 p-0 mt-5">
