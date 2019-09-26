@@ -16,7 +16,7 @@ export default class EmployeeHome extends React.Component {
       this.setState({
           flag:false
       })
-  }, 1000);
+  }, 1500);
   }
   render() {
     return this.state.flag ? (
