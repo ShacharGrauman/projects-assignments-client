@@ -39,7 +39,7 @@ export default class UsersTable extends React.Component{
             // countries : {value : '', errors: [], validations :''},
             
             page : 1,
-            url: 'http://localhost:8080/api/employee?',
+            url: 'employee?',
             currentTab : 1,
             
         }

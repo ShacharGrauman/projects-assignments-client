@@ -248,19 +248,17 @@ export default class AssignHistory extends React.Component {
                             </button>
                             <div
                               className="dropdown-menu w-20"
-                              style={{ height: "150px", overflow: "scroll" }}
+                              style={{ height: "150px", overflow: "scroll" }}                              
                             >
                               {this.state.EmployeesByProjectByID.map(
                                 (emp, i) => {
                                   return (
                                     <>
-                                      <label
-                                        key={i}
-                                        // to={`assign-history/${emp.id}/${emp.name}`}
-                                        className="dropdown-item"
+                                    <Link
+                                        to={`./user-profile/${emp.id}`}
                                       >
                                         {emp.name}
-                                      </label>
+                                      </Link>
                                       <div
                                         role="separator"
                                         className="dropdown-divider"

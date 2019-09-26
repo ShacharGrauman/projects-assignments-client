@@ -17,13 +17,8 @@ export default class UsersTableRow extends React.Component{
                     {this.props.user.locked && <FontAwesomeIcon className="mx-1" icon={faLock} style={{color:'rgb(60,60,60)'}} ></FontAwesomeIcon>}
                 </td>
                 <td><Link to={`/user-profile/${this.props.user.id}`}>{this.props.user.number}</Link></td>
-                <td>
-                    {this.props.user.firstName.concat(' ', this.props.user.lastName)}
-                </td>
-                <td>{this.props.roles.map(role =>  
-                        role.name.concat(', ')
-                        )
-                    }</td>
+                <td>{this.props.user.firstName.concat(' ', this.props.user.lastName)}</td>
+                <td>{this.props.roles.map(role => role.name).join(', ')}</td>
                 <td>{this.props.user.department}</td>
                 <td>{this.props.user.worksite.name}</td>
             </tr>

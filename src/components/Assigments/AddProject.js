@@ -88,6 +88,7 @@ export default class AddProject extends React.Component {
 
     for (var tmp of this.state.requiredSkills) {
       if (this.state.skill.value == tmp.skillr.id) {
+        toast.error('Skill already exists');
         return;
       }
     }
@@ -392,11 +393,7 @@ export default class AddProject extends React.Component {
                         onChange={this.selectSkillLevel}
                       >
                         <option value="">Select</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="3">4</option>
-                        <option value="3">5</option>
+                        {[1,2,3,4,5].map(num => <option key={num} value={num}>{num}</option>)}
                       </select>
                     </div>
                     <InputErrors errors={this.state.level.errors} />
