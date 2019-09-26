@@ -65,7 +65,7 @@ class MyOwnSkills extends Component {
       this.setState({
           flag:false
       })
-  }, 1000);
+  }, 1500);
   }
 
   deleteSkill(id) {

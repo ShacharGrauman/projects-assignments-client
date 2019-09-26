@@ -40,7 +40,7 @@ class UsersListPage extends React.Component {
     );
     setTimeout(() => {
       this.setState({ flag: false });
-    }, 1000);
+    }, 1500);
   }
 
   async getUsersCount() {
