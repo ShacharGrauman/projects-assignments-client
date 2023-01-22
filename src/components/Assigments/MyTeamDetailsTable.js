@@ -9,33 +9,35 @@ export default class MyTeamDetailsTable extends React.Component {
         <div
           className="row justify-content-center"
         >
-          <div className="col-2 col-md-8 col-sm-4 col-lg-8 ">
+          <div className="col-10 col-md-8 col-sm-4 col-lg-8 ">
           <table
             className="table "
             style={{
-              // display: "block",
-              border: "1px solid black"
+              border: "1px solid black",
+              width: '100%'
             }}
           >
             <thead className="thead-dark">
               <tr>
-                <th >Name</th>
-                <th >Employee Number</th>
-                <th >Technical Skills</th>
-                <th >Product Skills</th>
-                <th >Actions</th>
+              <th scope="col">Name</th>
+                <th scope="col">Employee Number</th>
+                <th scope="col">Technical Skills</th>
+                <th scope="col">Product Skills</th>
+                <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
               {this.props.employees.map(employee => {
                 return (
                   <tr key={employee.id}>
-                    <td>
+                    <td style={{width: '20%'}}>
                       {/* <img src={employee.img} style={{ width: "50px" }}></img> */}
                       <a href="#">{employee.name}</a>
                     </td>
-                    <td>{employee.id}</td>
-                    <td>
+
+                    <td style={{width: '10%'}}>{employee.id}</td>
+
+                    <td style={{width: '30%'}}>
                       {employee.technicalSkills.map((skill, index) => {
                         return (
                           <SkillBadge
@@ -47,7 +49,7 @@ export default class MyTeamDetailsTable extends React.Component {
                         );
                       })}
                     </td>
-                    <td>
+                    <td style={{width: '30%'}}>
                       {employee.productSkills.map((skill, index) => {
                         return (
                           <SkillBadge
@@ -59,7 +61,7 @@ export default class MyTeamDetailsTable extends React.Component {
                         );
                       })}
                     </td>
-                    <td>
+                    <td style={{width: '10%'}}>
                       <button
                         type="button"
                         className="btn btn-primary"

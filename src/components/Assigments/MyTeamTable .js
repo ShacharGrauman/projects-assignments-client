@@ -95,9 +95,9 @@ export default class MyTeamTable extends React.Component {
     if (!requiredSkill) {
       this.setState({
         employeesSearch: this.state.employees,
-        selectedLevel: "0"
+        selectedLevel:"0"
       });
-      // toast.info("Skill Name Required For Search");
+      toast.info("Skill Name Required For Search");
       return;
     }
     const employeesSearch = await Api.getEmployeeBySkill(
@@ -234,7 +234,6 @@ export default class MyTeamTable extends React.Component {
                     })}
                   </div>
                 </div>
-
                 <Link to="/Projects" className="float-right">
                   Back to projects
                 </Link>
@@ -302,6 +301,7 @@ export default class MyTeamTable extends React.Component {
               <div className="row justify-content-center  mt-3">
                 <div className="col-md-6">
                   <h6 className="">Employee Name</h6>
+                
                   <input
                     aria-label="skill"
                     type="text"
